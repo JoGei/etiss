@@ -1,0 +1,27 @@
+<map id="etiss::plugin::VariableValueLogger" name="etiss::plugin::VariableValueLogger">
+<area shape="rect" id="node2" href="$classetiss_1_1TranslationPlugin.html" title="allows to add code to the translation of instructions " alt="" coords="920,1097,1092,1124"/>
+<area shape="rect" id="node3" href="$classetiss_1_1Plugin.html" title="base plugin class that provides access to different plugin functions if present " alt="" coords="1679,888,1780,915"/>
+<area shape="rect" id="node13" href="$classetiss_1_1CPUArch.html" title="the interface to translate instructions of and processor architecture " alt="" coords="1366,915,1483,941"/>
+<area shape="rect" id="node5" href="$classetiss_1_1InterruptListenerPlugin.html" title="etiss::InterruptListener\lPlugin" alt="" coords="1987,993,2156,1034"/>
+<area shape="rect" id="node11" href="$classetiss_1_1RegisterDevicePlugin.html" title="RegisterDevicePlugin::changedRegister is called if a supported register has been changed. " alt="" coords="1972,865,2171,892"/>
+<area shape="rect" id="node12" href="$classetiss_1_1CoroutinePlugin.html" title="this plugin will be called before a block is executed. " alt="" coords="1989,743,2153,769"/>
+<area shape="rect" id="node38" href="$classetiss_1_1SystemWrapperPlugin.html" title="this plugin allows to wrap the ETISS_System interface " alt="" coords="1969,932,2173,959"/>
+<area shape="rect" id="node4" href="$classetiss_1_1ToString.html" title="Marker interface for toString() support. " alt="" coords="1368,633,1481,660"/>
+<area shape="rect" id="node21" href="$classetiss_1_1CPUCore.html" title="CPUCore is responsible for the simulation of a CPU core in ETISS. " alt="" coords="3128,1107,3247,1133"/>
+<area shape="rect" id="node6" href="$structETISS__CPU.html" title="basic cpu state structure needed for execution of any cpu architecture. " alt="" coords="1379,684,1471,711"/>
+<area shape="rect" id="node39" href="$structETISS__System.html" title="memory access and time synchronization functions. " alt="" coords="1367,328,1482,355"/>
+<area shape="rect" id="node14" href="$classetiss_1_1CPUArchRegListenerInterface.html" title="allows to inform plugins about changes to a register that is present in the cpu structure. " alt="" coords="909,801,1103,842"/>
+<area shape="rect" id="node15" href="$classetiss_1_1CPUArchCPUManipulation.html" title="interface for cpu structure access. " alt="" coords="892,867,1120,893"/>
+<area shape="rect" id="node16" href="$classetiss_1_1CPUArchDefaultPlugins.html" title="provides common basic plugins " alt="" coords="900,984,1112,1011"/>
+<area shape="rect" id="node17" title="STL class. " alt="" coords="608,1152,695,1179"/>
+<area shape="rect" id="node18" title="STL class. " alt="" coords="385,1145,523,1186"/>
+<area shape="rect" id="node19" href="$classetiss_1_1plugin_1_1gdb_1_1GDBCore.html" title="provides to architecture dependent registers as defined by gdb " alt="" coords="939,918,1073,959"/>
+<area shape="rect" id="node23" href="$classetiss_1_1CPUCore_1_1InterruptVectorWrapper.html" title="etiss::CPUCore::Interrupt\lVectorWrapper" alt="" coords="2773,958,2955,999"/>
+<area shape="rect" id="node22" href="$classetiss_1_1VirtualStructSupport.html" title="etiss::VirtualStructSupport" alt="" coords="2768,1024,2960,1051"/>
+<area shape="rect" id="node24" href="$classetiss_1_1InterruptVector.html" title="interface to set interrupt bits " alt="" coords="2445,1076,2604,1103"/>
+<area shape="rect" id="node45" title="STL class. " alt="" coords="951,1427,1061,1453"/>
+<area shape="rect" id="node46" title="STL class. " alt="" coords="576,1419,727,1461"/>
+<area shape="rect" id="node47" title="STL class. " alt="" coords="381,1419,527,1461"/>
+<area shape="rect" id="node48" title="STL class. " alt="" coords="161,1427,332,1453"/>
+<area shape="rect" id="node49" title="STL class. " alt="" coords="5,1427,112,1453"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="fcvt_s" name="fcvt_s">
+<area shape="rect" id="node2" href="$softfloat__orig_8h.html#ae70df2a0a87ea021dcbc3681711ed7b1" title="f32_to_i32" alt="" coords="119,5,209,32"/>
+<area shape="rect" id="node3" href="$softfloat__orig_8h.html#aa292a829745554bc0d6d00d0c822d336" title="f32_to_ui32" alt="" coords="115,56,213,83"/>
+<area shape="rect" id="node4" href="$softfloat__orig_8h.html#abdc84049597e6581ceb77d79aa4f1368" title="i32_to_f32" alt="" coords="119,107,209,133"/>
+<area shape="rect" id="node5" href="$softfloat__orig_8h.html#a47a46ebecbba59754917d7992ff6917c" title="ui32_to_f32" alt="" coords="115,157,213,184"/>
+</map>

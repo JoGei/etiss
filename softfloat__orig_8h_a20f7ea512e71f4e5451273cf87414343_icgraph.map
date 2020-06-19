@@ -1,0 +1,6 @@
+<map id="softfloat_raiseFlags" name="softfloat_raiseFlags">
+<area shape="rect" id="node2" href="$libdbtrise__fp__funcs_8h.html#ae459a70f5cd84e96dc2fb7f2754b1867" title="fcmp_d" alt="" coords="203,5,273,32"/>
+<area shape="rect" id="node3" href="$libdbtrise__fp__funcs_8h.html#ad32d0eb9f9866a706bfb522403a40d71" title="fcmp_s" alt="" coords="203,56,273,83"/>
+<area shape="rect" id="node4" href="$libdbtrise__fp__funcs_8h.html#a0c11cc30b7d264fc94a10402aa514c6f" title="fsel_d" alt="" coords="207,107,269,133"/>
+<area shape="rect" id="node5" href="$libdbtrise__fp__funcs_8h.html#ad18664f985a1bbf9c40f6055fb694768" title="fsel_s" alt="" coords="208,157,268,184"/>
+</map>

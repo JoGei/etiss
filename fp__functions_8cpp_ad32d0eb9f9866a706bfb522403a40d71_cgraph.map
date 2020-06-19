@@ -1,0 +1,6 @@
+<map id="fcmp_s" name="fcmp_s">
+<area shape="rect" id="node2" href="$softfloat__orig_8h.html#ae9333e14fd3c2be6b7cce59666c00c49" title="f32_eq" alt="" coords="164,5,231,32"/>
+<area shape="rect" id="node3" href="$softfloat__orig_8h.html#ae924e12d553d048684838130a3538c55" title="f32_le" alt="" coords="166,56,229,83"/>
+<area shape="rect" id="node4" href="$softfloat__orig_8h.html#a6d5205778bc60b9b9ef44974081f36a3" title="f32_lt" alt="" coords="168,107,227,133"/>
+<area shape="rect" id="node5" href="$softfloat__orig_8h.html#a20f7ea512e71f4e5451273cf87414343" title="softfloat_raiseFlags" alt="" coords="123,157,272,184"/>
+</map>

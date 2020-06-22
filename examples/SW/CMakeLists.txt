@@ -70,3 +70,6 @@ install(FILES riscv/CMakeLists.txt
 install(FILES riscv_cpp/CMakeLists.txt
     DESTINATION examples/SW/riscv_cpp
 )
+install(FILES riscv64/CMakeLists.txt
+    DESTINATION examples/SW/riscv64
+)

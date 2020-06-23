@@ -3,7 +3,7 @@
 
 int main()
 {
-    // no printf avail. printf("hello world!\n");
+    printf("hello world!\n");
     int k = 0;
     k++;
     

@@ -109,6 +109,20 @@ etiss::int32 RV64IMACVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
                 << std::endl;
         }
 
+        msg << "--------Dump the VPU state--------" << std::endl;
+        auto VLEN = ((RV64IMACV *)cpu)->CSR[3106]*8;
+
+        for (uint32_t i = 0; i < 32; ++i)
+        {
+        	std::stringstream ss;
+        	ss << "V" << i << "\t";
+        	for(uint32_t k = 0; k < VLEN/8; ++k){
+        		ss << '|' << std::setfill('0') << std::setw(2) << std::hex << (int)((RV64IMACV *)cpu)->V[(i+1)*VLEN/8 - (k+1)] ;
+        	}
+        	ss << '|' << std::dec;
+            msg << ss.str() << std::endl;
+        }
+
         switch (causeCode & 0x80000000)
         {
         // Exception

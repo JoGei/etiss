@@ -1,4 +1,4 @@
-// This file was generated on Mon Jun 22 18:08:07 CEST 2020
+// This file was generated on Tue Jun 23 13:08:21 CEST 2020
 // If necessary please modify this file according to the instructions
 // Contact: eda@tum
 
@@ -10750,59 +10750,29 @@ static InstructionDefinition vsetvli_rd_rs1_zimm(
  			"etiss_uint32 temp = 0;\n"
  			"etiss_uint8 * tmpbuf = (etiss_uint8 *)&temp;\n"
 
- 			"etiss_int8 vta = 0;\n"
+ 			"etiss_uint8 vta = 0;\n"
  			"etiss_int64 _vlmax = 0;\n"
  			"etiss_uint8 sew = 0;\n"
  			"etiss_int64 _avl = 0;\n"
  			"etiss_int64 _vl = 0;\n"
  			"etiss_int64 _illmask = 0;\n"
  			"etiss_uint8 lmul = 0;\n"
+ 			"etiss_uint8 vma = 0;\n"
  			"etiss_int64 choose1 = 0;\n"
- 			"etiss_int8 vma = 0;\n"
  			
-			"sew = ((" + toString(zimm) + " << 2) & 7);\n"
+			"sew = vtype_extractSEW(" + toString(zimm) + ");\n"
 			#if RV64IMACV_DEBUG_CALL
 			"printf(\"sew = %#x\\n\",sew); \n"
 			#endif	
-			"lmul = (((" + toString(zimm) + " << 5) & 1) | (" + toString(zimm) + " & 3));\n"
+			"lmul = vtype_extractLMUL(" + toString(zimm) + ");\n"
 			#if RV64IMACV_DEBUG_CALL
 			"printf(\"lmul = %#x\\n\",lmul); \n"
 			#endif	
-			"if(" + toString(zimm) + " & 64)\n"
-			"{\n"
-				"choose1 = 1;\n"
-				#if RV64IMACV_DEBUG_CALL
-				"printf(\"choose1 = %#x\\n\",choose1); \n"
-				#endif	
-			"}\n"
-			
-			"else\n"
-			"{\n"
-				"choose1 = 0;\n"
-				#if RV64IMACV_DEBUG_CALL
-				"printf(\"choose1 = %#x\\n\",choose1); \n"
-				#endif	
-			"}\n"
-			"vta = choose1;\n"
+			"vta = vtype_extractTA(" + toString(zimm) + ");\n"
 			#if RV64IMACV_DEBUG_CALL
 			"printf(\"vta = %#x\\n\",vta); \n"
 			#endif	
-			"if(" + toString(zimm) + " & 128)\n"
-			"{\n"
-				"choose1 = 1;\n"
-				#if RV64IMACV_DEBUG_CALL
-				"printf(\"choose1 = %#x\\n\",choose1); \n"
-				#endif	
-			"}\n"
-			
-			"else\n"
-			"{\n"
-				"choose1 = 0;\n"
-				#if RV64IMACV_DEBUG_CALL
-				"printf(\"choose1 = %#x\\n\",choose1); \n"
-				#endif	
-			"}\n"
-			"vma = choose1;\n"
+			"vma = vtype_extractMA(" + toString(zimm) + ");\n"
 			#if RV64IMACV_DEBUG_CALL
 			"printf(\"vma = %#x\\n\",vma); \n"
 			#endif	
@@ -10822,7 +10792,7 @@ static InstructionDefinition vsetvli_rd_rs1_zimm(
 				#endif	
 				"if(lmul == 6)\n"
 				"{\n"
-					"_vlmax = ((1024 / sew) / 4);\n"
+					"_vlmax = ((1024 / (8 << sew)) / 4);\n"
 					#if RV64IMACV_DEBUG_CALL
 					"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
 					#endif	
@@ -10832,7 +10802,7 @@ static InstructionDefinition vsetvli_rd_rs1_zimm(
 				"{\n"
 					"if(lmul == 7)\n"
 					"{\n"
-						"_vlmax = ((1024 / sew) / 2);\n"
+						"_vlmax = ((1024 / (8 << sew)) / 2);\n"
 						#if RV64IMACV_DEBUG_CALL
 						"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
 						#endif	
@@ -10840,7 +10810,7 @@ static InstructionDefinition vsetvli_rd_rs1_zimm(
 					
 					"else\n"
 					"{\n"
-						"_vlmax = ((1024 / sew) / 8);\n"
+						"_vlmax = ((1024 / (8 << sew)) / 8);\n"
 						#if RV64IMACV_DEBUG_CALL
 						"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
 						#endif	
@@ -10856,7 +10826,7 @@ static InstructionDefinition vsetvli_rd_rs1_zimm(
 				#endif	
 				"if(lmul == 0)\n"
 				"{\n"
-					"_vlmax = (1024 / sew);\n"
+					"_vlmax = (1024 / (8 << sew));\n"
 					#if RV64IMACV_DEBUG_CALL
 					"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
 					#endif	
@@ -10866,7 +10836,7 @@ static InstructionDefinition vsetvli_rd_rs1_zimm(
 				"{\n"
 					"if(lmul == 1)\n"
 					"{\n"
-						"_vlmax = ((1024 / sew) * 2);\n"
+						"_vlmax = ((1024 / (8 << sew)) * 2);\n"
 						#if RV64IMACV_DEBUG_CALL
 						"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
 						#endif	
@@ -10876,7 +10846,7 @@ static InstructionDefinition vsetvli_rd_rs1_zimm(
 					"{\n"
 						"if(lmul == 2)\n"
 						"{\n"
-							"_vlmax = ((1024 / sew) * 4);\n"
+							"_vlmax = ((1024 / (8 << sew)) * 4);\n"
 							#if RV64IMACV_DEBUG_CALL
 							"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
 							#endif	
@@ -10886,7 +10856,7 @@ static InstructionDefinition vsetvli_rd_rs1_zimm(
 						"{\n"
 							"if(lmul == 3)\n"
 							"{\n"
-								"_vlmax = ((1024 / sew) * 8);\n"
+								"_vlmax = ((1024 / (8 << sew)) * 8);\n"
 								#if RV64IMACV_DEBUG_CALL
 								"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
 								#endif	

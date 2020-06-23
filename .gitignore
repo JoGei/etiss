@@ -37,6 +37,9 @@
 
 # IDE files
 .vscode
+.project
+.cproject
+.settings/
 
 # Temporaries
 *~

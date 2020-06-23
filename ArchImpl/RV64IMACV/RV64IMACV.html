@@ -3,7 +3,7 @@
 <!--
 @author: HTML Documentation Writer for nML Models by Konstantin Silbermann<k.silbermann@tum.de>
 @generated
-@date: Mon Jun 22 18:08:07 CEST 2020
+@date: Tue Jun 23 13:08:21 CEST 2020
 
 @brief: HTML Documentation for RV64IMACV
 
@@ -7977,38 +7977,28 @@ PARTICULAR PURPOSE.
 </table>
 </span><br /><br />
 <article class="mono">
-<span class="varDef">sew</span> = ((<span class="operand">zimm</span> &lt;&lt; 2) &amp; 7);<br /><span class="varDef">lmul</span> = (((<span class="operand">zimm</span> &lt;&lt; 5) &amp; 1) | (<span class="operand">zimm</span> &amp; 3));<br /><span class="b" style="color: maroon;">if</span> (<span class="operand">zimm</span> &amp; 64) <span class="b" style="color: maroon;">then</span><br />
-			&nbsp;&nbsp;&nbsp;<span class="varDef">choose1</span> = 1;<br />
-			<span class="b" style="color: maroon;">else</span><br />
-			&nbsp;&nbsp;&nbsp;<span class="varDef">choose1</span> = 0;<br />
-			<span class="b" style="color: maroon;">endif</span><br />
-<span class="varDef">vta</span> = <span class="varDef">choose1</span>;<br /><span class="b" style="color: maroon;">if</span> (<span class="operand">zimm</span> &amp; 128) <span class="b" style="color: maroon;">then</span><br />
-			&nbsp;&nbsp;&nbsp;<span class="varDef">choose1</span> = 1;<br />
-			<span class="b" style="color: maroon;">else</span><br />
-			&nbsp;&nbsp;&nbsp;<span class="varDef">choose1</span> = 0;<br />
-			<span class="b" style="color: maroon;">endif</span><br />
-<span class="varDef">vma</span> = <span class="varDef">choose1</span>;<br /><span class="varDef">_vlmax</span> = 0;<br /><span class="varDef">_illmask</span> = 0;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">lmul</span> &amp; 4) <span class="b" style="color: maroon;">then</span><br />
+<span class="varDef">sew</span> = ;<br /><span class="varDef">lmul</span> = ;<br /><span class="varDef">vta</span> = ;<br /><span class="varDef">vma</span> = ;<br /><span class="varDef">_vlmax</span> = 0;<br /><span class="varDef">_illmask</span> = 0;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">lmul</span> &amp; 4) <span class="b" style="color: maroon;">then</span><br />
 			&nbsp;&nbsp;&nbsp;<span class="varDef">_illmask</span> = (1 &lt;&lt; (64 - 1));<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">if</span> (<span class="varDef">lmul</span> == 6) <span class="b" style="color: maroon;">then</span><br />
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = ((1024 / <span class="varDef">sew</span>) / 4);<br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = ((1024 / (8 &lt;&lt; <span class="varDef">sew</span>)) / 4);<br />
 						&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">else</span><br />
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">if</span> (<span class="varDef">lmul</span> == 7) <span class="b" style="color: maroon;">then</span><br />
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = ((1024 / <span class="varDef">sew</span>) / 2);<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = ((1024 / (8 &lt;&lt; <span class="varDef">sew</span>)) / 2);<br />
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">else</span><br />
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = ((1024 / <span class="varDef">sew</span>) / 8);<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = ((1024 / (8 &lt;&lt; <span class="varDef">sew</span>)) / 8);<br />
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">endif</span><br />
 						&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">endif</span><br />
 			<span class="b" style="color: maroon;">else</span><br />
 			&nbsp;&nbsp;&nbsp;<span class="varDef">_illmask</span> = (0 &lt;&lt; (64 - 1));<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">if</span> (<span class="varDef">lmul</span> == 0) <span class="b" style="color: maroon;">then</span><br />
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = (1024 / <span class="varDef">sew</span>);<br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = (1024 / (8 &lt;&lt; <span class="varDef">sew</span>));<br />
 						&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">else</span><br />
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">if</span> (<span class="varDef">lmul</span> == 1) <span class="b" style="color: maroon;">then</span><br />
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = ((1024 / <span class="varDef">sew</span>) * 2);<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = ((1024 / (8 &lt;&lt; <span class="varDef">sew</span>)) * 2);<br />
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">else</span><br />
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">if</span> (<span class="varDef">lmul</span> == 2) <span class="b" style="color: maroon;">then</span><br />
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = ((1024 / <span class="varDef">sew</span>) * 4);<br />
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = ((1024 / (8 &lt;&lt; <span class="varDef">sew</span>)) * 4);<br />
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">else</span><br />
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">if</span> (<span class="varDef">lmul</span> == 3) <span class="b" style="color: maroon;">then</span><br />
-															&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = ((1024 / <span class="varDef">sew</span>) * 8);<br />
+															&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="varDef">_vlmax</span> = ((1024 / (8 &lt;&lt; <span class="varDef">sew</span>)) * 8);<br />
 																		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">endif</span><br />
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">endif</span><br />
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">endif</span><br />

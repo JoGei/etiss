@@ -1,4 +1,4 @@
-// This file was generated on Tue Jun 23 13:08:21 CEST 2020
+// This file was generated on Tue Jun 23 18:51:03 CEST 2020
 // If necessary please modify this file according to the instructions
 // Contact: eda@tum
 
@@ -10990,12 +10990,226 @@ static InstructionDefinition vsetvl_rd_rs1_rs2(
  		etiss_uint64 rd_0 = R_rd_0.read(ba);
  		rd += rd_0;
  		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
+ 		partInit.getRegisterDependencies().add(reg_name[rs2],64);
+ 		partInit.getRegisterDependencies().add(reg_name[rs1],64);
+  		partInit.getAffectedRegisters().add(reg_name[rd],64);
 		partInit.getAffectedRegisters().add("instructionPointer",64);
  	partInit.code() = std::string("//vsetvl\n")+
  			"etiss_uint32 temp = 0;\n"
  			"etiss_uint8 * tmpbuf = (etiss_uint8 *)&temp;\n"
 
+ 			"etiss_uint8 vta = 0;\n"
+ 			"etiss_int64 _vlmax = 0;\n"
+ 			"etiss_uint8 sew = 0;\n"
+ 			"etiss_int64 _avl = 0;\n"
+ 			"etiss_int64 _vl = 0;\n"
+ 			"etiss_uint16 zimm = 0;\n"
+ 			"etiss_int64 _illmask = 0;\n"
+ 			"etiss_uint8 lmul = 0;\n"
+ 			"etiss_uint8 vma = 0;\n"
+ 			"etiss_int64 choose1 = 0;\n"
  			
+			"zimm = *((RV64IMACV*)cpu)->X[" + toString(rs2) + "];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"zimm = %#x\\n\",zimm); \n"
+			#endif	
+			"sew = vtype_extractSEW(zimm);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"sew = %#x\\n\",sew); \n"
+			#endif	
+			"lmul = vtype_extractLMUL(zimm);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"lmul = %#x\\n\",lmul); \n"
+			#endif	
+			"vta = vtype_extractTA(zimm);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"vta = %#x\\n\",vta); \n"
+			#endif	
+			"vma = vtype_extractMA(zimm);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"vma = %#x\\n\",vma); \n"
+			#endif	
+			"_vlmax = 0;\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
+			#endif	
+			"_illmask = 0;\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_illmask = %#lx\\n\",_illmask); \n"
+			#endif	
+			"if(lmul & 4)\n"
+			"{\n"
+				"_illmask = (1 << 64 - 1);\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"_illmask = %#lx\\n\",_illmask); \n"
+				#endif	
+				"if(lmul == 6)\n"
+				"{\n"
+					"_vlmax = ((1024 / (8 << sew)) / 4);\n"
+					#if RV64IMACV_DEBUG_CALL
+					"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
+					#endif	
+				"}\n"
+				
+				"else\n"
+				"{\n"
+					"if(lmul == 7)\n"
+					"{\n"
+						"_vlmax = ((1024 / (8 << sew)) / 2);\n"
+						#if RV64IMACV_DEBUG_CALL
+						"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
+						#endif	
+					"}\n"
+					
+					"else\n"
+					"{\n"
+						"_vlmax = ((1024 / (8 << sew)) / 8);\n"
+						#if RV64IMACV_DEBUG_CALL
+						"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
+						#endif	
+					"}\n"
+				"}\n"
+			"}\n"
+			
+			"else\n"
+			"{\n"
+				"_illmask = (0 << 64 - 1);\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"_illmask = %#lx\\n\",_illmask); \n"
+				#endif	
+				"if(lmul == 0)\n"
+				"{\n"
+					"_vlmax = (1024 / (8 << sew));\n"
+					#if RV64IMACV_DEBUG_CALL
+					"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
+					#endif	
+				"}\n"
+				
+				"else\n"
+				"{\n"
+					"if(lmul == 1)\n"
+					"{\n"
+						"_vlmax = ((1024 / (8 << sew)) * 2);\n"
+						#if RV64IMACV_DEBUG_CALL
+						"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
+						#endif	
+					"}\n"
+					
+					"else\n"
+					"{\n"
+						"if(lmul == 2)\n"
+						"{\n"
+							"_vlmax = ((1024 / (8 << sew)) * 4);\n"
+							#if RV64IMACV_DEBUG_CALL
+							"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
+							#endif	
+						"}\n"
+						
+						"else\n"
+						"{\n"
+							"if(lmul == 3)\n"
+							"{\n"
+								"_vlmax = ((1024 / (8 << sew)) * 8);\n"
+								#if RV64IMACV_DEBUG_CALL
+								"printf(\"_vlmax = %#lx\\n\",_vlmax); \n"
+								#endif	
+							"}\n"
+							
+						"}\n"
+					"}\n"
+				"}\n"
+			"}\n"
+			"_avl = 0;\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_avl = %#lx\\n\",_avl); \n"
+			#endif	
+			"if(" + toString(rs1) + " != 0)\n"
+			"{\n"
+				"_avl = *((RV64IMACV*)cpu)->X[" + toString(rs1) + "];\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"_avl = %#lx\\n\",_avl); \n"
+				#endif	
+			"}\n"
+			
+			"else\n"
+			"{\n"
+				"if(" + toString(rd) + " != 0)\n"
+				"{\n"
+					"_avl = ~0&0xffffffffffffffff;\n"
+					#if RV64IMACV_DEBUG_CALL
+					"printf(\"_avl = %#lx\\n\",_avl); \n"
+					#endif	
+				"}\n"
+				
+				"else\n"
+				"{\n"
+					"_avl = ((RV64IMACV*)cpu)->CSR[3104];\n"
+					#if RV64IMACV_DEBUG_CALL
+					"printf(\"_avl = %#lx\\n\",_avl); \n"
+					#endif	
+				"}\n"
+			"}\n"
+			"_vl = 0;\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vl = %#lx\\n\",_vl); \n"
+			#endif	
+			"if(_avl <= _vlmax)\n"
+			"{\n"
+				"_vl = _avl;\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"_vl = %#lx\\n\",_vl); \n"
+				#endif	
+			"}\n"
+			
+			"else\n"
+			"{\n"
+				"if(_avl >= (2 * _vlmax))\n"
+				"{\n"
+					"_vl = _vlmax;\n"
+					#if RV64IMACV_DEBUG_CALL
+					"printf(\"_vl = %#lx\\n\",_vl); \n"
+					#endif	
+				"}\n"
+				
+				"else\n"
+				"{\n"
+					"if(_avl & 2)\n"
+					"{\n"
+						"choose1 = (_avl / 2) + 1;\n"
+						#if RV64IMACV_DEBUG_CALL
+						"printf(\"choose1 = %#lx\\n\",choose1); \n"
+						#endif	
+					"}\n"
+					
+					"else\n"
+					"{\n"
+						"choose1 = (_avl / 2);\n"
+						#if RV64IMACV_DEBUG_CALL
+						"printf(\"choose1 = %#lx\\n\",choose1); \n"
+						#endif	
+					"}\n"
+					"_vl = choose1;\n"
+					#if RV64IMACV_DEBUG_CALL
+					"printf(\"_vl = %#lx\\n\",_vl); \n"
+					#endif	
+				"}\n"
+			"}\n"
+			"((RV64IMACV*)cpu)->CSR[3104] = _vl;\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"((RV64IMACV*)cpu)->CSR[3104] = %#lx\\n\",((RV64IMACV*)cpu)->CSR[3104]); \n"
+			#endif	
+			"((RV64IMACV*)cpu)->CSR[3105] = (_illmask | zimm);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"((RV64IMACV*)cpu)->CSR[3105] = %#lx\\n\",((RV64IMACV*)cpu)->CSR[3105]); \n"
+			#endif	
+			"if(" + toString(rd) + " != 0)\n"
+			"{\n"
+				"*((RV64IMACV*)cpu)->X[" + toString(rd) + "] = _vl;\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"*((RV64IMACV*)cpu)->X[" + toString(rd) + "] = %#lx\\n\",*((RV64IMACV*)cpu)->X[" + toString(rd) + "]); \n"
+				#endif	
+			"}\n"
+			
 			"((RV64IMACV*)cpu)->CSR[8] = 0;\n"
 			#if RV64IMACV_DEBUG_CALL
 			"printf(\"((RV64IMACV*)cpu)->CSR[8] = %#lx\\n\",((RV64IMACV*)cpu)->CSR[8]); \n"
@@ -11148,6 +11362,663 @@ static InstructionDefinition vse_u_vd_rs1_vm(
 			"printf(\"_vl = %#x\\n\",_vl); \n"
 			#endif	
 			"ret = vstore_encoded_unitstride((ETISS_CPU*) cpu, (ETISS_System*) system, _vtype, " + toString(vm) + ", _eew, " + toString(vs3) + ", _vstart, 1024, _vl, *((RV64IMACV*)cpu)->X[" + toString(rs1) + "]);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"ret = %#x\\n\",ret); \n"
+			#endif	
+			"if(ret != 0)\n"
+			"{\n"
+				"exception = ETISS_RETURNCODE_ILLEGALINSTRUCTION; \n"
+			"}\n"
+			
+			"else\n"
+			"{\n"
+				"((RV64IMACV*)cpu)->CSR[8] = 0;\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"((RV64IMACV*)cpu)->CSR[8] = %#lx\\n\",((RV64IMACV*)cpu)->CSR[8]); \n"
+				#endif	
+			"}\n"
+		"cpu->instructionPointer = " +toString((uint64_t)(ic.current_address_+ 4 ))+"ULL; \n"
+		
+		"return exception;\n"
+; 
+return true;
+},
+0,
+nullptr
+);
+//-------------------------------------------------------------------------------------------------------------------
+static InstructionDefinition vand_vv_vd_rs1_vm(
+ 		ISA32_RV64IMACV,
+ 		"vand.vv",
+ 		(uint32_t)0x24000057,
+ 		(uint32_t) 0xfc00707f,
+ 		[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+ 		{
+ 		etiss_uint64 vs2 = 0;
+ 		static BitArrayRange R_vs2_0 (24,20);
+ 		etiss_uint64 vs2_0 = R_vs2_0.read(ba);
+ 		vs2 += vs2_0;
+ 		etiss_uint64 vs1 = 0;
+ 		static BitArrayRange R_vs1_0 (19,15);
+ 		etiss_uint64 vs1_0 = R_vs1_0.read(ba);
+ 		vs1 += vs1_0;
+ 		etiss_uint64 vm = 0;
+ 		static BitArrayRange R_vm_0 (25,25);
+ 		etiss_uint64 vm_0 = R_vm_0.read(ba);
+ 		vm += vm_0;
+ 		etiss_uint64 vd = 0;
+ 		static BitArrayRange R_vd_0 (11,7);
+ 		etiss_uint64 vd_0 = R_vd_0.read(ba);
+ 		vd += vd_0;
+ 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
+		partInit.getAffectedRegisters().add("instructionPointer",64);
+ 	partInit.code() = std::string("//vand.vv\n")+
+ 			"etiss_uint32 exception = 0;\n"
+ 			"etiss_uint32 temp = 0;\n"
+ 			"etiss_uint8 * tmpbuf = (etiss_uint8 *)&temp;\n"
+
+ 			"etiss_uint16 _vtype = 0;\n"
+ 			"etiss_uint8 ret = 0;\n"
+ 			"etiss_uint16 _vl = 0;\n"
+ 			"etiss_uint16 _vstart = 0;\n"
+ 			
+			"_vtype = ((RV64IMACV*)cpu)->CSR[3105];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vtype = %#x\\n\",_vtype); \n"
+			#endif	
+			"_vstart = ((RV64IMACV*)cpu)->CSR[8];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vstart = %#x\\n\",_vstart); \n"
+			#endif	
+			"_vl = ((RV64IMACV*)cpu)->CSR[3104];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vl = %#x\\n\",_vl); \n"
+			#endif	
+			"ret = vand_vv((ETISS_CPU*) cpu, (ETISS_System*) system, _vtype, " + toString(vm) + ", " + toString(vd) + ", " + toString(vs1) + ", " + toString(vs2) + ", _vstart, 1024, _vl);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"ret = %#x\\n\",ret); \n"
+			#endif	
+			"if(ret != 0)\n"
+			"{\n"
+				"exception = ETISS_RETURNCODE_ILLEGALINSTRUCTION; \n"
+			"}\n"
+			
+			"else\n"
+			"{\n"
+				"((RV64IMACV*)cpu)->CSR[8] = 0;\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"((RV64IMACV*)cpu)->CSR[8] = %#lx\\n\",((RV64IMACV*)cpu)->CSR[8]); \n"
+				#endif	
+			"}\n"
+		"cpu->instructionPointer = " +toString((uint64_t)(ic.current_address_+ 4 ))+"ULL; \n"
+		
+		"return exception;\n"
+; 
+return true;
+},
+0,
+nullptr
+);
+//-------------------------------------------------------------------------------------------------------------------
+static InstructionDefinition vand_vi_vd_rs1_vm(
+ 		ISA32_RV64IMACV,
+ 		"vand.vi",
+ 		(uint32_t)0x24003057,
+ 		(uint32_t) 0xfc00707f,
+ 		[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+ 		{
+ 		etiss_uint64 vs2 = 0;
+ 		static BitArrayRange R_vs2_0 (24,20);
+ 		etiss_uint64 vs2_0 = R_vs2_0.read(ba);
+ 		vs2 += vs2_0;
+ 		etiss_uint64 vm = 0;
+ 		static BitArrayRange R_vm_0 (25,25);
+ 		etiss_uint64 vm_0 = R_vm_0.read(ba);
+ 		vm += vm_0;
+ 		etiss_uint64 simm5 = 0;
+ 		static BitArrayRange R_simm5_0 (19,15);
+ 		etiss_uint64 simm5_0 = R_simm5_0.read(ba);
+ 		simm5 += simm5_0;
+ 		etiss_uint64 vd = 0;
+ 		static BitArrayRange R_vd_0 (11,7);
+ 		etiss_uint64 vd_0 = R_vd_0.read(ba);
+ 		vd += vd_0;
+ 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
+		partInit.getAffectedRegisters().add("instructionPointer",64);
+ 	partInit.code() = std::string("//vand.vi\n")+
+ 			"etiss_uint32 exception = 0;\n"
+ 			"etiss_uint32 temp = 0;\n"
+ 			"etiss_uint8 * tmpbuf = (etiss_uint8 *)&temp;\n"
+
+ 			"etiss_uint16 _vtype = 0;\n"
+ 			"etiss_uint8 ret = 0;\n"
+ 			"etiss_uint16 _vl = 0;\n"
+ 			"etiss_uint16 _vstart = 0;\n"
+ 			
+			"_vtype = ((RV64IMACV*)cpu)->CSR[3105];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vtype = %#x\\n\",_vtype); \n"
+			#endif	
+			"_vstart = ((RV64IMACV*)cpu)->CSR[8];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vstart = %#x\\n\",_vstart); \n"
+			#endif	
+			"_vl = ((RV64IMACV*)cpu)->CSR[3104];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vl = %#x\\n\",_vl); \n"
+			#endif	
+			"ret = vand_vi((ETISS_CPU*) cpu, (ETISS_System*) system, _vtype, " + toString(vm) + ", " + toString(vd) + ", " + toString(vs2) + ", " + toString(simm5) + ", _vstart, 1024, _vl);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"ret = %#x\\n\",ret); \n"
+			#endif	
+			"if(ret != 0)\n"
+			"{\n"
+				"exception = ETISS_RETURNCODE_ILLEGALINSTRUCTION; \n"
+			"}\n"
+			
+			"else\n"
+			"{\n"
+				"((RV64IMACV*)cpu)->CSR[8] = 0;\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"((RV64IMACV*)cpu)->CSR[8] = %#lx\\n\",((RV64IMACV*)cpu)->CSR[8]); \n"
+				#endif	
+			"}\n"
+		"cpu->instructionPointer = " +toString((uint64_t)(ic.current_address_+ 4 ))+"ULL; \n"
+		
+		"return exception;\n"
+; 
+return true;
+},
+0,
+nullptr
+);
+//-------------------------------------------------------------------------------------------------------------------
+static InstructionDefinition vand_vx_vd_rs1_vm(
+ 		ISA32_RV64IMACV,
+ 		"vand.vx",
+ 		(uint32_t)0x24004057,
+ 		(uint32_t) 0xfc00707f,
+ 		[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+ 		{
+ 		etiss_uint64 rs1 = 0;
+ 		static BitArrayRange R_rs1_0 (19,15);
+ 		etiss_uint64 rs1_0 = R_rs1_0.read(ba);
+ 		rs1 += rs1_0;
+ 		etiss_uint64 vs2 = 0;
+ 		static BitArrayRange R_vs2_0 (24,20);
+ 		etiss_uint64 vs2_0 = R_vs2_0.read(ba);
+ 		vs2 += vs2_0;
+ 		etiss_uint64 vm = 0;
+ 		static BitArrayRange R_vm_0 (25,25);
+ 		etiss_uint64 vm_0 = R_vm_0.read(ba);
+ 		vm += vm_0;
+ 		etiss_uint64 vd = 0;
+ 		static BitArrayRange R_vd_0 (11,7);
+ 		etiss_uint64 vd_0 = R_vd_0.read(ba);
+ 		vd += vd_0;
+ 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
+		partInit.getAffectedRegisters().add("instructionPointer",64);
+ 	partInit.code() = std::string("//vand.vx\n")+
+ 			"etiss_uint32 exception = 0;\n"
+ 			"etiss_uint32 temp = 0;\n"
+ 			"etiss_uint8 * tmpbuf = (etiss_uint8 *)&temp;\n"
+
+ 			"etiss_uint16 _vtype = 0;\n"
+ 			"etiss_uint8 ret = 0;\n"
+ 			"etiss_uint16 _vl = 0;\n"
+ 			"etiss_uint16 _vstart = 0;\n"
+ 			
+			"_vtype = ((RV64IMACV*)cpu)->CSR[3105];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vtype = %#x\\n\",_vtype); \n"
+			#endif	
+			"_vstart = ((RV64IMACV*)cpu)->CSR[8];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vstart = %#x\\n\",_vstart); \n"
+			#endif	
+			"_vl = ((RV64IMACV*)cpu)->CSR[3104];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vl = %#x\\n\",_vl); \n"
+			#endif	
+			"ret = vand_vx((ETISS_CPU*) cpu, (ETISS_System*) system, _vtype, " + toString(vm) + ", " + toString(vd) + ", " + toString(vs2) + ", " + toString(rs1) + ", _vstart, 1024, _vl, 64);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"ret = %#x\\n\",ret); \n"
+			#endif	
+			"if(ret != 0)\n"
+			"{\n"
+				"exception = ETISS_RETURNCODE_ILLEGALINSTRUCTION; \n"
+			"}\n"
+			
+			"else\n"
+			"{\n"
+				"((RV64IMACV*)cpu)->CSR[8] = 0;\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"((RV64IMACV*)cpu)->CSR[8] = %#lx\\n\",((RV64IMACV*)cpu)->CSR[8]); \n"
+				#endif	
+			"}\n"
+		"cpu->instructionPointer = " +toString((uint64_t)(ic.current_address_+ 4 ))+"ULL; \n"
+		
+		"return exception;\n"
+; 
+return true;
+},
+0,
+nullptr
+);
+//-------------------------------------------------------------------------------------------------------------------
+static InstructionDefinition vor_vv_vd_rs1_vm(
+ 		ISA32_RV64IMACV,
+ 		"vor.vv",
+ 		(uint32_t)0x28000057,
+ 		(uint32_t) 0xfc00707f,
+ 		[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+ 		{
+ 		etiss_uint64 vs2 = 0;
+ 		static BitArrayRange R_vs2_0 (24,20);
+ 		etiss_uint64 vs2_0 = R_vs2_0.read(ba);
+ 		vs2 += vs2_0;
+ 		etiss_uint64 vs1 = 0;
+ 		static BitArrayRange R_vs1_0 (19,15);
+ 		etiss_uint64 vs1_0 = R_vs1_0.read(ba);
+ 		vs1 += vs1_0;
+ 		etiss_uint64 vm = 0;
+ 		static BitArrayRange R_vm_0 (25,25);
+ 		etiss_uint64 vm_0 = R_vm_0.read(ba);
+ 		vm += vm_0;
+ 		etiss_uint64 vd = 0;
+ 		static BitArrayRange R_vd_0 (11,7);
+ 		etiss_uint64 vd_0 = R_vd_0.read(ba);
+ 		vd += vd_0;
+ 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
+		partInit.getAffectedRegisters().add("instructionPointer",64);
+ 	partInit.code() = std::string("//vor.vv\n")+
+ 			"etiss_uint32 exception = 0;\n"
+ 			"etiss_uint32 temp = 0;\n"
+ 			"etiss_uint8 * tmpbuf = (etiss_uint8 *)&temp;\n"
+
+ 			"etiss_uint16 _vtype = 0;\n"
+ 			"etiss_uint8 ret = 0;\n"
+ 			"etiss_uint16 _vl = 0;\n"
+ 			"etiss_uint16 _vstart = 0;\n"
+ 			
+			"_vtype = ((RV64IMACV*)cpu)->CSR[3105];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vtype = %#x\\n\",_vtype); \n"
+			#endif	
+			"_vstart = ((RV64IMACV*)cpu)->CSR[8];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vstart = %#x\\n\",_vstart); \n"
+			#endif	
+			"_vl = ((RV64IMACV*)cpu)->CSR[3104];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vl = %#x\\n\",_vl); \n"
+			#endif	
+			"ret = vor_vv((ETISS_CPU*) cpu, (ETISS_System*) system, _vtype, " + toString(vm) + ", " + toString(vd) + ", " + toString(vs1) + ", " + toString(vs2) + ", _vstart, 1024, _vl);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"ret = %#x\\n\",ret); \n"
+			#endif	
+			"if(ret != 0)\n"
+			"{\n"
+				"exception = ETISS_RETURNCODE_ILLEGALINSTRUCTION; \n"
+			"}\n"
+			
+			"else\n"
+			"{\n"
+				"((RV64IMACV*)cpu)->CSR[8] = 0;\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"((RV64IMACV*)cpu)->CSR[8] = %#lx\\n\",((RV64IMACV*)cpu)->CSR[8]); \n"
+				#endif	
+			"}\n"
+		"cpu->instructionPointer = " +toString((uint64_t)(ic.current_address_+ 4 ))+"ULL; \n"
+		
+		"return exception;\n"
+; 
+return true;
+},
+0,
+nullptr
+);
+//-------------------------------------------------------------------------------------------------------------------
+static InstructionDefinition vor_vi_vd_rs1_vm(
+ 		ISA32_RV64IMACV,
+ 		"vor.vi",
+ 		(uint32_t)0x28003057,
+ 		(uint32_t) 0xfc00707f,
+ 		[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+ 		{
+ 		etiss_uint64 vs2 = 0;
+ 		static BitArrayRange R_vs2_0 (24,20);
+ 		etiss_uint64 vs2_0 = R_vs2_0.read(ba);
+ 		vs2 += vs2_0;
+ 		etiss_uint64 vm = 0;
+ 		static BitArrayRange R_vm_0 (25,25);
+ 		etiss_uint64 vm_0 = R_vm_0.read(ba);
+ 		vm += vm_0;
+ 		etiss_uint64 simm5 = 0;
+ 		static BitArrayRange R_simm5_0 (19,15);
+ 		etiss_uint64 simm5_0 = R_simm5_0.read(ba);
+ 		simm5 += simm5_0;
+ 		etiss_uint64 vd = 0;
+ 		static BitArrayRange R_vd_0 (11,7);
+ 		etiss_uint64 vd_0 = R_vd_0.read(ba);
+ 		vd += vd_0;
+ 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
+		partInit.getAffectedRegisters().add("instructionPointer",64);
+ 	partInit.code() = std::string("//vor.vi\n")+
+ 			"etiss_uint32 exception = 0;\n"
+ 			"etiss_uint32 temp = 0;\n"
+ 			"etiss_uint8 * tmpbuf = (etiss_uint8 *)&temp;\n"
+
+ 			"etiss_uint16 _vtype = 0;\n"
+ 			"etiss_uint8 ret = 0;\n"
+ 			"etiss_uint16 _vl = 0;\n"
+ 			"etiss_uint16 _vstart = 0;\n"
+ 			
+			"_vtype = ((RV64IMACV*)cpu)->CSR[3105];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vtype = %#x\\n\",_vtype); \n"
+			#endif	
+			"_vstart = ((RV64IMACV*)cpu)->CSR[8];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vstart = %#x\\n\",_vstart); \n"
+			#endif	
+			"_vl = ((RV64IMACV*)cpu)->CSR[3104];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vl = %#x\\n\",_vl); \n"
+			#endif	
+			"ret = vor_vi((ETISS_CPU*) cpu, (ETISS_System*) system, _vtype, " + toString(vm) + ", " + toString(vd) + ", " + toString(vs2) + ", " + toString(simm5) + ", _vstart, 1024, _vl);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"ret = %#x\\n\",ret); \n"
+			#endif	
+			"if(ret != 0)\n"
+			"{\n"
+				"exception = ETISS_RETURNCODE_ILLEGALINSTRUCTION; \n"
+			"}\n"
+			
+			"else\n"
+			"{\n"
+				"((RV64IMACV*)cpu)->CSR[8] = 0;\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"((RV64IMACV*)cpu)->CSR[8] = %#lx\\n\",((RV64IMACV*)cpu)->CSR[8]); \n"
+				#endif	
+			"}\n"
+		"cpu->instructionPointer = " +toString((uint64_t)(ic.current_address_+ 4 ))+"ULL; \n"
+		
+		"return exception;\n"
+; 
+return true;
+},
+0,
+nullptr
+);
+//-------------------------------------------------------------------------------------------------------------------
+static InstructionDefinition vor_vx_vd_rs1_vm(
+ 		ISA32_RV64IMACV,
+ 		"vor.vx",
+ 		(uint32_t)0x28004057,
+ 		(uint32_t) 0xfc00707f,
+ 		[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+ 		{
+ 		etiss_uint64 rs1 = 0;
+ 		static BitArrayRange R_rs1_0 (19,15);
+ 		etiss_uint64 rs1_0 = R_rs1_0.read(ba);
+ 		rs1 += rs1_0;
+ 		etiss_uint64 vs2 = 0;
+ 		static BitArrayRange R_vs2_0 (24,20);
+ 		etiss_uint64 vs2_0 = R_vs2_0.read(ba);
+ 		vs2 += vs2_0;
+ 		etiss_uint64 vm = 0;
+ 		static BitArrayRange R_vm_0 (25,25);
+ 		etiss_uint64 vm_0 = R_vm_0.read(ba);
+ 		vm += vm_0;
+ 		etiss_uint64 vd = 0;
+ 		static BitArrayRange R_vd_0 (11,7);
+ 		etiss_uint64 vd_0 = R_vd_0.read(ba);
+ 		vd += vd_0;
+ 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
+		partInit.getAffectedRegisters().add("instructionPointer",64);
+ 	partInit.code() = std::string("//vor.vx\n")+
+ 			"etiss_uint32 exception = 0;\n"
+ 			"etiss_uint32 temp = 0;\n"
+ 			"etiss_uint8 * tmpbuf = (etiss_uint8 *)&temp;\n"
+
+ 			"etiss_uint16 _vtype = 0;\n"
+ 			"etiss_uint8 ret = 0;\n"
+ 			"etiss_uint16 _vl = 0;\n"
+ 			"etiss_uint16 _vstart = 0;\n"
+ 			
+			"_vtype = ((RV64IMACV*)cpu)->CSR[3105];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vtype = %#x\\n\",_vtype); \n"
+			#endif	
+			"_vstart = ((RV64IMACV*)cpu)->CSR[8];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vstart = %#x\\n\",_vstart); \n"
+			#endif	
+			"_vl = ((RV64IMACV*)cpu)->CSR[3104];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vl = %#x\\n\",_vl); \n"
+			#endif	
+			"ret = vor_vx((ETISS_CPU*) cpu, (ETISS_System*) system, _vtype, " + toString(vm) + ", " + toString(vd) + ", " + toString(vs2) + ", " + toString(rs1) + ", _vstart, 1024, _vl, 64);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"ret = %#x\\n\",ret); \n"
+			#endif	
+			"if(ret != 0)\n"
+			"{\n"
+				"exception = ETISS_RETURNCODE_ILLEGALINSTRUCTION; \n"
+			"}\n"
+			
+			"else\n"
+			"{\n"
+				"((RV64IMACV*)cpu)->CSR[8] = 0;\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"((RV64IMACV*)cpu)->CSR[8] = %#lx\\n\",((RV64IMACV*)cpu)->CSR[8]); \n"
+				#endif	
+			"}\n"
+		"cpu->instructionPointer = " +toString((uint64_t)(ic.current_address_+ 4 ))+"ULL; \n"
+		
+		"return exception;\n"
+; 
+return true;
+},
+0,
+nullptr
+);
+//-------------------------------------------------------------------------------------------------------------------
+static InstructionDefinition vxor_vv_vd_rs1_vm(
+ 		ISA32_RV64IMACV,
+ 		"vxor.vv",
+ 		(uint32_t)0x2c000057,
+ 		(uint32_t) 0xfc00707f,
+ 		[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+ 		{
+ 		etiss_uint64 vs2 = 0;
+ 		static BitArrayRange R_vs2_0 (24,20);
+ 		etiss_uint64 vs2_0 = R_vs2_0.read(ba);
+ 		vs2 += vs2_0;
+ 		etiss_uint64 vs1 = 0;
+ 		static BitArrayRange R_vs1_0 (19,15);
+ 		etiss_uint64 vs1_0 = R_vs1_0.read(ba);
+ 		vs1 += vs1_0;
+ 		etiss_uint64 vm = 0;
+ 		static BitArrayRange R_vm_0 (25,25);
+ 		etiss_uint64 vm_0 = R_vm_0.read(ba);
+ 		vm += vm_0;
+ 		etiss_uint64 vd = 0;
+ 		static BitArrayRange R_vd_0 (11,7);
+ 		etiss_uint64 vd_0 = R_vd_0.read(ba);
+ 		vd += vd_0;
+ 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
+		partInit.getAffectedRegisters().add("instructionPointer",64);
+ 	partInit.code() = std::string("//vxor.vv\n")+
+ 			"etiss_uint32 exception = 0;\n"
+ 			"etiss_uint32 temp = 0;\n"
+ 			"etiss_uint8 * tmpbuf = (etiss_uint8 *)&temp;\n"
+
+ 			"etiss_uint16 _vtype = 0;\n"
+ 			"etiss_uint8 ret = 0;\n"
+ 			"etiss_uint16 _vl = 0;\n"
+ 			"etiss_uint16 _vstart = 0;\n"
+ 			
+			"_vtype = ((RV64IMACV*)cpu)->CSR[3105];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vtype = %#x\\n\",_vtype); \n"
+			#endif	
+			"_vstart = ((RV64IMACV*)cpu)->CSR[8];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vstart = %#x\\n\",_vstart); \n"
+			#endif	
+			"_vl = ((RV64IMACV*)cpu)->CSR[3104];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vl = %#x\\n\",_vl); \n"
+			#endif	
+			"ret = vxor_vv((ETISS_CPU*) cpu, (ETISS_System*) system, _vtype, " + toString(vm) + ", " + toString(vd) + ", " + toString(vs1) + ", " + toString(vs2) + ", _vstart, 1024, _vl);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"ret = %#x\\n\",ret); \n"
+			#endif	
+			"if(ret != 0)\n"
+			"{\n"
+				"exception = ETISS_RETURNCODE_ILLEGALINSTRUCTION; \n"
+			"}\n"
+			
+			"else\n"
+			"{\n"
+				"((RV64IMACV*)cpu)->CSR[8] = 0;\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"((RV64IMACV*)cpu)->CSR[8] = %#lx\\n\",((RV64IMACV*)cpu)->CSR[8]); \n"
+				#endif	
+			"}\n"
+		"cpu->instructionPointer = " +toString((uint64_t)(ic.current_address_+ 4 ))+"ULL; \n"
+		
+		"return exception;\n"
+; 
+return true;
+},
+0,
+nullptr
+);
+//-------------------------------------------------------------------------------------------------------------------
+static InstructionDefinition vxor_vi_vd_rs1_vm(
+ 		ISA32_RV64IMACV,
+ 		"vxor.vi",
+ 		(uint32_t)0x2c003057,
+ 		(uint32_t) 0xfc00707f,
+ 		[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+ 		{
+ 		etiss_uint64 vs2 = 0;
+ 		static BitArrayRange R_vs2_0 (24,20);
+ 		etiss_uint64 vs2_0 = R_vs2_0.read(ba);
+ 		vs2 += vs2_0;
+ 		etiss_uint64 vm = 0;
+ 		static BitArrayRange R_vm_0 (25,25);
+ 		etiss_uint64 vm_0 = R_vm_0.read(ba);
+ 		vm += vm_0;
+ 		etiss_uint64 simm5 = 0;
+ 		static BitArrayRange R_simm5_0 (19,15);
+ 		etiss_uint64 simm5_0 = R_simm5_0.read(ba);
+ 		simm5 += simm5_0;
+ 		etiss_uint64 vd = 0;
+ 		static BitArrayRange R_vd_0 (11,7);
+ 		etiss_uint64 vd_0 = R_vd_0.read(ba);
+ 		vd += vd_0;
+ 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
+		partInit.getAffectedRegisters().add("instructionPointer",64);
+ 	partInit.code() = std::string("//vxor.vi\n")+
+ 			"etiss_uint32 exception = 0;\n"
+ 			"etiss_uint32 temp = 0;\n"
+ 			"etiss_uint8 * tmpbuf = (etiss_uint8 *)&temp;\n"
+
+ 			"etiss_uint16 _vtype = 0;\n"
+ 			"etiss_uint8 ret = 0;\n"
+ 			"etiss_uint16 _vl = 0;\n"
+ 			"etiss_uint16 _vstart = 0;\n"
+ 			
+			"_vtype = ((RV64IMACV*)cpu)->CSR[3105];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vtype = %#x\\n\",_vtype); \n"
+			#endif	
+			"_vstart = ((RV64IMACV*)cpu)->CSR[8];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vstart = %#x\\n\",_vstart); \n"
+			#endif	
+			"_vl = ((RV64IMACV*)cpu)->CSR[3104];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vl = %#x\\n\",_vl); \n"
+			#endif	
+			"ret = vxor_vi((ETISS_CPU*) cpu, (ETISS_System*) system, _vtype, " + toString(vm) + ", " + toString(vd) + ", " + toString(vs2) + ", " + toString(simm5) + ", _vstart, 1024, _vl);\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"ret = %#x\\n\",ret); \n"
+			#endif	
+			"if(ret != 0)\n"
+			"{\n"
+				"exception = ETISS_RETURNCODE_ILLEGALINSTRUCTION; \n"
+			"}\n"
+			
+			"else\n"
+			"{\n"
+				"((RV64IMACV*)cpu)->CSR[8] = 0;\n"
+				#if RV64IMACV_DEBUG_CALL
+				"printf(\"((RV64IMACV*)cpu)->CSR[8] = %#lx\\n\",((RV64IMACV*)cpu)->CSR[8]); \n"
+				#endif	
+			"}\n"
+		"cpu->instructionPointer = " +toString((uint64_t)(ic.current_address_+ 4 ))+"ULL; \n"
+		
+		"return exception;\n"
+; 
+return true;
+},
+0,
+nullptr
+);
+//-------------------------------------------------------------------------------------------------------------------
+static InstructionDefinition vxor_vx_vd_rs1_vm(
+ 		ISA32_RV64IMACV,
+ 		"vxor.vx",
+ 		(uint32_t)0x2c004057,
+ 		(uint32_t) 0xfc00707f,
+ 		[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
+ 		{
+ 		etiss_uint64 rs1 = 0;
+ 		static BitArrayRange R_rs1_0 (19,15);
+ 		etiss_uint64 rs1_0 = R_rs1_0.read(ba);
+ 		rs1 += rs1_0;
+ 		etiss_uint64 vs2 = 0;
+ 		static BitArrayRange R_vs2_0 (24,20);
+ 		etiss_uint64 vs2_0 = R_vs2_0.read(ba);
+ 		vs2 += vs2_0;
+ 		etiss_uint64 vm = 0;
+ 		static BitArrayRange R_vm_0 (25,25);
+ 		etiss_uint64 vm_0 = R_vm_0.read(ba);
+ 		vm += vm_0;
+ 		etiss_uint64 vd = 0;
+ 		static BitArrayRange R_vd_0 (11,7);
+ 		etiss_uint64 vd_0 = R_vd_0.read(ba);
+ 		vd += vd_0;
+ 		CodePart & partInit = cs.append(CodePart::INITIALREQUIRED);
+		partInit.getAffectedRegisters().add("instructionPointer",64);
+ 	partInit.code() = std::string("//vxor.vx\n")+
+ 			"etiss_uint32 exception = 0;\n"
+ 			"etiss_uint32 temp = 0;\n"
+ 			"etiss_uint8 * tmpbuf = (etiss_uint8 *)&temp;\n"
+
+ 			"etiss_uint16 _vtype = 0;\n"
+ 			"etiss_uint8 ret = 0;\n"
+ 			"etiss_uint16 _vl = 0;\n"
+ 			"etiss_uint16 _vstart = 0;\n"
+ 			
+			"_vtype = ((RV64IMACV*)cpu)->CSR[3105];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vtype = %#x\\n\",_vtype); \n"
+			#endif	
+			"_vstart = ((RV64IMACV*)cpu)->CSR[8];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vstart = %#x\\n\",_vstart); \n"
+			#endif	
+			"_vl = ((RV64IMACV*)cpu)->CSR[3104];\n"
+			#if RV64IMACV_DEBUG_CALL
+			"printf(\"_vl = %#x\\n\",_vl); \n"
+			#endif	
+			"ret = vxor_vx((ETISS_CPU*) cpu, (ETISS_System*) system, _vtype, " + toString(vm) + ", " + toString(vd) + ", " + toString(vs2) + ", " + toString(rs1) + ", _vstart, 1024, _vl, 64);\n"
 			#if RV64IMACV_DEBUG_CALL
 			"printf(\"ret = %#x\\n\",ret); \n"
 			#endif	

@@ -138,11 +138,12 @@ void *GCCJIT::translate(std::string code, std::set<std::string> headerpaths, std
     ss.str("");
 
     ss << "gcc -shared";
+
     /*
     if (debug)
             ss <<"-g -dl ";
     */
-	
+
     for (std::set<std::string>::const_iterator iter = librarypaths.begin();iter != librarypaths.end();iter++){
             ss << " -L" << *iter << " ";
     }

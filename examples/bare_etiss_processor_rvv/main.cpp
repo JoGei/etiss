@@ -73,7 +73,7 @@ int main(int argc, const char *argv[])
 
     std::cout << "=== Setting up test system ===" << std::endl;
     std::cout << "  Setting up Memory" << std::endl;
-    etiss::DebugSystem dsys(0x0, 0x80000, 0x80000, 0x80000);
+    etiss::DebugSystem dsys(0x0, 0x800000, 0x800000, 0x800000);
     // load image to memory
     //  if(!dsys.load(0,etiss::cfg().get<std::string>("sw_binary","").c_str())){
     //    etiss::log(etiss::FATALERROR,"Could not load image file "

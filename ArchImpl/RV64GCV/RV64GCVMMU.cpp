@@ -40,14 +40,14 @@
 
 */
 
-#include "RV64IMACVMMU.h"
+#include "RV64GCVMMU.h"
 
 #include "etiss/mm/PTEFormat.h"
 #include "etiss/mm/PTEFormatBuilder.h"
 
 #include "etiss/jit/ReturnCode.h"
 
-RV64IMACVMMU::RV64IMACVMMU(bool pid_enabled) : MMU(true, "RISCV-sv39-MMU", pid_enabled)
+RV64GCVMMU::RV64GCVMMU(bool pid_enabled) : MMU(true, "RISCV-sv39-MMU", pid_enabled)
 {
     // Use builder utility to build up format singleton, bit field for Page Table Entry (PTE)
     PTEFormatBuilder::Instance()
@@ -76,7 +76,7 @@ RV64IMACVMMU::RV64IMACVMMU(bool pid_enabled) : MMU(true, "RISCV-sv39-MMU", pid_e
     REGISTER_PAGE_FAULT_HANDLER(PTEOVERLAP, tlb_overlap_handler);
 }
 
-int32_t RV64IMACVMMU::WalkPageTable(uint64_t vma, MM_ACCESS access)
+int32_t RV64GCVMMU::WalkPageTable(uint64_t vma, MM_ACCESS access)
 {
 
     if (mmu_enabled_)
@@ -191,7 +191,7 @@ RETURN_PAGEFAULT:
     }
 }
 
-int32_t RV64IMACVMMU::CheckProtection(const PTE &pte, MM_ACCESS access)
+int32_t RV64GCVMMU::CheckProtection(const PTE &pte, MM_ACCESS access)
 {
     switch (access)
     {

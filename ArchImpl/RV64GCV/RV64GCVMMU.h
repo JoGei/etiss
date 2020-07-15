@@ -40,58 +40,35 @@
 
 */
 
-#ifndef ETISS_RV64IMACVArch_RV64IMACVTIMER_H_
-#define ETISS_RV64IMACVArch_RV64IMACVTIMER_H_
+#ifndef ETISS_RV64GCVArch_RV64GCVMMU_H_
+#define ETISS_RV64GCVArch_RV64GCVMMU_H_
 
 #include "Encoding.h"
-#include "RV64IMACV.h"
-#include "etiss/CPUArch.h"
+#include "RV64GCV.h"
 
-#define TIMER_BASE_ADDR 0x11000000
-#define MTIME_ADDR TIMER_BASE_ADDR + 0xbff8
-#define MTIMECMP_ADDR TIMER_BASE_ADDR + 0x4000
+#include "etiss/mm/MMU.h"
+#include "etiss/mm/PTE.h"
 
-class RV64IMACVTimer;
+using namespace etiss::mm;
 
-struct RV64IMACVTimerSystem
+int32_t tlb_overlap_handler(int32_t fault, etiss::mm::MMU *mmu, uint64_t vma, etiss::mm::MM_ACCESS access);
+
+class RV64GCVMMU : public etiss::mm::MMU
 {
 
-    struct ETISS_System sys;
-
-    RV64IMACVTimer *this_;
-
-    ETISS_System *orig;
-};
-
-class RV64IMACVTimer : public etiss::CoroutinePlugin, public etiss::SystemWrapperPlugin
-{
   public:
-    RV64IMACVTimer();
+    RV64GCVMMU(bool pid_enabled);
 
-    virtual ~RV64IMACVTimer() {}
-
-    void init(ETISS_CPU *cpu, ETISS_System *system, etiss::CPUArch *arch) { riscv64cpu = (RV64IMACV *)cpu; }
-
-    etiss::int32 execute();
-
-    ETISS_System *wrap(ETISS_CPU *cpu, ETISS_System *system);
-
-    ETISS_System *unwrap(ETISS_CPU *cpu, ETISS_System *system);
-
-    etiss::uint64 mtime_;
-    etiss::uint64 mtimecmp_;
-    char mtimecmp_buf_[8];
-
-  protected:
-    virtual std::string _getPluginName() const { return std::string("RISCV-V Timer"); }
+    ~RV64GCVMMU() {}
 
   private:
-    RV64IMACV *riscv64cpu;
+    int32_t WalkPageTable(uint64_t vma, etiss::mm::MM_ACCESS access);
 
-    bool timer_enabled_;
-    bool mtimecmp_overflow_clear_;
-    bool mtimecmp_overflow_;
-    bool mtime_overflow_;
+    int32_t CheckProtection(const PTE &pte, etiss::mm::MM_ACCESS access);
+
+    void UpdatePTEFlags(PTE &pte, etiss::mm::MM_ACCESS access) {}
+
+    bool CheckPrivilegedMode() { return (((RV64GCV *)cpu_)->CSR[3088] == PRV_M) ? false : true; }
 };
 
 #endif

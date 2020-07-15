@@ -38,19 +38,19 @@
 # Contact: eda@tum
 
 
-PROJECT(RV64IMACV)
+PROJECT(RV64GCV)
 
 ADD_LIBRARY(${PROJECT_NAME} SHARED
     Encoding.h
-    RV64IMACV.h
-    RV64IMACVArch.cpp
-    RV64IMACVArch.h
-    RV64IMACVArchLib.cpp
-    RV64IMACVArchSpecificImp.h
-    RV64IMACVGDBCore.h
-    RV64IMACVMMU.cpp
-    RV64IMACVMMU.h
-    RV64IMACVTimer.cpp
-    RV64IMACVTimer.h
+    RV64GCV.h
+    RV64GCVArch.cpp
+    RV64GCVArch.h
+    RV64GCVArchLib.cpp
+    RV64GCVArchSpecificImp.h
+    RV64GCVGDBCore.h
+    RV64GCVMMU.cpp
+    RV64GCVMMU.h
+    RV64GCVTimer.cpp
+    RV64GCVTimer.h
 )
 ETISSPluginArch(${PROJECT_NAME})

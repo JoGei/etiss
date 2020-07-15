@@ -46,22 +46,22 @@
 
 // Modified to add architecture specific functionalities on July 12 2018
 
-#ifndef ETISS_RV64IMACVArch_RV64IMACVARCHSPECIFICIMP_H_
-#define ETISS_RV64IMACVArch_RV64IMACVARCHSPECIFICIMP_H_
+#ifndef ETISS_RV64GCVArch_RV64GCVARCHSPECIFICIMP_H_
+#define ETISS_RV64GCVArch_RV64GCVARCHSPECIFICIMP_H_
 
 #include "Encoding.h"
-#include "RV64IMACV.h"
-#include "RV64IMACVArch.h"
+#include "RV64GCV.h"
+#include "RV64GCVArch.h"
 #include "etiss/CPUCore.h"
 
-etiss::instr::InstructionGroup ISA64_RV64IMACV("ISA64_RV64IMACV", 64);
-etiss::instr::InstructionGroup ISA16_RV64IMACV("ISA16_RV64IMACV", 16);
-etiss::instr::InstructionGroup ISA32_RV64IMACV("ISA32_RV64IMACV", 32);
-etiss::instr::InstructionClass ISA16_RV64IMACVClass(1, "ISA16_RV64IMACV", 16, ISA16_RV64IMACV);
-etiss::instr::InstructionClass ISA32_RV64IMACVClass(1, "ISA32_RV64IMACV", 32, ISA32_RV64IMACV);
-etiss::instr::InstructionClass ISA64_RV64IMACVClass(1, "ISA64_RV64IMACV", 64, ISA64_RV64IMACV);
+etiss::instr::InstructionGroup ISA64_RV64GCV("ISA64_RV64GCV", 64);
+etiss::instr::InstructionGroup ISA16_RV64GCV("ISA16_RV64GCV", 16);
+etiss::instr::InstructionGroup ISA32_RV64GCV("ISA32_RV64GCV", 32);
+etiss::instr::InstructionClass ISA16_RV64GCVClass(1, "ISA16_RV64GCV", 16, ISA16_RV64GCV);
+etiss::instr::InstructionClass ISA32_RV64GCVClass(1, "ISA32_RV64GCV", 32, ISA32_RV64GCV);
+etiss::instr::InstructionClass ISA64_RV64GCVClass(1, "ISA64_RV64GCV", 64, ISA64_RV64GCV);
 
-etiss::instr::InstructionCollection RV64IMACVISA("RV64IMACVISA", ISA16_RV64IMACVClass, ISA32_RV64IMACVClass, ISA64_RV64IMACVClass);
+etiss::instr::InstructionCollection RV64GCVISA("RV64GCVISA", ISA16_RV64GCVClass, ISA32_RV64GCVClass, ISA64_RV64GCVClass);
 
 /**
         @brief This function will be called automatically in order to handling
@@ -77,18 +77,18 @@ etiss::instr::InstructionCollection RV64IMACVISA("RV64IMACVISA", ISA16_RV64IMACV
                                         break;
 
 */
-etiss::int32 RV64IMACVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
+etiss::int32 RV64GCVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
 {
     etiss_uint32 handledCause = cause;
 
     std::function<void()> disableItr = [cpu]() {
-        if (likely((((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MIE))
+        if (likely((((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MIE))
         {
             // Push MIE, SIE, UIE to MPIE, SPIE, UPIE
-            etiss_uint32 irq_enable = ((((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MIE) |
-                                      ((((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_UIE) |
-                                      ((((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_SIE);
-            (((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) = (irq_enable << 4) | ((((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) & 0xffffff00);
+            etiss_uint32 irq_enable = ((((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MIE) |
+                                      ((((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_UIE) |
+                                      ((((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_SIE);
+            (((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) = (irq_enable << 4) | ((((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) & 0xffffff00);
         }
     };
 
@@ -110,16 +110,27 @@ etiss::int32 RV64IMACVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
         }
 
         msg << "--------Dump the VPU state--------" << std::endl;
-        auto VLEN = ((RV64IMACV *)cpu)->CSR[3106]*8;
+        auto VLEN = ((RV64GCV *)cpu)->CSR[3106]*8;
+
+        if ( unlikely( reinterpret_cast<etiss_uint8*>(((RV64GCV *)cpu)->V) == nullptr)) {
+			/* Get the Vector Units implementation platform config*/
+			int vlen = etiss::cfg().get<int>("RVV::VLEN", 1024);
+			int elen = etiss::cfg().get<int>("RVV::ELEN", 1024);
+			int slen = etiss::cfg().get<int>("RVV::SLEN", 1024);
+			((RV64GCV *)cpu)->CSR[3106] = vlen/8;
+
+			// Allocate vector register space.
+			((RV64GCV *)cpu)->V = reinterpret_cast<etiss_uint64>(new etiss_uint8[32*vlen/8]);
+		}
 
         for (uint32_t i = 0; i < 32; ++i)
         {
-        	std::stringstream ss;
-        	ss << "V" << i << "\t";
-        	for(uint32_t k = 0; k < VLEN/8; ++k){
-        		ss << '|' << std::setfill('0') << std::setw(2) << std::hex << (int)((RV64IMACV *)cpu)->V[(i+1)*VLEN/8 - (k+1)] ;
-        	}
-        	ss << '|' << std::dec;
+           	std::stringstream ss;
+           	ss << "V" << i << "\t";
+           	for(uint32_t k = 0; k < VLEN/8; ++k){
+           		ss << '|' << std::setfill('0') << std::setw(2) << std::hex << (int) ((etiss_uint8*)((RV64GCV *)cpu)->V)[(i+1)*VLEN/8 - (k+1)] ;
+           	}
+          	ss << '|' << std::dec;
             msg << ss.str() << std::endl;
         }
 
@@ -128,29 +139,29 @@ etiss::int32 RV64IMACVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
         // Exception
         case 0x0:
             // Check exception delegation
-            if (((RV64IMACV *)cpu)->CSR[CSR_MEDELEG] & (static_cast<etiss_uint64>(1) << (causeCode & 0x1f)))
+            if (((RV64GCV *)cpu)->CSR[CSR_MEDELEG] & (static_cast<etiss_uint64>(1) << (causeCode & 0x1f)))
             {
                 etiss::log(etiss::VERBOSE, "Exception is delegated to supervisor mode");
                 // Pop MPIE to MIE
-                (((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) ^=
-                    (((((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MPIE) >> 4) ^ ((((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MIE);
-                ((RV64IMACV *)cpu)->CSR[CSR_SCAUSE] = causeCode;
+                (((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) ^=
+                    (((((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MPIE) >> 4) ^ ((((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MIE);
+                ((RV64GCV *)cpu)->CSR[CSR_SCAUSE] = causeCode;
                 // Redo the instruction encoutered exception after handling
-                ((RV64IMACV *)cpu)->CSR[CSR_SEPC] = cpu->instructionPointer - 4;
-                ((RV64IMACV *)cpu)->CSR[CSR_SSTATUS] ^=
-                    (((RV64IMACV *)cpu)->CSR[3088] << 8) ^ (((RV64IMACV *)cpu)->CSR[CSR_SSTATUS] & MSTATUS_SPP);
-                ((RV64IMACV *)cpu)->CSR[3088] = PRV_S;
+                ((RV64GCV *)cpu)->CSR[CSR_SEPC] = cpu->instructionPointer - 4;
+                ((RV64GCV *)cpu)->CSR[CSR_SSTATUS] ^=
+                    (((RV64GCV *)cpu)->CSR[3088] << 8) ^ (((RV64GCV *)cpu)->CSR[CSR_SSTATUS] & MSTATUS_SPP);
+                ((RV64GCV *)cpu)->CSR[3088] = PRV_S;
                 etiss::log(etiss::VERBOSE, "Privilege mode is changed to supervisor mdoe:" + etiss::toString(PRV_S));
-                cpu->instructionPointer = ((RV64IMACV *)cpu)->CSR[CSR_STVEC] & ~0x3;
+                cpu->instructionPointer = ((RV64GCV *)cpu)->CSR[CSR_STVEC] & ~0x3;
             }
             else
             {
-                ((RV64IMACV *)cpu)->CSR[CSR_MCAUSE] = causeCode;
+                ((RV64GCV *)cpu)->CSR[CSR_MCAUSE] = causeCode;
                 // Redo the instruction encoutered exception after handling
-                ((RV64IMACV *)cpu)->CSR[CSR_MEPC] = cpu->instructionPointer - 4;
-                (((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) ^=
-                    (((RV64IMACV *)cpu)->CSR[3088] << 11) ^ ((((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MPP);
-                ((RV64IMACV *)cpu)->CSR[3088] = PRV_M;
+                ((RV64GCV *)cpu)->CSR[CSR_MEPC] = cpu->instructionPointer - 4;
+                (((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) ^=
+                    (((RV64GCV *)cpu)->CSR[3088] << 11) ^ ((((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MPP);
+                ((RV64GCV *)cpu)->CSR[3088] = PRV_M;
                 etiss::log(etiss::VERBOSE, "Privilege mode is changed to machine mdoe: " + etiss::toString(PRV_M));
                 // Customized handler address other than specified in RISC-V ISA
                 // manual
@@ -159,39 +170,39 @@ etiss::int32 RV64IMACVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
                     cpu->instructionPointer = addr;
                     break;
                 }
-                cpu->instructionPointer = ((RV64IMACV *)cpu)->CSR[CSR_MTVEC] & ~0x3;
+                cpu->instructionPointer = ((RV64GCV *)cpu)->CSR[CSR_MTVEC] & ~0x3;
             }
             break;
 
         // Interrupt
         case 0x80000000:
             // Check exception delegation
-            if (((RV64IMACV *)cpu)->CSR[CSR_MIDELEG] & (static_cast<etiss_uint64>(1) << (causeCode & 0x1f)))
+            if (((RV64GCV *)cpu)->CSR[CSR_MIDELEG] & (static_cast<etiss_uint64>(1) << (causeCode & 0x1f)))
             {
                 etiss::log(etiss::VERBOSE, "Interrupt is delegated to supervisor mode");
                 // Pop MPIE to MIE
-                (((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) ^=
-                    (((((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MPIE) >> 4) ^ ((((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MIE);
-                ((RV64IMACV *)cpu)->CSR[CSR_SCAUSE] = causeCode;
+                (((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) ^=
+                    (((((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MPIE) >> 4) ^ ((((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MIE);
+                ((RV64GCV *)cpu)->CSR[CSR_SCAUSE] = causeCode;
                 // Return to instruction next interrupted one
-                ((RV64IMACV *)cpu)->CSR[CSR_SEPC] = cpu->instructionPointer;
-                ((RV64IMACV *)cpu)->CSR[CSR_SSTATUS] ^=
-                    (((RV64IMACV *)cpu)->CSR[3088] << 8) ^ (((RV64IMACV *)cpu)->CSR[CSR_SSTATUS] & MSTATUS_SPP);
-                ((RV64IMACV *)cpu)->CSR[3088] = PRV_S;
+                ((RV64GCV *)cpu)->CSR[CSR_SEPC] = cpu->instructionPointer;
+                ((RV64GCV *)cpu)->CSR[CSR_SSTATUS] ^=
+                    (((RV64GCV *)cpu)->CSR[3088] << 8) ^ (((RV64GCV *)cpu)->CSR[CSR_SSTATUS] & MSTATUS_SPP);
+                ((RV64GCV *)cpu)->CSR[3088] = PRV_S;
                 etiss::log(etiss::VERBOSE, "Privilege mode is changed to supervisor mdoe:" + etiss::toString(PRV_S));
-                if (((RV64IMACV *)cpu)->CSR[CSR_STVEC] & 0x1)
-                    cpu->instructionPointer = (((RV64IMACV *)cpu)->CSR[CSR_STVEC] & ~0x3) + causeCode * 4;
+                if (((RV64GCV *)cpu)->CSR[CSR_STVEC] & 0x1)
+                    cpu->instructionPointer = (((RV64GCV *)cpu)->CSR[CSR_STVEC] & ~0x3) + causeCode * 4;
                 else
-                    cpu->instructionPointer = ((RV64IMACV *)cpu)->CSR[CSR_STVEC] & ~0x3;
+                    cpu->instructionPointer = ((RV64GCV *)cpu)->CSR[CSR_STVEC] & ~0x3;
             }
             else
             {
-                ((RV64IMACV *)cpu)->CSR[CSR_MCAUSE] = causeCode;
+                ((RV64GCV *)cpu)->CSR[CSR_MCAUSE] = causeCode;
                 // Return to instruction next interrupted one
-                ((RV64IMACV *)cpu)->CSR[CSR_MEPC] = cpu->instructionPointer;
-                (((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) ^=
-                    (((RV64IMACV *)cpu)->CSR[3088] << 11) ^ ((((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MPP);
-                ((RV64IMACV *)cpu)->CSR[3088] = PRV_M;
+                ((RV64GCV *)cpu)->CSR[CSR_MEPC] = cpu->instructionPointer;
+                (((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) ^=
+                    (((RV64GCV *)cpu)->CSR[3088] << 11) ^ ((((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MPP);
+                ((RV64GCV *)cpu)->CSR[3088] = PRV_M;
                 etiss::log(etiss::VERBOSE, "Privilege mode is changed to machine mdoe: " + etiss::toString(PRV_M));
                 // Customized handler address other than specified in RISC-V ISA
                 // manual
@@ -200,10 +211,10 @@ etiss::int32 RV64IMACVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
                     cpu->instructionPointer = addr;
                     break;
                 }
-                if (((RV64IMACV *)cpu)->CSR[CSR_MTVEC] & 0x1)
-                    cpu->instructionPointer = (((RV64IMACV *)cpu)->CSR[CSR_MTVEC] & ~0x3) + causeCode * 4;
+                if (((RV64GCV *)cpu)->CSR[CSR_MTVEC] & 0x1)
+                    cpu->instructionPointer = (((RV64GCV *)cpu)->CSR[CSR_MTVEC] & ~0x3) + causeCode * 4;
                 else
-                    cpu->instructionPointer = ((RV64IMACV *)cpu)->CSR[CSR_MTVEC] & ~0x3;
+                    cpu->instructionPointer = ((RV64GCV *)cpu)->CSR[CSR_MTVEC] & ~0x3;
             }
             break;
         }
@@ -216,7 +227,7 @@ etiss::int32 RV64IMACVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
     switch (cause)
     {
     case etiss::RETURNCODE::INTERRUPT:
-        if (!((((RV64IMACV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MIE))
+        if (!((((RV64GCV *)cpu)->CSR[CSR_MSTATUS]) & MSTATUS_MIE))
         {
             std::stringstream msg;
             msg << "Interrupt handling is globally disabled. Interrupt line is "
@@ -227,7 +238,7 @@ etiss::int32 RV64IMACVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
             break;
         }
         {
-            etiss_uint64 mip_tmp = ((((RV64IMACV *)cpu))->CSR[CSR_MIP]);
+            etiss_uint64 mip_tmp = ((((RV64GCV *)cpu))->CSR[CSR_MIP]);
             if (0 == mip_tmp)
             {
                 handledCause = etiss::RETURNCODE::NOERROR;
@@ -241,7 +252,7 @@ etiss::int32 RV64IMACVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
                     irqLine = i;
             }
 
-            if (!(((((RV64IMACV *)cpu))->CSR[CSR_MIE]) & (static_cast<etiss_uint64>(1) << irqLine)))
+            if (!(((((RV64GCV *)cpu))->CSR[CSR_MIE]) & (static_cast<etiss_uint64>(1) << irqLine)))
             {
                 std::stringstream msg;
                 handledCause = etiss::RETURNCODE::NOERROR;
@@ -282,7 +293,7 @@ etiss::int32 RV64IMACVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
         disableItr();
         std::stringstream msg;
         msg << "Illegal instruction at address: 0x" << std::hex << cpu->instructionPointer << std::endl;
-        ((RV64IMACV *)cpu)->CSR[CSR_MTVAL] = cpu->instructionPointer;
+        ((RV64GCV *)cpu)->CSR[CSR_MTVAL] = cpu->instructionPointer;
         // Point to next instruction
         cpu->instructionPointer += 4;
         etiss::log(etiss::WARNING, msg.str());
@@ -323,7 +334,7 @@ etiss::int32 RV64IMACVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
     case etiss::RETURNCODE::SYSCALL:
 
         disableItr();
-        switch (((RV64IMACV *)cpu)->CSR[3088])
+        switch (((RV64GCV *)cpu)->CSR[3088])
         {
         case PRV_U:
             handledCause = handle(CAUSE_USER_ECALL, 0);
@@ -345,7 +356,7 @@ etiss::int32 RV64IMACVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
         disableItr();
         std::stringstream msg;
         msg << "Illegal instruction access at address: 0x" << std::hex << cpu->instructionPointer << std::endl;
-        ((RV64IMACV *)cpu)->CSR[CSR_MTVAL] = cpu->instructionPointer;
+        ((RV64GCV *)cpu)->CSR[CSR_MTVAL] = cpu->instructionPointer;
         // Point to next instruction
         cpu->instructionPointer += 4;
         etiss::log(etiss::WARNING, msg.str());
@@ -392,9 +403,8 @@ etiss::int32 RV64IMACVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
                                 };
 
 */
-void RV64IMACVArch::initInstrSet(etiss::instr::ModedInstructionSet &mis) const
+void RV64GCVArch::initInstrSet(etiss::instr::ModedInstructionSet &mis) const
 {
-    
     {
      /* Set default JIT Extensions. Read Parameters set from ETISS configuration and append with architecturally needed */
      std::string cfgPar = "";
@@ -414,9 +424,9 @@ void RV64IMACVArch::initInstrSet(etiss::instr::ModedInstructionSet &mis) const
     {
         // Pre-compilation of instruction set to view instruction tree. Could be
         // disabled.
-        /*etiss::instr::ModedInstructionSet iset("RV64IMACVISA");
+        /*etiss::instr::ModedInstructionSet iset("RV64GCVISA");
         bool ok = true;
-        RV64IMACVISA.addTo(iset, ok);
+        RV64GCVISA.addTo(iset, ok);
 
         iset.compile();
 
@@ -424,9 +434,9 @@ void RV64IMACVArch::initInstrSet(etiss::instr::ModedInstructionSet &mis) const
     }
 
     bool ok = true;
-    RV64IMACVISA.addTo(mis, ok);
+    RV64GCVISA.addTo(mis, ok);
     if (!ok)
-        etiss::log(etiss::FATALERROR, "Failed to add instructions for RV64IMACVISA");
+        etiss::log(etiss::FATALERROR, "Failed to add instructions for RV64GCVISA");
 
     etiss::instr::VariableInstructionSet *vis = mis.get(1);
 
@@ -542,7 +552,7 @@ void RV64IMACVArch::initInstrSet(etiss::instr::ModedInstructionSet &mis) const
         @attention Default endianess: little-endian
 
 */
-void RV64IMACVArch::compensateEndianess(ETISS_CPU *cpu, etiss::instr::BitArray &ba) const
+void RV64GCVArch::compensateEndianess(ETISS_CPU *cpu, etiss::instr::BitArray &ba) const
 {
     /**************************************************************************
      *		                Endianess compensation *
@@ -550,7 +560,7 @@ void RV64IMACVArch::compensateEndianess(ETISS_CPU *cpu, etiss::instr::BitArray &
 }
 
 /**
-        @brief VirtualStruct for RV64IMACV architecture to faciliate register
+        @brief VirtualStruct for RV64GCV architecture to faciliate register
    acess
 
         @details VirtualStruct enables user to access certain register via their
@@ -578,12 +588,12 @@ class RegField : public etiss::VirtualStruct::Field
     virtual ~RegField() {}
 
   protected:
-    virtual uint64_t _read() const { return (uint64_t) * ((RV64IMACV *)parent_.structure_)->X[gprid_]; }
+    virtual uint64_t _read() const { return (uint64_t) * ((RV64GCV *)parent_.structure_)->X[gprid_]; }
 
     virtual void _write(uint64_t val)
     {
         etiss::log(etiss::VERBOSE, "write to ETISS cpu state", name_, val);
-        *((RV64IMACV *)parent_.structure_)->X[gprid_] = (etiss_uint64)val;
+        *((RV64GCV *)parent_.structure_)->X[gprid_] = (etiss_uint64)val;
     }
 };
 
@@ -632,7 +642,7 @@ class CSRField : public etiss::VirtualStruct::Field
     }
 };
 
-std::shared_ptr<etiss::VirtualStruct> RV64IMACVArch::getVirtualStruct(ETISS_CPU *cpu)
+std::shared_ptr<etiss::VirtualStruct> RV64GCVArch::getVirtualStruct(ETISS_CPU *cpu)
 {
     auto ret = etiss::VirtualStruct::allocate(cpu, [](etiss::VirtualStruct::Field *f) { delete f; });
 
@@ -652,18 +662,18 @@ std::shared_ptr<etiss::VirtualStruct> RV64IMACVArch::getVirtualStruct(ETISS_CPU 
    edge/level triggered interrupt incoming. The content of interrupt vector
    could be a special register or standalone interrupt lines.
 */
-etiss::InterruptVector *RV64IMACVArch::createInterruptVector(ETISS_CPU *cpu)
+etiss::InterruptVector *RV64GCVArch::createInterruptVector(ETISS_CPU *cpu)
 {
     if (cpu == 0)
         return 0;
-    RV64IMACV *riscvcpu = (RV64IMACV *)cpu;
+    RV64GCV *riscvcpu = (RV64GCV *)cpu;
     std::vector<etiss::uint64 *> vec;
     vec.push_back(&riscvcpu->CSR[CSR_MIP]);
     std::vector<etiss::uint64 *> mask;
     mask.push_back(&riscvcpu->CSR[CSR_MIE]);
     return new etiss::MappedInterruptVector<etiss::uint64>(vec, mask);
 }
-void RV64IMACVArch::deleteInterruptVector(etiss::InterruptVector *vec, ETISS_CPU *cpu)
+void RV64GCVArch::deleteInterruptVector(etiss::InterruptVector *vec, ETISS_CPU *cpu)
 {
     delete vec;
 }

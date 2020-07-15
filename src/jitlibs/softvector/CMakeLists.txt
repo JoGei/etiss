@@ -6,7 +6,7 @@ SET(ETISS_PREFIX ${CMAKE_SOURCE_DIR})
 SET(INCLUDE_TESTS 0)
 #ADD_SUBDIRECTORY(extern)
 
-SET(TARGET_ARCH "RV64IMACV" CACHE STRING "No Target specified. Assuming softvector for etiss ArchImpl RV64IMACV.")
+SET(TARGET_ARCH "RV64GCV" CACHE STRING "No Target specified. Assuming softvector for etiss ArchImpl RV64GCV.")
 set(PLACE_HOLD_VCPUARCH ${TARGET_ARCH})	
 CONFIGURE_FILE(extern/src/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.cpp.in ${CMAKE_CURRENT_BINARY_DIR}/extern/src/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.cpp @ONLY)
 

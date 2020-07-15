@@ -2,17 +2,17 @@
 // If necessary please modify this file according to the instructions
 // Contact: eda@tum
 
-#ifndef ETISS_RV64IMACVArch_RV64IMACVGDBCORE_H_
-#define ETISS_RV64IMACVArch_RV64IMACVGDBCORE_H_
+#ifndef ETISS_RV64GCVArch_RV64GCVGDBCORE_H_
+#define ETISS_RV64GCVArch_RV64GCVGDBCORE_H_
 
 #include "etiss/IntegratedLibrary/gdb/GDBCore.h"
 #include <sstream>
 
 /**
-	@brief This class is the brige between RV64IMACV architecture and gdbserver
+	@brief This class is the brige between RV64GCV architecture and gdbserver
 	
 	@details Gdbserver integrated in ETISS calls GDBCore to read/write registers via virtualStrruct
-			 The index in mapRegister() should strictly follow the RV64IMACV gdb tool defined register 
+			 The index in mapRegister() should strictly follow the RV64GCV gdb tool defined register 
 			 order. Because gdbserver will send raw register data sequentially in strict order over
 			 RSP ->TCP/IP ->RSP protocal
 			 
@@ -22,10 +22,10 @@
 			 
 			 By default only general purpose register and instruction pointer are supported. Further
 			 Special Function Register/Control and Status Register could be added manually. Meanwhile
-			 virtualStruct in RV64IMACVArch.cpp should be modified as well as well
+			 virtualStruct in RV64GCVArch.cpp should be modified as well as well
 	
 */
-class RV64IMACVGDBCore : public etiss::plugin::gdb::GDBCore {
+class RV64GCVGDBCore : public etiss::plugin::gdb::GDBCore {
 public:
 	std::string mapRegister(unsigned index){
 		if (index < 32){
@@ -60,7 +60,7 @@ public:
 	}
 	
 	bool isLittleEndian(){
-		// Modify according to RV64IMACV manual
+		// Modify according to RV64GCV manual
 		return true;
 	}
 	};

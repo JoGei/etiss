@@ -1,9 +1,9 @@
-// This file was generated on Sun Jul 05 12:37:36 CEST 2020
+// This file was generated on Wed Jul 15 10:42:25 CEST 2020
 // If necessary please modify this file according to the instructions
 // Contact: eda@tum
 
-#ifndef ETISS_RV64IMACVArch_RV64IMACV_H_
-#define ETISS_RV64IMACVArch_RV64IMACV_H_
+#ifndef ETISS_RV64GCVArch_RV64GCV_H_
+#define ETISS_RV64GCVArch_RV64GCV_H_
 #include <stdio.h>
 #include "etiss/jit/CPU.h"
 
@@ -11,7 +11,7 @@
 extern "C" {
 #endif
 #pragma pack(push, 1) 
-struct RV64IMACV {
+struct RV64GCV {
 	ETISS_CPU cpu; // original cpu struct must be defined as the first field of the new structure. this allows to cast X * to ETISS_CPU * and vice vers
 	etiss_uint64 ZERO;
 	etiss_uint64 RA;
@@ -47,14 +47,14 @@ struct RV64IMACV {
 	etiss_uint64 T6;
 	etiss_uint64 *X[32];
 	etiss_uint64 ins_X[32];
-	etiss_uint8 V[4096];
+	etiss_uint64 V;
 	etiss_uint64 CSR[4096];
 	etiss_uint64 FENCE[4];
 	etiss_uint64 RES;
 };
 
 #pragma pack(pop) // undo changes
-typedef struct RV64IMACV RV64IMACV; // convenient use of X instead of struct X in generated C code
+typedef struct RV64GCV RV64GCV; // convenient use of X instead of struct X in generated C code
 #ifdef __cplusplus
 } // extern "C"
 #endif

@@ -1,23 +1,23 @@
-// This file was generated on Sun Jul 05 12:37:36 CEST 2020
+// This file was generated on Wed Jul 15 10:42:25 CEST 2020
 // If necessary please modify this file according to the instructions
 // Contact: eda@tum
 
-#ifndef ETISS_RV64IMACVArch_RV64IMACVArch_H_
-#define ETISS_RV64IMACVArch_RV64IMACVArch_H_
+#ifndef ETISS_RV64GCVArch_RV64GCVArch_H_
+#define ETISS_RV64GCVArch_RV64GCVArch_H_
 
 #include "etiss/CPUArch.h"
 #include "etiss/Instruction.h"
 #include "etiss/InterruptVector.h"
-#include "RV64IMACV.h"
-#include "RV64IMACVGDBCore.h"
+#include "RV64GCV.h"
+#include "RV64GCVGDBCore.h"
 
 #include <map>
 
-class RV64IMACVArch : public etiss::CPUArch {
+class RV64GCVArch : public etiss::CPUArch {
 
 public:
 
-	RV64IMACVArch();
+	RV64GCVArch();
 
 	virtual const std::set<std::string> & getListenerSupportedRegisters();
 
@@ -29,7 +29,7 @@ public:
 	/**
 		@brief get the VirtualStruct of the core to mitigate register access
 		
-		@see RV64IMACVArchSpecificImp.h
+		@see RV64GCVArchSpecificImp.h
 	*/
 	virtual std::shared_ptr<etiss::VirtualStruct> getVirtualStruct(ETISS_CPU * cpu);
 
@@ -44,7 +44,7 @@ public:
 	virtual unsigned getInstructionSizeInBytes();
 
 	/**
-		@brief required headers (RV64IMACV.h)
+		@brief required headers (RV64GCV.h)
 	*/
 	virtual const std::set<std::string> & getHeaders() const;
 
@@ -52,14 +52,14 @@ public:
 		@brief This function will be called automatically in order to handling architecure dependent exceptions such 
 		       as interrupt, system call, illegal instructions
 
-		@see RV64IMACVArchSpecificImp.h
+		@see RV64GCVArchSpecificImp.h
 	*/
 	virtual etiss::int32 handleException(etiss::int32 code,ETISS_CPU * cpu);
 
 	/**
 		@brief This function is called during CPUArch initialization
 
-		@see RV64IMACVArchSpecificImp.h
+		@see RV64GCVArchSpecificImp.h
 	*/
 	virtual void initInstrSet(etiss::instr::ModedInstructionSet & ) const;
 	virtual void initCodeBlock(etiss::CodeBlock & cb) const;
@@ -68,22 +68,22 @@ public:
 		@brief Target architecture may have inconsistent endianess. Data read from memory is buffered, and this function 			       
 			   is called to alter sequence of buffered data so that the inconsistent endianess is compensated.
 
-		@see RV64IMACVArchSpecificImp.h
+		@see RV64GCVArchSpecificImp.h
 	*/
 	virtual void compensateEndianess(ETISS_CPU * cpu,etiss::instr::BitArray & ba) const ;
 	
 	/**
 		@brief If interrupt handling is expected, vector table could be provided to support interrupt triggering
 
-		@see RV64IMACVArchSpecificImp.h
+		@see RV64GCVArchSpecificImp.h
 	*/
 	virtual etiss::InterruptVector * createInterruptVector(ETISS_CPU * cpu);
 	virtual void deleteInterruptVector(etiss::InterruptVector * vec,ETISS_CPU * cpu);
 	
 	/**
-		@brief get the GDBcore for RV64IMACV architecture
+		@brief get the GDBcore for RV64GCV architecture
 		
-		@see RV64IMACVGDBCore.h for implementation of GDBcore
+		@see RV64GCVGDBCore.h for implementation of GDBcore
 	*/
 	virtual etiss::plugin::gdb::GDBCore & getGDBCore();
 
@@ -91,7 +91,7 @@ private:
 
 	std::set<std::string> listenerSupportedRegisters_;
 	std::set<std::string> headers_;
-	RV64IMACVGDBCore gdbcore_;
+	RV64GCVGDBCore gdbcore_;
 
 
 };

@@ -40,27 +40,27 @@
 
 */
 
-#include "RV64IMACVTimer.h"
+#include "RV64GCVTimer.h"
 #include "Encoding.h"
 #include "etiss/CPUArch.h"
 
 static etiss_int32 iread(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss_uint32 length)
 {
-    RV64IMACVTimerSystem *lsys = ((RV64IMACVTimerSystem *)handle);
+    RV64GCVTimerSystem *lsys = ((RV64GCVTimerSystem *)handle);
     ETISS_System *sys = lsys->orig;
     return sys->iread(sys->handle, cpu, addr, length);
 }
 
 static etiss_int32 iwrite(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss_uint8 *buffer, etiss_uint32 length)
 {
-    RV64IMACVTimerSystem *lsys = ((RV64IMACVTimerSystem *)handle);
+    RV64GCVTimerSystem *lsys = ((RV64GCVTimerSystem *)handle);
     ETISS_System *sys = lsys->orig;
     return sys->iwrite(sys->handle, cpu, addr, buffer, length);
 }
 
 etiss_int32 dread(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss_uint8 *buffer, etiss_uint32 length)
 {
-    RV64IMACVTimerSystem *lsys = ((RV64IMACVTimerSystem *)handle);
+    RV64GCVTimerSystem *lsys = ((RV64GCVTimerSystem *)handle);
     char *mtime_buf;
     switch (addr & 0xfffffff0)
     {
@@ -81,7 +81,7 @@ etiss_int32 dread(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss_uint8 *
 
 static etiss_int32 dwrite(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss_uint8 *buffer, etiss_uint32 length)
 {
-    RV64IMACVTimerSystem *lsys = ((RV64IMACVTimerSystem *)handle);
+    RV64GCVTimerSystem *lsys = ((RV64GCVTimerSystem *)handle);
     switch (addr & 0xfffffff0)
     {
     case MTIME_ADDR:
@@ -100,7 +100,7 @@ static etiss_int32 dwrite(void *handle, ETISS_CPU *cpu, etiss_uint64 addr, etiss
 
 static etiss_int32 dbg_read(void *handle, etiss_uint64 addr, etiss_uint8 *buffer, etiss_uint32 length)
 {
-    RV64IMACVTimerSystem *lsys = ((RV64IMACVTimerSystem *)handle);
+    RV64GCVTimerSystem *lsys = ((RV64GCVTimerSystem *)handle);
     char *mtime_buf;
     switch (addr & 0xfffffff0)
     {
@@ -121,7 +121,7 @@ static etiss_int32 dbg_read(void *handle, etiss_uint64 addr, etiss_uint8 *buffer
 
 static etiss_int32 dbg_write(void *handle, etiss_uint64 addr, etiss_uint8 *buffer, etiss_uint32 length)
 {
-    RV64IMACVTimerSystem *lsys = ((RV64IMACVTimerSystem *)handle);
+    RV64GCVTimerSystem *lsys = ((RV64GCVTimerSystem *)handle);
     switch (addr & 0xfffffff0)
     {
     case MTIME_ADDR:
@@ -140,12 +140,12 @@ static etiss_int32 dbg_write(void *handle, etiss_uint64 addr, etiss_uint8 *buffe
 
 static void syncTime(void *handle, ETISS_CPU *cpu)
 {
-    RV64IMACVTimerSystem *lsys = ((RV64IMACVTimerSystem *)handle);
+    RV64GCVTimerSystem *lsys = ((RV64GCVTimerSystem *)handle);
     ETISS_System *sys = lsys->orig;
     sys->syncTime(sys->handle, cpu);
 }
 
-RV64IMACVTimer::RV64IMACVTimer()
+RV64GCVTimer::RV64GCVTimer()
     : mtime_(0)
     , mtimecmp_(0)
     , timer_enabled_(false)
@@ -157,7 +157,7 @@ RV64IMACVTimer::RV64IMACVTimer()
     memset(mtimecmp_buf_, 0, 8);
 }
 
-etiss::int32 RV64IMACVTimer::execute()
+etiss::int32 RV64GCVTimer::execute()
 {
 
     etiss::uint64 new_mtime = ((ETISS_CPU *)riscv64cpu)->cpuTime_ps / ((ETISS_CPU *)riscv64cpu)->cpuCycleTime_ps;
@@ -212,10 +212,10 @@ etiss::int32 RV64IMACVTimer::execute()
     return etiss::RETURNCODE::NOERROR;
 }
 
-ETISS_System *RV64IMACVTimer::wrap(ETISS_CPU *cpu, ETISS_System *system)
+ETISS_System *RV64GCVTimer::wrap(ETISS_CPU *cpu, ETISS_System *system)
 {
 
-    RV64IMACVTimerSystem *ret = new RV64IMACVTimerSystem();
+    RV64GCVTimerSystem *ret = new RV64GCVTimerSystem();
 
     ret->sys.iread = &iread;
     ret->sys.iwrite = &iwrite;
@@ -234,12 +234,12 @@ ETISS_System *RV64IMACVTimer::wrap(ETISS_CPU *cpu, ETISS_System *system)
     return (ETISS_System *)ret;
 }
 
-ETISS_System *RV64IMACVTimer::unwrap(ETISS_CPU *cpu, ETISS_System *system)
+ETISS_System *RV64GCVTimer::unwrap(ETISS_CPU *cpu, ETISS_System *system)
 {
 
-    ETISS_System *ret = ((RV64IMACVTimerSystem *)system)->orig;
+    ETISS_System *ret = ((RV64GCVTimerSystem *)system)->orig;
 
-    delete (RV64IMACVTimerSystem *)system;
+    delete (RV64GCVTimerSystem *)system;
 
     return ret;
 }

@@ -7,32 +7,21 @@ SET(INCLUDE_TESTS 0)
 #ADD_SUBDIRECTORY(extern)
 
 SET(TARGET_ARCH "RV64GCV" CACHE STRING "No Target specified. Assuming softvector for etiss ArchImpl RV64GCV.")
-set(PLACE_HOLD_VCPUARCH ${TARGET_ARCH})	
-CONFIGURE_FILE(extern/src/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.cpp.in ${CMAKE_CURRENT_BINARY_DIR}/extern/src/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.cpp @ONLY)
 
-ADD_LIBRARY(${PROJECT_NAME} STATIC
-	extern/src/vpu/softvector-element.cpp
-	extern/src/vpu/softvector-vector.cpp
-	extern/src/vpu/softvector-register.cpp
-	extern/src/target/${TARGET_PLATFORM_NAME}/base/base.cpp
-	extern/src/target/${TARGET_PLATFORM_NAME}/lsu/lsu.cpp
-	extern/src/target/${TARGET_PLATFORM_NAME}/arithmetic/integer.cpp
-	${CMAKE_CURRENT_BINARY_DIR}/extern/src/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.cpp
-)
-TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PUBLIC
-   extern/include
-   extern/include/target/${TARGET_PLATFORM_NAME}
-   extern/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}
-   ${ETISS_PREFIX}/include
-   ${ETISS_PREFIX}/include_c
-   ${ETISS_PREFIX}/ArchImpl/${TARGET_ARCH}
+include(FetchContent)
+FetchContent_Declare(softvector_srcs
+	GIT_REPOSITORY https://github.com/tum-ei-eda/softvector.git
+	GIT_TAG master
 )
 
-
-INSTALL(FILES
-    extern/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.h DESTINATION include/jit/etiss/jit/vpu
-)
-INSTALL(FILES
-    extern/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.h DESTINATION include/etiss/jit/vpu
-)
-InstallJitLib(softvector)
+if(NOT softvector_srcs_POPULATED)
+	FetchContent_Populate(softvector_srcs)
+	FetchContent_GetProperties(softvector_srcs)
+	set(EXTERNAL_INSTALL_LOCATION ${softvector_srcs_SOURCE_DIR})
+	INSTALL(FILES ${softvector_srcs_SOURCE_DIR}/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.h DESTINATION include/jit/etiss/jit/vpu )
+	INSTALL(FILES
+    ${softvector_srcs_SOURCE_DIR}/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.h DESTINATION include/etiss/jit/vpu )
+	SET(SOFTVECTOR_BUILD_DOC OFF)
+	ADD_SUBDIRECTORY(${softvector_srcs_SOURCE_DIR} ${softvector_srcs_BINARY_DIR})
+	InstallJitLib(softvector)
+endif()

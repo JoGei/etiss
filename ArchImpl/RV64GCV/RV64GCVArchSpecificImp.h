@@ -111,18 +111,6 @@ etiss::int32 RV64GCVArch::handleException(etiss::int32 cause, ETISS_CPU *cpu)
 
         msg << "--------Dump the VPU state--------" << std::endl;
         auto VLEN = ((RV64GCV *)cpu)->CSR[3106]*8;
-
-        if ( unlikely( reinterpret_cast<etiss_uint8*>(((RV64GCV *)cpu)->V) == nullptr)) {
-			/* Get the Vector Units implementation platform config*/
-			int vlen = etiss::cfg().get<int>("RVV::VLEN", 1024);
-			int elen = etiss::cfg().get<int>("RVV::ELEN", 1024);
-			int slen = etiss::cfg().get<int>("RVV::SLEN", 1024);
-			((RV64GCV *)cpu)->CSR[3106] = vlen/8;
-
-			// Allocate vector register space.
-			((RV64GCV *)cpu)->V = reinterpret_cast<etiss_uint64>(new etiss_uint8[32*vlen/8]);
-		}
-
         for (uint32_t i = 0; i < 32; ++i)
         {
            	std::stringstream ss;
@@ -666,6 +654,7 @@ etiss::InterruptVector *RV64GCVArch::createInterruptVector(ETISS_CPU *cpu)
 {
     if (cpu == 0)
         return 0;
+
     RV64GCV *riscvcpu = (RV64GCV *)cpu;
     std::vector<etiss::uint64 *> vec;
     vec.push_back(&riscvcpu->CSR[CSR_MIP]);

@@ -39,6 +39,8 @@
 using namespace etiss ;
 using namespace etiss::instr ;
 
+etiss_uint64 V;
+
 RV64GCVArch::RV64GCVArch():CPUArch("RV64GCV") 
 {
 	headers_.insert("Arch/RV64GCV/RV64GCV.h");
@@ -53,7 +55,13 @@ ETISS_CPU * RV64GCVArch::newCPU()
 {
     ETISS_CPU * ret = (ETISS_CPU *) new RV64GCV() ;
     resetCPU (ret, 0);
-    return ret;
+
+	if ( unlikely( reinterpret_cast<etiss_uint8*>(((RV64GCV *)ret)->V) == nullptr)) {
+		// Allocate vector register space.
+		V = reinterpret_cast<etiss_uint64>(new etiss_uint8[32*(etiss::cfg().get<int>("RVV::VLEN", 1024))/8]);
+	}
+	
+	return ret;
 }
 
 void RV64GCVArch::resetCPU(ETISS_CPU * cpu,etiss::uint64 * startpointer)
@@ -139,7 +147,7 @@ void RV64GCVArch::resetCPU(ETISS_CPU * cpu,etiss::uint64 * startpointer)
 	rv64gcvcpu->X[30] = & (rv64gcvcpu->T5);
 	rv64gcvcpu->T6 = 0;
 	rv64gcvcpu->X[31] = & (rv64gcvcpu->T6);
-	rv64gcvcpu->V = 0;
+	rv64gcvcpu->V = V;
 	for (int i = 0; i<4096 ;i++){
 		rv64gcvcpu->CSR[i] = 0;
 	}
@@ -155,7 +163,7 @@ void RV64GCVArch::resetCPU(ETISS_CPU * cpu,etiss::uint64 * startpointer)
 	rv64gcvcpu->CSR[15] = 0;								
 	rv64gcvcpu->CSR[3104] = 0;								
 	rv64gcvcpu->CSR[3105] = -9223372036854775808;								
-	rv64gcvcpu->CSR[3106] = 128;								
+	rv64gcvcpu->CSR[3106] = etiss::cfg().get<int>("RVV::VLEN", 1024)/8;								
 	for (int i = 0; i<4 ;i++){
 		rv64gcvcpu->FENCE[i] = 0;
 	}

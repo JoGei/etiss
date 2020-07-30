@@ -1,12 +1,11 @@
+SET(ETISS_PREFIX ${PROJECT_SOURCE_DIR})
+
 PROJECT(softvector)
 
-SET(TARGET_PLATFORM_NAME riscv)
-SET(TARGET_NAME etiss)
-SET(ETISS_PREFIX ${CMAKE_SOURCE_DIR})
+SET(TARGET_PLATFORM_NAME "riscv")
+SET(TARGET_NAME "etiss")
 SET(INCLUDE_TESTS 0)
-#ADD_SUBDIRECTORY(extern)
-
-SET(TARGET_ARCH "RV64GCV" CACHE STRING "No Target specified. Assuming softvector for etiss ArchImpl RV64GCV.")
+SET(TARGET_ARCH "RV64GCV")
 
 include(FetchContent)
 FetchContent_Declare(softvector_srcs
@@ -22,6 +21,7 @@ if(NOT softvector_srcs_POPULATED)
 	INSTALL(FILES
     ${softvector_srcs_SOURCE_DIR}/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.h DESTINATION include/etiss/jit/vpu )
 	SET(SOFTVECTOR_BUILD_DOC OFF)
-	ADD_SUBDIRECTORY(${softvector_srcs_SOURCE_DIR} ${softvector_srcs_BINARY_DIR})
-	InstallJitLib(softvector)
 endif()
+
+ADD_SUBDIRECTORY(${softvector_srcs_SOURCE_DIR} ${softvector_srcs_BINARY_DIR})
+InstallJitLib(softvector)

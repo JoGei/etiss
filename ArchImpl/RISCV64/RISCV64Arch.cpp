@@ -170,9 +170,11 @@ void RISCV64Arch::resetCPU(ETISS_CPU * cpu,etiss::uint64 * startpointer)
 	for (int i = 0; i<4096 ;i++){
 		riscv64cpu->CSR[i] = 0;
 	}
-	riscv64cpu->CSR[0] = 15;								
-	riscv64cpu->CSR[256] = 15;								
+
 	riscv64cpu->CSR[768] = 15;								
+	riscv64cpu->CSR[768] |= ( ((etiss::uint64)0x1 << 33) | ((etiss::uint64)0x1 << 35) );								
+  riscv64cpu->CSR[0] = riscv64cpu->CSR[768];								
+	riscv64cpu->CSR[256] = riscv64cpu->CSR[768];								
 	riscv64cpu->CSR[260] = 4294967295;								
 	riscv64cpu->CSR[769] = 1315077;								
 	riscv64cpu->CSR[3088] = 3;								

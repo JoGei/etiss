@@ -93,7 +93,9 @@ namespace etiss
     }
     
     void load(const void* data){
-      memcpy(mem_, data, size_);
+      if(data != nullptr){
+        memcpy(mem_, data, size_);
+      }
     }
     
     inline bool addr_in_range(etiss::uint64 addr) const {

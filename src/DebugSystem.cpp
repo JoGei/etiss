@@ -147,7 +147,8 @@ etiss::int8 DebugSystem::load_elf(const char* elf_file){
       } else {
         break;
       }
-      if( add_memsegment(std::move(mseg), seg->get_data()) < 0) {
+      if(mseg and seg->get_data()) {
+        add_memsegment(std::move(mseg), seg->get_data());
       }
     }
   }
@@ -275,6 +276,7 @@ etiss::int32 DebugSystem::dread(ETISS_CPU *, etiss::uint64 addr, etiss::uint8 *b
           Trace(addr, len, false, _print_to_file, trace_file_dbus_);
         }
       } else {
+        std::cout << std::hex << addr << std::dec << std::endl;
         std::stringstream msg;
         msg << "length (" << len << ") of databus access out of bounds for DebugSystem::dread at associated segment " 
           <<  msegs_[i_seg]->name_ << "\n";
@@ -378,6 +380,7 @@ etiss::int32 DebugSystem::dwrite(ETISS_CPU *, etiss::uint64 addr, etiss::uint8 *
         Trace(addr, len, true, _print_to_file, trace_file_dbus_);
       }
     } else {
+      std::cout << std::hex << addr << std::dec << std::endl;
       std::stringstream msg;
       msg << "length (" << len << ") of databus access out of bounds for DebugSystem::dwrite at associated segment " 
         << msegs_[i_seg]->name_ << "\n";
@@ -466,6 +469,7 @@ etiss::int32 DebugSystem::dbg_read(etiss::uint64 addr, etiss::uint8 *buf, etiss:
       if ( msegs_[i_seg]->payload_in_range(addr, len) ) {
         memcpy(buf, msegs_[i_seg]->mem_ + offset, len);
       } else {
+        std::cout << std::hex << addr << std::dec << std::endl;
         std::stringstream msg;
         msg << "length (" << len << ") of databus access out of bounds for DebugSystem::dbg_read at associated segment " 
           <<  msegs_[i_seg]->name_ << "\n";
@@ -558,6 +562,7 @@ etiss::int32 DebugSystem::dbg_write(etiss::uint64 addr, etiss::uint8 *buf, etiss
     if ( msegs_[i_seg]->payload_in_range(addr, len) ) {
       memcpy(msegs_[i_seg]->mem_ + offset, buf, len);
     } else {
+      std::cout << std::hex << addr << std::dec << std::endl;
       std::stringstream msg;
       msg << "length (" << len << ") of databus access out of bounds for DebugSystem::dbg_write at associated segment " 
         << msegs_[i_seg]->name_ << "\n";

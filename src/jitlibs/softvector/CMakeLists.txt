@@ -17,9 +17,12 @@ if(NOT softvector_srcs_POPULATED)
 	FetchContent_Populate(softvector_srcs)
 	FetchContent_GetProperties(softvector_srcs)
 	set(EXTERNAL_INSTALL_LOCATION ${softvector_srcs_SOURCE_DIR})
-	INSTALL(FILES ${softvector_srcs_SOURCE_DIR}/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.h DESTINATION include/jit/etiss/jit/vpu )
-	INSTALL(FILES
-    ${softvector_srcs_SOURCE_DIR}/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.h DESTINATION include/etiss/jit/vpu )
+	CONFIGURE_FILE(
+		${softvector_srcs_SOURCE_DIR}/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.h 
+		${softvector_srcs_SOURCE_DIR}/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/libsoftvector.h
+		COPYONLY
+	)
+	INSTALL(FILES ${softvector_srcs_SOURCE_DIR}/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/libsoftvector.h DESTINATION include/jit/etiss/jit)
 	SET(SOFTVECTOR_BUILD_DOC OFF)
 endif()
 

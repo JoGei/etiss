@@ -1,9 +1,8 @@
 SET(ETISS_PREFIX ${PROJECT_SOURCE_DIR})
 
-PROJECT(softvector)
+PROJECT(etiss_softvector)
 
 SET(TARGET_PLATFORM_NAME "riscv")
-SET(TARGET_NAME "etiss")
 SET(INCLUDE_TESTS 0)
 SET(TARGET_ARCH "RV64GCV")
 
@@ -17,14 +16,30 @@ if(NOT softvector_srcs_POPULATED)
 	FetchContent_Populate(softvector_srcs)
 	FetchContent_GetProperties(softvector_srcs)
 	set(EXTERNAL_INSTALL_LOCATION ${softvector_srcs_SOURCE_DIR})
-	CONFIGURE_FILE(
-		${softvector_srcs_SOURCE_DIR}/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/softvector.h 
-		${softvector_srcs_SOURCE_DIR}/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/libsoftvector.h
-		COPYONLY
-	)
-	INSTALL(FILES ${softvector_srcs_SOURCE_DIR}/include/target/${TARGET_PLATFORM_NAME}/${TARGET_NAME}/libsoftvector.h DESTINATION include/jit/etiss/jit)
+	INSTALL(
+		FILES ${softvector_srcs_SOURCE_DIR}/include/target/${TARGET_PLATFORM_NAME}/softvector.h 
+		DESTINATION include/jit/etiss/jit)
 	SET(SOFTVECTOR_BUILD_DOC OFF)
 endif()
 
 ADD_SUBDIRECTORY(${softvector_srcs_SOURCE_DIR} ${softvector_srcs_BINARY_DIR})
+
+##################### SOFTVECTOR JIT LIBRARY #####################
+
+ADD_LIBRARY(${PROJECT_NAME} SHARED
+  etiss_softvector.cpp
+)
+
+TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PRIVATE
+  ${ETISS_PREFIX}/include_c
+  ${softvector_srcs_SOURCE_DIR}/include/target/${TARGET_PLATFORM_NAME}
+)
+
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} INTERFACE softvector)
+
+INSTALL(FILES
+  libsoftvector.h
+  DESTINATION include/jit/etiss/jit
+)
+InstallJitLib(${PROJECT_NAME})
 InstallJitLib(softvector)

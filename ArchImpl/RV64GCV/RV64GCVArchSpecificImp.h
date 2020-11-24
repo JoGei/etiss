@@ -397,16 +397,16 @@ void RV64GCVArch::initInstrSet(etiss::instr::ModedInstructionSet &mis) const
      /* Set default JIT Extensions. Read Parameters set from ETISS configuration and append with architecturally needed */
      std::string cfgPar = "";
      cfgPar = etiss::cfg().get<std::string>("JIT-External::Headers", ";");
-     etiss::cfg().set<std::string>("JIT-External::Headers", cfgPar + "etiss/jit/fpu/softfloat_orig.h;etiss/jit/fpu/libdbtrise_fp_funcs.h;etiss/jit/vpu/softvector.h"); 
+     etiss::cfg().set<std::string>("JIT-External::Headers", cfgPar + "etiss/jit/libsoftfloat.h;etiss/jit/libsoftvector.h;etiss/jit/softvector.h"); 
 
      cfgPar = etiss::cfg().get<std::string>("JIT-External::Libs", ";");
-     etiss::cfg().set<std::string>("JIT-External::Libs", cfgPar + "softfloat;dbtrise_fp_funcs;softvector");   
+     etiss::cfg().set<std::string>("JIT-External::Libs", cfgPar + "softfloat;softvector;etiss_softvector");   
      
      cfgPar = etiss::cfg().get<std::string>("JIT-External::HeaderPaths", ";");
-     etiss::cfg().set<std::string>("JIT-External::HeaderPaths", cfgPar + "/etiss/jit/fpu;/etiss/jit/vpu");
+     etiss::cfg().set<std::string>("JIT-External::HeaderPaths", cfgPar + "/etiss/jit");
      
      cfgPar = etiss::cfg().get<std::string>("JIT-External::LibPaths", ";");
-     etiss::cfg().set<std::string>("JIT-External::LibPaths", cfgPar + "/etiss/jit/fpu;/etiss/jit/vpu");
+     etiss::cfg().set<std::string>("JIT-External::LibPaths", cfgPar + "/etiss/jit");
     }     
     
     {

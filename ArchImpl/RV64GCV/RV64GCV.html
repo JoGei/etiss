@@ -3,7 +3,7 @@
 <!--
 @author: HTML Documentation Writer for nML Models by Konstantin Silbermann<k.silbermann@tum.de>
 @generated
-@date: Wed Jul 15 10:42:25 CEST 2020
+@date: Tue Nov 24 19:15:14 CET 2020
 
 @brief: HTML Documentation for RV64GCV
 
@@ -7991,6 +7991,1448 @@ PARTICULAR PURPOSE.
 </article>
 			<article>
 <br />
+<span class="b">vmseq.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011000</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmseq.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011000</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsgt.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011111</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsgt.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011111</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsgtu.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011110</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsgtu.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011110</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsle.vi</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">simm5</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011101</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">simm5</td>
+<td style="text-align:center;" colspan="3">011</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsle.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011101</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsle.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011101</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsleu.vi</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">uimm5</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011100</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">uimm5</td>
+<td style="text-align:center;" colspan="3">011</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsleu.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011100</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsleu.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011100</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmslt.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011011</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmslt.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011011</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsltu.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011010</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsltu.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011010</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsne.vi</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">simm5</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011001</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">simm5</td>
+<td style="text-align:center;" colspan="3">011</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsne.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011001</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmsne.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">011001</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmv.s.x</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">rs1</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">010000</td>
+			<td style="text-align:center;" colspan="1">1</td>
+			<td style="text-align:center;" colspan="5">00000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmv.v.i</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">simm5</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">010111</td>
+			<td style="text-align:center;" colspan="1">1</td>
+			<td style="text-align:center;" colspan="5">00000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">simm5</td>
+<td style="text-align:center;" colspan="3">011</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmv.v.v</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs1</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">010111</td>
+			<td style="text-align:center;" colspan="1">1</td>
+			<td style="text-align:center;" colspan="5">00000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmv.v.x</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">rs1</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">010111</td>
+			<td style="text-align:center;" colspan="1">1</td>
+			<td style="text-align:center;" colspan="5">00000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vmv.x.s</span>&nbsp;<span style="color:blue">rd</span>, <span style="color:blue">vs2</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">010000</td>
+			<td style="text-align:center;" colspan="1">1</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+<td style="text-align:center;" colspan="5">00000</td>
+			<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">rd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="b" style="color: maroon;">if</span> (<span class="operand">rd</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="varDef">ret</span> = ;<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+						&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">else</span><br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+						&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">endif</span><br />
+						<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
 <span class="b">vor.vi</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
 <span class="mono">
 <table>
@@ -8450,6 +9892,366 @@ PARTICULAR PURPOSE.
 </article>
 			<article>
 <br />
+<span class="b">vslide1down.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">001111</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">110</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vslide1up.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">001110</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">110</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vslidedown.vi</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">simm5</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">001111</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">simm5</td>
+<td style="text-align:center;" colspan="3">011</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vslidedown.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">001111</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vslideup.vi</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">simm5</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">001110</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">simm5</td>
+<td style="text-align:center;" colspan="3">011</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vslideup.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">001110</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
 <span class="b">vsll.vi</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
 <span class="mono">
 <table>
@@ -8875,6 +10677,1086 @@ PARTICULAR PURPOSE.
 <table>
 <tr>
 <td style="text-align:center;" colspan="6">101000</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vsub.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">000010</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vsub.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">000010</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwadd.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110001</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwadd.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110001</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwadd.w.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110101</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwadd.w.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110101</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwaddu.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110000</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwaddu.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110000</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwaddu.w.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110100</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwaddu.w.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110100</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwsub.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110011</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwsub.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110011</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwsub.w.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110111</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwsub.w.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110111</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwsubu.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110010</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwsubu.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110010</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">rs1</td>
+<td style="text-align:center;" colspan="3">100</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwsubu.w.vv</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">vs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110110</td>
+			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
+ 				<td style="text-align:center;color:blue;" colspan="5">vs1</td>
+<td style="text-align:center;" colspan="3">000</td>
+			 				<td style="text-align:center;color:blue;" colspan="5">vd</td>
+<td style="text-align:center;" colspan="7">1010111</td>
+</tr>
+<tr class="s">
+<td>31</td>
+<td>30</td>
+<td>29</td>
+<td>28</td>
+<td>27</td>
+<td>26</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>15</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>9</td>
+<td>8</td>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+</span><br /><br />
+<article class="mono">
+<span class="varDef">_vtype</span> = <span class="b">CSR</span>[3105];<br /><span class="varDef">_vstart</span> = <span class="b">CSR</span>[8];<br /><span class="varDef">_vl</span> = <span class="b">CSR</span>[3104];<br /><span class="varDef">_vlen</span> = (<span class="b">CSR</span>[3106] * 8);<br /><span class="varDef">ret</span> = ;<br /><span class="b" style="color: maroon;">if</span> (<span class="varDef">ret</span> != 0) <span class="b" style="color: maroon;">then</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = (<span class="varDef">ret</span> &gt;&gt; 8);<br />&nbsp;&nbsp;&nbsp;<span class="b" style="color: maroon;">exception</span>(illegalInstruction);<br />
+			<span class="b" style="color: maroon;">else</span><br />
+			&nbsp;&nbsp;&nbsp;<span class="b">CSR</span>[8] = 0;<br />
+			<span class="b" style="color: maroon;">endif</span><br />
+</article>
+<br />
+<hr />
+</article>
+			<article>
+<br />
+<span class="b">vwsubu.w.vx</span>&nbsp;<span style="color:blue">vd</span>, <span style="color:blue">vs2</span>, <span style="color:blue">rs1</span>, <span style="color:blue">vm</span><br />
+<span class="mono">
+<table>
+<tr>
+<td style="text-align:center;" colspan="6">110110</td>
 			 				<td style="text-align:center;color:blue;" colspan="1">vm</td>
  				<td style="text-align:center;color:blue;" colspan="5">vs2</td>
  				<td style="text-align:center;color:blue;" colspan="5">rs1</td>

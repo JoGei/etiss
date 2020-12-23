@@ -68,13 +68,15 @@ namespace etiss
   
   class MemSegment
   {
+    bool self_allocated_{false};
+
     public:
     typedef enum ACCESS{
       READ,
       WRITE,
     } access_t;
-    
-     //std::vector<etiss::uint8> mem_;
+
+    //std::vector<etiss::uint8> mem_;
     etiss::uint8* mem_;
     
     const std::string name_;
@@ -83,18 +85,27 @@ namespace etiss
     const etiss::uint64 size_;
     const access_t mode_;
 
-    MemSegment(etiss::uint8* mem, etiss::uint64 start_addr, etiss::uint64 size, access_t mode, const std::string name) :
-        mem_(mem)
-      , name_(name)
+    MemSegment(etiss::uint64 start_addr, etiss::uint64 size, access_t mode, const std::string name, etiss::uint8* mem = nullptr) :
+        name_(name)
       , start_addr_(start_addr)
       , end_addr_(start_addr + size -1)
       , size_(size)
       , mode_(mode) {
+      if(mem){ // use reserved memory
+        mem_ = mem;
+      } else {
+        mem_ = new etiss::uint8[size];
+        self_allocated_ = true;  
+      }
     }
     
-    void load(const void* data){
-      if(data != nullptr){
-        memcpy(mem_, data, size_);
+    virtual ~MemSegment(void){
+      delete[] mem_;
+    }
+    
+    void load(const void* data, size_t file_size_bytes){
+      if(data != nullptr and file_size_bytes <= size_){
+        memcpy(mem_, data, file_size_bytes);
       }
     }
     
@@ -118,7 +129,10 @@ namespace etiss
 class DebugSystem : public System
 {
   public:
+
     DebugSystem(uint32_t rom_start, uint32_t rom_size, uint32_t ram_start, uint32_t ram_size);
+    DebugSystem(void);
+
     virtual ~DebugSystem(void){
       for(auto& mseg: msegs_) mseg.reset();
     }
@@ -141,7 +155,7 @@ class DebugSystem : public System
     
     etiss::int8 load_elf(const char* file);
     etiss::uint64 get_startaddr(void){return (start_addr_);}
-    etiss::int8 add_memsegment(std::unique_ptr<MemSegment> mseg, const void* raw_data);
+    etiss::int8 add_memsegment(std::unique_ptr<MemSegment> mseg, const void* raw_data, size_t file_size_bytes);
   private:
     
     std::vector<std::unique_ptr<MemSegment>> msegs_{};

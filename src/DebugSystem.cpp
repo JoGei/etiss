@@ -123,10 +123,10 @@ etiss::int8 DebugSystem::load_elf(const char* elf_file){
     std::unique_ptr<MemSegment> mseg;
     etiss::uint64 start_addr = seg->get_physical_address();
     etiss::uint64 size = seg->get_memory_size();
+    size_t file_size = seg->get_file_size();
     MemSegment::access_t mode = (seg->get_type() & PF_W) ? MemSegment::WRITE : MemSegment::READ;
     std::stringstream sname;
-    sname << std::hex << std::setfill ('0') << std::setw(sizeof(etiss::uint64)*2)
-      << "[0x" << start_addr << "; " << "0x" << start_addr + size << "[";
+    sname << seg->get_index() << " - " << std::hex << std::setfill ('0') << (mode ==  MemSegment::WRITE  ? "W" : "R" ) << "[0x" << std::setw(sizeof(etiss::uint64)*2) << start_addr + size -1 << " - " << "0x" << std::setw(sizeof(etiss::uint64)*2) << start_addr<< "]";
     
     bool newseg_valid = true;  
     for(const auto& mseg_it : msegs_){
@@ -141,24 +141,27 @@ etiss::int8 DebugSystem::load_elf(const char* elf_file){
     }
     if(newseg_valid){
       if ( (start_addr >= rom_start_) and (start_addr < (rom_start_ + rom_size_)) ){
-        mseg = make_unique<MemSegment>(rom_mem_.data() + (start_addr - rom_start_), start_addr, size, mode, sname.str() );
+        mseg = make_unique<MemSegment>( start_addr, size, mode, sname.str(), rom_mem_.data() + (start_addr - rom_start_) );
       } else if ( (start_addr >= ram_start_) and (start_addr < (ram_start_ + ram_size_)) ) {
-        mseg = make_unique<MemSegment>(ram_mem_.data() + (start_addr - ram_start_), start_addr, size, mode, sname.str() );
+        mseg = make_unique<MemSegment>( start_addr, size, mode, sname.str(), ram_mem_.data() + (start_addr - ram_start_) );
+      } else if( rom_size_ == 0 && ram_size_ == 0 ) { // system memory is dynamically allocated during ELF load (self managed by each memory segment)
+        mseg = make_unique<MemSegment>( start_addr, size, mode, sname.str() );
       } else {
         break;
       }
       if(mseg and seg->get_data()) {
-        add_memsegment(std::move(mseg), seg->get_data());
+        add_memsegment(std::move(mseg), seg->get_data(), file_size);
       }
     }
   }
   
+  // read start or rather program boot address from ELF
   start_addr_ = reader.get_entry();
   
   return 0;
 }
 
-etiss::int8 DebugSystem::add_memsegment(std::unique_ptr<MemSegment> mseg, const void* raw_data){
+etiss::int8 DebugSystem::add_memsegment(std::unique_ptr<MemSegment> mseg, const void* raw_data, size_t file_size_bytes){
   
   // sorted insert (0 < start_addr_ < ...)
   size_t i_seg = 0;
@@ -170,7 +173,12 @@ etiss::int8 DebugSystem::add_memsegment(std::unique_ptr<MemSegment> mseg, const 
   msegs_.insert(msegs_.begin() + i_seg, std::move(mseg));
   
   // init data
-  msegs_[i_seg]->load(raw_data);
+  msegs_[i_seg]->load(raw_data, file_size_bytes);
+
+	std::stringstream msg;
+	msg << "New Memory segment added: " << msegs_[i_seg]->name_ << std::endl;
+	etiss::log(etiss::INFO, msg.str().c_str());
+
   return 0;
 }
 
@@ -196,6 +204,27 @@ DebugSystem::DebugSystem(uint32_t rom_start, uint32_t rom_size, uint32_t ram_sta
                               std::ios::binary);
     }
 }
+
+
+DebugSystem::DebugSystem(void) :
+    rom_start_(-1)
+  , ram_start_(-1)
+  , rom_size_(0)
+  , ram_size_(0) 
+{
+ 
+  _print_ibus_access = etiss::cfg().get<bool>("DebugSystem::printIbusAccess", false);
+  _print_dbus_access = etiss::cfg().get<bool>("DebugSystem::printDbusAccess", false);
+  _print_dbgbus_access = etiss::cfg().get<bool>("DebugSystem::printDbgbusAccess", false);
+  _print_to_file = etiss::cfg().get<bool>("DebugSystem::printToFile", false);
+  message_max_cnt = etiss::cfg().get<int>("DebugSystem::message_max_cnt", 100);
+
+  if (_print_dbus_access)
+  {
+    trace_file_dbus_.open(etiss::cfg().get<std::string>("ETISS::outputPathPrefix", "") + "dBusAccess.csv", std::ios::binary);
+	}
+}
+
 
 etiss::int32 DebugSystem::iread(ETISS_CPU *, etiss::uint64 addr, etiss::uint32 len)
 {

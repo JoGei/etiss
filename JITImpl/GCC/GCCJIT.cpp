@@ -145,8 +145,11 @@ void *GCCJIT::translate(std::string code, std::set<std::string> headerpaths, std
     for (std::set<std::string>::const_iterator iter = librarypaths.begin();iter != librarypaths.end();iter++){
             ss << " -L" << *iter << " ";
     }
-    
-    ss << "-o " << path_ << "lib" << codefilename << ".so " << path_ << codefilename << ".o";
+    ss << "-Wl";
+    for (std::set<std::string>::const_iterator iter = librarypaths.begin();iter != librarypaths.end();iter++){
+            ss << ",-rpath," << *iter << "";
+    }
+    ss << " -o " << path_ << "lib" << codefilename << ".so " << path_ << codefilename << ".o";
 
 
     for (std::set<std::string>::const_iterator iter = libraries.begin();iter != libraries.end();iter++){

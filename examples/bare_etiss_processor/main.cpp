@@ -73,8 +73,9 @@ int main(int argc, const char *argv[])
 
     std::cout << "=== Setting up test system ===" << std::endl;
     std::cout << "  Setting up Memory" << std::endl;
-    etiss::DebugSystem dsys(0x0, 0x0, 0x80000000, 0x80000); //(0x0, 0x80000, 0x80000, 0x80000); //(0x0, 0x80000, 0x80000, 0x80000);//
-    // load image to memory
+    //etiss::DebugSystem dsys(0x0, 0x0, 0x80000000, 0x80000); //(0x0, 0x80000, 0x80000, 0x80000); //(0x0, 0x80000, 0x80000, 0x80000);//
+    etiss::DebugSystem dsys;
+		// load image to memory
     //  if(!dsys.load(0,etiss::cfg().get<std::string>("sw_binary","").c_str())){
     //    etiss::log(etiss::FATALERROR,"Could not load image file "
     //        + etiss::cfg().get<std::string>("sw_binary","")
@@ -117,21 +118,26 @@ int main(int argc, const char *argv[])
     std::cout << "  Setting up CPUCore" << std::endl;
     // create a cpu core named core0 with the or1k architecture
     std::string CPUArchName = etiss::cfg().get<std::string>("CPUArch", "");
-    etiss::uint64 startAddress = 0x0;
-     switch ((char)CPUArchName.c_str()[0])
-     {
-     case (char)'o':
-         startAddress = 0x100;
-         break;
-     case (char)'A':
-         startAddress = 0x68;
-         break;
-     // TODO: For RISCV, MSTATUS register has to be configured in advance to
-     // support interrupt.
-     case (char)'R':
-         startAddress = 0x80000000; //0x80;//
-         break;
-     }
+
+		etiss::uint64 startAddress = dsys.get_startaddr();
+		std::cout << "ELF start address: 0x" << std::hex << startAddress << std::dec << std::endl;
+
+//     etiss::uint64 startAddress = 0x0;
+//      switch ((char)CPUArchName.c_str()[0])
+//      {
+//      case (char)'o':
+//          startAddress = 0x100;
+//          break;
+//      case (char)'A':
+//          startAddress = 0x68;
+//          break;
+//      // TODO: For RISCV, MSTATUS register has to be configured in advance to
+//      // support interrupt.
+//      case (char)'R':
+// 				 std::cout << "ELF start address: 0x" << std::hex << dsys.get_startaddr() << std::dec << std::endl;
+//          startAddress = 0x80000000; //0x80;//
+//          break;
+//      }
     
     std::shared_ptr<etiss::CPUCore> cpu = etiss::CPUCore::create(CPUArchName, "core0");
     if (!cpu)

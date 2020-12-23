@@ -1,4 +1,4 @@
-// This file was generated on Mon Aug 31 13:21:18 CEST 2020
+// This file was generated on Mon Aug 03 15:02:40 CEST 2020
 // If necessary please modify this file according to the instructions
 // Contact: eda@tum
 
@@ -170,9 +170,9 @@ void RISCV64Arch::resetCPU(ETISS_CPU * cpu,etiss::uint64 * startpointer)
 	for (int i = 0; i<4096 ;i++){
 		riscv64cpu->CSR[i] = 0;
 	}
-	riscv64cpu->CSR[0] = 42949672971;								
-	riscv64cpu->CSR[256] = 42949672971;								
-	riscv64cpu->CSR[768] = 42949672971;								
+	riscv64cpu->CSR[0] = 15;								
+	riscv64cpu->CSR[256] = 15;								
+	riscv64cpu->CSR[768] = 15;								
 	riscv64cpu->CSR[260] = 4294967295;								
 	riscv64cpu->CSR[769] = 1315077;								
 	riscv64cpu->CSR[3088] = 3;								
@@ -813,7 +813,7 @@ static InstructionDefinition lb_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -843,7 +843,12 @@ static InstructionDefinition lb_rd_imm_rs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -852,12 +857,12 @@ static InstructionDefinition lb_rd_imm_rs1_(
 	"etiss_uint8 MEM_offs;\n"
 	"tmpbuf = (etiss_uint8 *)&MEM_offs;\n"
 	"exception = (*(system->dread))(system->handle,cpu,offs,tmpbuf,1);\n"
-	"etiss_int8 cast_0 = MEM_offs; \n"
-	"if((etiss_int8)((etiss_uint8)cast_0 - 0x80) > 0x0)\n"
+	"etiss_int8 cast_1 = MEM_offs; \n"
+	"if((etiss_int8)((etiss_uint8)cast_1 - 0x80) > 0x0)\n"
 	"{\n"
-		"cast_0 =0x0 + (etiss_uint8)cast_0 ;\n"
+		"cast_1 =0x0 + (etiss_uint8)cast_1 ;\n"
 	"}\n"
-	"*((RISCV64*)cpu)->X[" + toString(rd) + "] = (etiss_int64)cast_0;\n"
+	"*((RISCV64*)cpu)->X[" + toString(rd) + "] = (etiss_int64)cast_1;\n"
 	#if RISCV64_DEBUG_CALL
 	"printf(\"*((RISCV64*)cpu)->X[" + toString(rd) + "] = %#lx\\n\",*((RISCV64*)cpu)->X[" + toString(rd) + "]); \n"
 	#endif	
@@ -919,7 +924,7 @@ static InstructionDefinition sb_rs2_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -949,7 +954,12 @@ static InstructionDefinition sb_rs2_imm_rs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -1334,7 +1344,7 @@ static InstructionDefinition lh_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -1364,7 +1374,12 @@ static InstructionDefinition lh_rd_imm_rs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -1373,12 +1388,12 @@ static InstructionDefinition lh_rd_imm_rs1_(
 	"etiss_uint16 MEM_offs;\n"
 	"tmpbuf = (etiss_uint8 *)&MEM_offs;\n"
 	"exception = (*(system->dread))(system->handle,cpu,offs,tmpbuf,2);\n"
-	"etiss_int16 cast_0 = MEM_offs; \n"
-	"if((etiss_int16)((etiss_uint16)cast_0 - 0x8000) > 0x0)\n"
+	"etiss_int16 cast_1 = MEM_offs; \n"
+	"if((etiss_int16)((etiss_uint16)cast_1 - 0x8000) > 0x0)\n"
 	"{\n"
-		"cast_0 =0x0 + (etiss_uint16)cast_0 ;\n"
+		"cast_1 =0x0 + (etiss_uint16)cast_1 ;\n"
 	"}\n"
-	"*((RISCV64*)cpu)->X[" + toString(rd) + "] = (etiss_int64)cast_0;\n"
+	"*((RISCV64*)cpu)->X[" + toString(rd) + "] = (etiss_int64)cast_1;\n"
 	#if RISCV64_DEBUG_CALL
 	"printf(\"*((RISCV64*)cpu)->X[" + toString(rd) + "] = %#lx\\n\",*((RISCV64*)cpu)->X[" + toString(rd) + "]); \n"
 	#endif	
@@ -1440,7 +1455,7 @@ static InstructionDefinition sh_rs2_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -1470,7 +1485,12 @@ static InstructionDefinition sh_rs2_imm_rs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -2066,7 +2086,7 @@ static InstructionDefinition lbu_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -2096,7 +2116,12 @@ static InstructionDefinition lbu_rd_imm_rs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -2384,7 +2409,7 @@ static InstructionDefinition lhu_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -2414,7 +2439,12 @@ static InstructionDefinition lhu_rd_imm_rs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -3095,7 +3125,7 @@ static InstructionDefinition lwu_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -3125,7 +3155,12 @@ static InstructionDefinition lwu_rd_imm_rs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -3609,7 +3644,7 @@ static InstructionDefinition lw_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -3639,7 +3674,12 @@ static InstructionDefinition lw_rd_imm_rs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -3648,12 +3688,12 @@ static InstructionDefinition lw_rd_imm_rs1_(
 	"etiss_uint32 MEM_offs;\n"
 	"tmpbuf = (etiss_uint8 *)&MEM_offs;\n"
 	"exception = (*(system->dread))(system->handle,cpu,offs,tmpbuf,4);\n"
-	"etiss_int32 cast_0 = MEM_offs; \n"
-	"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+	"etiss_int32 cast_1 = MEM_offs; \n"
+	"if((etiss_int32)((etiss_uint32)cast_1 - 0x80000000) > 0x0)\n"
 	"{\n"
-		"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+		"cast_1 =0x0 + (etiss_uint32)cast_1 ;\n"
 	"}\n"
-	"*((RISCV64*)cpu)->X[" + toString(rd) + "] = (etiss_int64)cast_0;\n"
+	"*((RISCV64*)cpu)->X[" + toString(rd) + "] = (etiss_int64)cast_1;\n"
 	#if RISCV64_DEBUG_CALL
 	"printf(\"*((RISCV64*)cpu)->X[" + toString(rd) + "] = %#lx\\n\",*((RISCV64*)cpu)->X[" + toString(rd) + "]); \n"
 	#endif	
@@ -3715,7 +3755,7 @@ static InstructionDefinition sw_rs2_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -3745,7 +3785,12 @@ static InstructionDefinition sw_rs2_imm_rs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -4143,7 +4188,7 @@ static InstructionDefinition flw_rd_imm_xrs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			"etiss_uint32 res = 0;\n"
  			"etiss_int64 upper = 0;\n"
@@ -4175,7 +4220,12 @@ static InstructionDefinition flw_rd_imm_xrs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -4261,7 +4311,7 @@ static InstructionDefinition fsw_rs2_imm_xrs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -4291,7 +4341,12 @@ static InstructionDefinition fsw_rs2_imm_xrs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -4689,7 +4744,7 @@ static InstructionDefinition ld_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -4719,7 +4774,12 @@ static InstructionDefinition ld_rd_imm_rs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -4728,12 +4788,12 @@ static InstructionDefinition ld_rd_imm_rs1_(
 	"etiss_uint64 MEM_offs;\n"
 	"tmpbuf = (etiss_uint8 *)&MEM_offs;\n"
 	"exception = (*(system->dread))(system->handle,cpu,offs,tmpbuf,8);\n"
-	"etiss_int64 cast_0 = MEM_offs; \n"
-	"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+	"etiss_int64 cast_1 = MEM_offs; \n"
+	"if((etiss_int64)((etiss_uint64)cast_1 - 0x8000000000000000) > 0x0)\n"
 	"{\n"
-		"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+		"cast_1 =0x0 + (etiss_uint64)cast_1 ;\n"
 	"}\n"
-	"*((RISCV64*)cpu)->X[" + toString(rd) + "] = (etiss_int64)cast_0;\n"
+	"*((RISCV64*)cpu)->X[" + toString(rd) + "] = (etiss_int64)cast_1;\n"
 	#if RISCV64_DEBUG_CALL
 	"printf(\"*((RISCV64*)cpu)->X[" + toString(rd) + "] = %#lx\\n\",*((RISCV64*)cpu)->X[" + toString(rd) + "]); \n"
 	#endif	
@@ -4795,7 +4855,7 @@ static InstructionDefinition sd_rs2_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -4825,7 +4885,12 @@ static InstructionDefinition sd_rs2_imm_rs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -4897,7 +4962,7 @@ static InstructionDefinition fld_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			"etiss_uint64 res = 0;\n"
  			"etiss_int64 upper = 0;\n"
@@ -4929,7 +4994,12 @@ static InstructionDefinition fld_rd_imm_rs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	
@@ -5015,7 +5085,7 @@ static InstructionDefinition fsd_rs2_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint64 offs = 0;\n"
+ 			"etiss_int64 offs = 0;\n"
  			"etiss_int64 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -5045,7 +5115,12 @@ static InstructionDefinition fsd_rs2_imm_rs1_(
 #if RISCV64_DEBUG_CALL
 "printf(\"imm_extended = %#lx\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV64*)cpu)->X[" + toString(rs1) + "] + (etiss_uint64)imm_extended;\n"
+"etiss_int64 cast_0 = *((RISCV64*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int64)((etiss_uint64)cast_0 - 0x8000000000000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint64)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int64)cast_0 + imm_extended;\n"
 #if RISCV64_DEBUG_CALL
 "printf(\"offs = %#lx\\n\",offs); \n"
 #endif	

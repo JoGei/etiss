@@ -1,4 +1,4 @@
-// This file was generated on Wed Sep 02 10:36:19 CEST 2020
+// This file was generated on Mon Aug 03 15:02:38 CEST 2020
 // If necessary please modify this file according to the instructions
 // Contact: eda@tum
 
@@ -160,12 +160,13 @@ void RISCVArch::resetCPU(ETISS_CPU * cpu,etiss::uint64 * startpointer)
 	for (int i = 0; i<32 ;i++){
 		riscvcpu->F[i] = 0;
 	}
+	riscvcpu->FCSR = 0;
 	for (int i = 0; i<4096 ;i++){
 		riscvcpu->CSR[i] = 0;
 	}
-	riscvcpu->CSR[0] = 11;								
-	riscvcpu->CSR[256] = 11;								
-	riscvcpu->CSR[768] = 11;								
+	riscvcpu->CSR[0] = 15;								
+	riscvcpu->CSR[256] = 15;								
+	riscvcpu->CSR[768] = 15;								
 	riscvcpu->CSR[260] = 4294967295;								
 	riscvcpu->CSR[769] = 1315077;								
 	riscvcpu->CSR[3088] = 3;								
@@ -716,7 +717,7 @@ static InstructionDefinition lb_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint32 offs = 0;\n"
+ 			"etiss_int32 offs = 0;\n"
  			"etiss_int32 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -738,7 +739,12 @@ static InstructionDefinition lb_rd_imm_rs1_(
 #if RISCV_DEBUG_CALL
 "printf(\"imm_extended = %#x\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV*)cpu)->X[" + toString(rs1) + "] + (etiss_uint32)imm_extended;\n"
+"etiss_int32 cast_0 = *((RISCV*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int32)cast_0 + imm_extended;\n"
 #if RISCV_DEBUG_CALL
 "printf(\"offs = %#x\\n\",offs); \n"
 #endif	
@@ -747,12 +753,12 @@ static InstructionDefinition lb_rd_imm_rs1_(
 	"etiss_uint8 MEM_offs;\n"
 	"tmpbuf = (etiss_uint8 *)&MEM_offs;\n"
 	"exception = (*(system->dread))(system->handle,cpu,offs,tmpbuf,1);\n"
-	"etiss_int8 cast_0 = MEM_offs; \n"
-	"if((etiss_int8)((etiss_uint8)cast_0 - 0x80) > 0x0)\n"
+	"etiss_int8 cast_1 = MEM_offs; \n"
+	"if((etiss_int8)((etiss_uint8)cast_1 - 0x80) > 0x0)\n"
 	"{\n"
-		"cast_0 =0x0 + (etiss_uint8)cast_0 ;\n"
+		"cast_1 =0x0 + (etiss_uint8)cast_1 ;\n"
 	"}\n"
-	"*((RISCV*)cpu)->X[" + toString(rd) + "] = (etiss_int32)cast_0;\n"
+	"*((RISCV*)cpu)->X[" + toString(rd) + "] = (etiss_int32)cast_1;\n"
 	#if RISCV_DEBUG_CALL
 	"printf(\"*((RISCV*)cpu)->X[" + toString(rd) + "] = %#x\\n\",*((RISCV*)cpu)->X[" + toString(rd) + "]); \n"
 	#endif	
@@ -814,7 +820,7 @@ static InstructionDefinition sb_rs2_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint32 offs = 0;\n"
+ 			"etiss_int32 offs = 0;\n"
  			"etiss_int32 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -836,7 +842,12 @@ static InstructionDefinition sb_rs2_imm_rs1_(
 #if RISCV_DEBUG_CALL
 "printf(\"imm_extended = %#x\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV*)cpu)->X[" + toString(rs1) + "] + (etiss_uint32)imm_extended;\n"
+"etiss_int32 cast_0 = *((RISCV*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int32)cast_0 + imm_extended;\n"
 #if RISCV_DEBUG_CALL
 "printf(\"offs = %#x\\n\",offs); \n"
 #endif	
@@ -1102,7 +1113,7 @@ static InstructionDefinition lh_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint32 offs = 0;\n"
+ 			"etiss_int32 offs = 0;\n"
  			"etiss_int32 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -1124,7 +1135,12 @@ static InstructionDefinition lh_rd_imm_rs1_(
 #if RISCV_DEBUG_CALL
 "printf(\"imm_extended = %#x\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV*)cpu)->X[" + toString(rs1) + "] + (etiss_uint32)imm_extended;\n"
+"etiss_int32 cast_0 = *((RISCV*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int32)cast_0 + imm_extended;\n"
 #if RISCV_DEBUG_CALL
 "printf(\"offs = %#x\\n\",offs); \n"
 #endif	
@@ -1133,12 +1149,12 @@ static InstructionDefinition lh_rd_imm_rs1_(
 	"etiss_uint16 MEM_offs;\n"
 	"tmpbuf = (etiss_uint8 *)&MEM_offs;\n"
 	"exception = (*(system->dread))(system->handle,cpu,offs,tmpbuf,2);\n"
-	"etiss_int16 cast_0 = MEM_offs; \n"
-	"if((etiss_int16)((etiss_uint16)cast_0 - 0x8000) > 0x0)\n"
+	"etiss_int16 cast_1 = MEM_offs; \n"
+	"if((etiss_int16)((etiss_uint16)cast_1 - 0x8000) > 0x0)\n"
 	"{\n"
-		"cast_0 =0x0 + (etiss_uint16)cast_0 ;\n"
+		"cast_1 =0x0 + (etiss_uint16)cast_1 ;\n"
 	"}\n"
-	"*((RISCV*)cpu)->X[" + toString(rd) + "] = (etiss_int32)cast_0;\n"
+	"*((RISCV*)cpu)->X[" + toString(rd) + "] = (etiss_int32)cast_1;\n"
 	#if RISCV_DEBUG_CALL
 	"printf(\"*((RISCV*)cpu)->X[" + toString(rd) + "] = %#x\\n\",*((RISCV*)cpu)->X[" + toString(rd) + "]); \n"
 	#endif	
@@ -1200,7 +1216,7 @@ static InstructionDefinition sh_rs2_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint32 offs = 0;\n"
+ 			"etiss_int32 offs = 0;\n"
  			"etiss_int32 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -1222,7 +1238,12 @@ static InstructionDefinition sh_rs2_imm_rs1_(
 #if RISCV_DEBUG_CALL
 "printf(\"imm_extended = %#x\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV*)cpu)->X[" + toString(rs1) + "] + (etiss_uint32)imm_extended;\n"
+"etiss_int32 cast_0 = *((RISCV*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int32)cast_0 + imm_extended;\n"
 #if RISCV_DEBUG_CALL
 "printf(\"offs = %#x\\n\",offs); \n"
 #endif	
@@ -1494,67 +1515,10 @@ static InstructionDefinition csrrw_rd_csr_rs1(
 	
 	"else\n"
 	"{\n"
-		"if(" + toString(csr) + " == 3)\n"
-		"{\n"
-			"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~255) | (rs_val & 255))&0xffffffff;\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-			#endif	
-		"}\n"
-		
-		"else\n"
-		"{\n"
-			"if(" + toString(csr) + " == 1)\n"
-			"{\n"
-				"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~31) | ((rs_val << 0) & 31))&0xffffffff;\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-				#endif	
-			"}\n"
-			
-			"else\n"
-			"{\n"
-				"if(" + toString(csr) + " == 2)\n"
-				"{\n"
-					"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~224) | ((rs_val << 5) & 224))&0xffffffff;\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-					#endif	
-					"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-					#endif	
-					"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-					#endif	
-				"}\n"
-				
-				"else\n"
-				"{\n"
-					"((RISCV*)cpu)->CSR[" + toString(csr) + "] = rs_val;\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
-					#endif	
-				"}\n"
-			"}\n"
-		"}\n"
+		"((RISCV*)cpu)->CSR[" + toString(csr) + "] = rs_val;\n"
+		#if RISCV_DEBUG_CALL
+		"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
+		#endif	
 	"}\n"
 	"*((RISCV*)cpu)->X[" + toString(rd) + "] = csr_val;\n"
 	#if RISCV_DEBUG_CALL
@@ -1690,67 +1654,10 @@ static InstructionDefinition csrrw_rd_csr_rs1(
 	
 	"else\n"
 	"{\n"
-		"if(" + toString(csr) + " == 3)\n"
-		"{\n"
-			"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~255) | (rs_val & 255))&0xffffffff;\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-			#endif	
-		"}\n"
-		
-		"else\n"
-		"{\n"
-			"if(" + toString(csr) + " == 1)\n"
-			"{\n"
-				"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~31) | ((rs_val << 0) & 31))&0xffffffff;\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-				#endif	
-			"}\n"
-			
-			"else\n"
-			"{\n"
-				"if(" + toString(csr) + " == 2)\n"
-				"{\n"
-					"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~224) | ((rs_val << 5) & 224))&0xffffffff;\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-					#endif	
-					"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-					#endif	
-					"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-					#endif	
-				"}\n"
-				
-				"else\n"
-				"{\n"
-					"((RISCV*)cpu)->CSR[" + toString(csr) + "] = rs_val;\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
-					#endif	
-				"}\n"
-			"}\n"
-		"}\n"
+		"((RISCV*)cpu)->CSR[" + toString(csr) + "] = rs_val;\n"
+		#if RISCV_DEBUG_CALL
+		"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
+		#endif	
 	"}\n"
 "}\n"
  			
@@ -1924,7 +1831,7 @@ static InstructionDefinition lbu_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint32 offs = 0;\n"
+ 			"etiss_int32 offs = 0;\n"
  			"etiss_int32 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -1946,7 +1853,12 @@ static InstructionDefinition lbu_rd_imm_rs1_(
 #if RISCV_DEBUG_CALL
 "printf(\"imm_extended = %#x\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV*)cpu)->X[" + toString(rs1) + "] + (etiss_uint32)imm_extended;\n"
+"etiss_int32 cast_0 = *((RISCV*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int32)cast_0 + imm_extended;\n"
 #if RISCV_DEBUG_CALL
 "printf(\"offs = %#x\\n\",offs); \n"
 #endif	
@@ -2218,7 +2130,7 @@ static InstructionDefinition lhu_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint32 offs = 0;\n"
+ 			"etiss_int32 offs = 0;\n"
  			"etiss_int32 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -2240,7 +2152,12 @@ static InstructionDefinition lhu_rd_imm_rs1_(
 #if RISCV_DEBUG_CALL
 "printf(\"imm_extended = %#x\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV*)cpu)->X[" + toString(rs1) + "] + (etiss_uint32)imm_extended;\n"
+"etiss_int32 cast_0 = *((RISCV*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int32)cast_0 + imm_extended;\n"
 #if RISCV_DEBUG_CALL
 "printf(\"offs = %#x\\n\",offs); \n"
 #endif	
@@ -2448,67 +2365,10 @@ static InstructionDefinition csrrwi_rd_csr_zimm(
 
 "else\n"
 "{\n"
-	"if(" + toString(csr) + " == 3)\n"
-	"{\n"
-		"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~255) | ((etiss_uint32)" + toString(zimm) + " & 255))&0xffffffff;\n"
-		#if RISCV_DEBUG_CALL
-		"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-		#endif	
-		"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-		#if RISCV_DEBUG_CALL
-		"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-		#endif	
-		"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-		#if RISCV_DEBUG_CALL
-		"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-		#endif	
-	"}\n"
-	
-	"else\n"
-	"{\n"
-		"if(" + toString(csr) + " == 1)\n"
-		"{\n"
-			"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~31) | (((etiss_uint32)" + toString(zimm) + " << 0) & 31))&0xffffffff;\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-			#endif	
-		"}\n"
-		
-		"else\n"
-		"{\n"
-			"if(" + toString(csr) + " == 2)\n"
-			"{\n"
-				"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~224) | (((etiss_uint32)" + toString(zimm) + " << 5) & 224))&0xffffffff;\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-				#endif	
-			"}\n"
-			
-			"else\n"
-			"{\n"
-				"((RISCV*)cpu)->CSR[" + toString(csr) + "] = (etiss_uint32)" + toString(zimm) + ";\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
-				#endif	
-			"}\n"
-		"}\n"
-	"}\n"
+	"((RISCV*)cpu)->CSR[" + toString(csr) + "] = (etiss_uint32)" + toString(zimm) + ";\n"
+	#if RISCV_DEBUG_CALL
+	"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
+	#endif	
 "}\n"
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -2895,67 +2755,10 @@ static InstructionDefinition csrrsi_rd_csr_zimm(
 	
 	"else\n"
 	"{\n"
-		"if(" + toString(csr) + " == 3)\n"
-		"{\n"
-			"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~255) | ((res | (etiss_uint32)" + toString(zimm) + ") & 255))&0xffffffff;\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-			#endif	
-		"}\n"
-		
-		"else\n"
-		"{\n"
-			"if(" + toString(csr) + " == 1)\n"
-			"{\n"
-				"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~31) | (((res | (etiss_uint32)" + toString(zimm) + ") << 0) & 31))&0xffffffff;\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-				#endif	
-			"}\n"
-			
-			"else\n"
-			"{\n"
-				"if(" + toString(csr) + " == 2)\n"
-				"{\n"
-					"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~224) | (((res | (etiss_uint32)" + toString(zimm) + ") << 5) & 224))&0xffffffff;\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-					#endif	
-					"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-					#endif	
-					"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-					#endif	
-				"}\n"
-				
-				"else\n"
-				"{\n"
-					"((RISCV*)cpu)->CSR[" + toString(csr) + "] = (res | (etiss_uint32)" + toString(zimm) + ");\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
-					#endif	
-				"}\n"
-			"}\n"
-		"}\n"
+		"((RISCV*)cpu)->CSR[" + toString(csr) + "] = (res | (etiss_uint32)" + toString(zimm) + ");\n"
+		#if RISCV_DEBUG_CALL
+		"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
+		#endif	
 	"}\n"
 "}\n"
 
@@ -3360,67 +3163,10 @@ static InstructionDefinition csrrci_rd_csr_zimm(
 	
 	"else\n"
 	"{\n"
-		"if(" + toString(csr) + " == 3)\n"
-		"{\n"
-			"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~255) | ((res & ~(etiss_uint32)" + toString(zimm) + ") & 255))&0xffffffff&0xffffffff;\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-			#endif	
-		"}\n"
-		
-		"else\n"
-		"{\n"
-			"if(" + toString(csr) + " == 1)\n"
-			"{\n"
-				"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~31) | (((res & ~(etiss_uint32)" + toString(zimm) + ") << 0) & 31))&0xffffffff&0xffffffff;\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-				#endif	
-			"}\n"
-			
-			"else\n"
-			"{\n"
-				"if(" + toString(csr) + " == 2)\n"
-				"{\n"
-					"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~224) | (((res & ~(etiss_uint32)" + toString(zimm) + ") << 5) & 224))&0xffffffff&0xffffffff;\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-					#endif	
-					"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-					#endif	
-					"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-					#endif	
-				"}\n"
-				
-				"else\n"
-				"{\n"
-					"((RISCV*)cpu)->CSR[" + toString(csr) + "] = (res & ~(etiss_uint32)" + toString(zimm) + ")&0xffffffff;\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
-					#endif	
-				"}\n"
-			"}\n"
-		"}\n"
+		"((RISCV*)cpu)->CSR[" + toString(csr) + "] = (res & ~(etiss_uint32)" + toString(zimm) + ")&0xffffffff;\n"
+		#if RISCV_DEBUG_CALL
+		"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
+		#endif	
 	"}\n"
 "}\n"
 
@@ -3476,7 +3222,7 @@ static InstructionDefinition lw_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint32 offs = 0;\n"
+ 			"etiss_int32 offs = 0;\n"
  			"etiss_int32 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -3498,7 +3244,12 @@ static InstructionDefinition lw_rd_imm_rs1_(
 #if RISCV_DEBUG_CALL
 "printf(\"imm_extended = %#x\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV*)cpu)->X[" + toString(rs1) + "] + (etiss_uint32)imm_extended;\n"
+"etiss_int32 cast_0 = *((RISCV*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int32)cast_0 + imm_extended;\n"
 #if RISCV_DEBUG_CALL
 "printf(\"offs = %#x\\n\",offs); \n"
 #endif	
@@ -3507,12 +3258,12 @@ static InstructionDefinition lw_rd_imm_rs1_(
 	"etiss_uint32 MEM_offs;\n"
 	"tmpbuf = (etiss_uint8 *)&MEM_offs;\n"
 	"exception = (*(system->dread))(system->handle,cpu,offs,tmpbuf,4);\n"
-	"etiss_int32 cast_0 = MEM_offs; \n"
-	"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+	"etiss_int32 cast_1 = MEM_offs; \n"
+	"if((etiss_int32)((etiss_uint32)cast_1 - 0x80000000) > 0x0)\n"
 	"{\n"
-		"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+		"cast_1 =0x0 + (etiss_uint32)cast_1 ;\n"
 	"}\n"
-	"*((RISCV*)cpu)->X[" + toString(rd) + "] = (etiss_int32)cast_0;\n"
+	"*((RISCV*)cpu)->X[" + toString(rd) + "] = (etiss_int32)cast_1;\n"
 	#if RISCV_DEBUG_CALL
 	"printf(\"*((RISCV*)cpu)->X[" + toString(rd) + "] = %#x\\n\",*((RISCV*)cpu)->X[" + toString(rd) + "]); \n"
 	#endif	
@@ -3574,7 +3325,7 @@ static InstructionDefinition sw_rs2_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint32 offs = 0;\n"
+ 			"etiss_int32 offs = 0;\n"
  			"etiss_int32 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -3596,7 +3347,12 @@ static InstructionDefinition sw_rs2_imm_rs1_(
 #if RISCV_DEBUG_CALL
 "printf(\"imm_extended = %#x\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV*)cpu)->X[" + toString(rs1) + "] + (etiss_uint32)imm_extended;\n"
+"etiss_int32 cast_0 = *((RISCV*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int32)cast_0 + imm_extended;\n"
 #if RISCV_DEBUG_CALL
 "printf(\"offs = %#x\\n\",offs); \n"
 #endif	
@@ -3927,67 +3683,10 @@ static InstructionDefinition csrrs_rd_csr_rs1(
 	
 	"else\n"
 	"{\n"
-		"if(" + toString(csr) + " == 3)\n"
-		"{\n"
-			"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~255) | ((xrd | xrs1) & 255))&0xffffffff;\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-			#endif	
-		"}\n"
-		
-		"else\n"
-		"{\n"
-			"if(" + toString(csr) + " == 1)\n"
-			"{\n"
-				"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~31) | (((xrd | xrs1) << 0) & 31))&0xffffffff;\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-				#endif	
-			"}\n"
-			
-			"else\n"
-			"{\n"
-				"if(" + toString(csr) + " == 2)\n"
-				"{\n"
-					"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~224) | (((xrd | xrs1) << 5) & 224))&0xffffffff;\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-					#endif	
-					"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-					#endif	
-					"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-					#endif	
-				"}\n"
-				
-				"else\n"
-				"{\n"
-					"((RISCV*)cpu)->CSR[" + toString(csr) + "] = (xrd | xrs1);\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
-					#endif	
-				"}\n"
-			"}\n"
-		"}\n"
+		"((RISCV*)cpu)->CSR[" + toString(csr) + "] = (xrd | xrs1);\n"
+		#if RISCV_DEBUG_CALL
+		"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
+		#endif	
 	"}\n"
 "}\n"
 
@@ -4042,7 +3741,7 @@ static InstructionDefinition flw_rd_imm_xrs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint32 offs = 0;\n"
+ 			"etiss_int32 offs = 0;\n"
  			"etiss_int32 imm_extended = 0;\n"
  			"etiss_uint32 res = 0;\n"
  			"etiss_int64 upper = 0;\n"
@@ -4066,7 +3765,12 @@ static InstructionDefinition flw_rd_imm_xrs1_(
 #if RISCV_DEBUG_CALL
 "printf(\"imm_extended = %#x\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV*)cpu)->X[" + toString(rs1) + "] + (etiss_uint32)imm_extended;\n"
+"etiss_int32 cast_0 = *((RISCV*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int32)cast_0 + imm_extended;\n"
 #if RISCV_DEBUG_CALL
 "printf(\"offs = %#x\\n\",offs); \n"
 #endif	
@@ -4151,7 +3855,7 @@ static InstructionDefinition fsw_rs2_imm_xrs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint32 offs = 0;\n"
+ 			"etiss_int32 offs = 0;\n"
  			"etiss_int32 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -4173,7 +3877,12 @@ static InstructionDefinition fsw_rs2_imm_xrs1_(
 #if RISCV_DEBUG_CALL
 "printf(\"imm_extended = %#x\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV*)cpu)->X[" + toString(rs1) + "] + (etiss_uint32)imm_extended;\n"
+"etiss_int32 cast_0 = *((RISCV*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int32)cast_0 + imm_extended;\n"
 #if RISCV_DEBUG_CALL
 "printf(\"offs = %#x\\n\",offs); \n"
 #endif	
@@ -4504,67 +4213,10 @@ static InstructionDefinition csrrc_rd_csr_rs1(
 	
 	"else\n"
 	"{\n"
-		"if(" + toString(csr) + " == 3)\n"
-		"{\n"
-			"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~255) | ((xrd & ~xrs1) & 255))&0xffffffff&0xffffffff;\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-			#endif	
-			"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-			#if RISCV_DEBUG_CALL
-			"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-			#endif	
-		"}\n"
-		
-		"else\n"
-		"{\n"
-			"if(" + toString(csr) + " == 1)\n"
-			"{\n"
-				"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~31) | (((xrd & ~xrs1) << 0) & 31))&0xffffffff&0xffffffff;\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-				#endif	
-				"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-				#if RISCV_DEBUG_CALL
-				"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-				#endif	
-			"}\n"
-			
-			"else\n"
-			"{\n"
-				"if(" + toString(csr) + " == 2)\n"
-				"{\n"
-					"((RISCV*)cpu)->CSR[3] = ((((RISCV*)cpu)->CSR[3] & ~224) | (((xrd & ~xrs1) << 5) & 224))&0xffffffff&0xffffffff;\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-					#endif	
-					"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-					#endif	
-					"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
-					#endif	
-				"}\n"
-				
-				"else\n"
-				"{\n"
-					"((RISCV*)cpu)->CSR[" + toString(csr) + "] = (xrd & ~xrs1)&0xffffffff;\n"
-					#if RISCV_DEBUG_CALL
-					"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
-					#endif	
-				"}\n"
-			"}\n"
-		"}\n"
+		"((RISCV*)cpu)->CSR[" + toString(csr) + "] = (xrd & ~xrs1)&0xffffffff;\n"
+		#if RISCV_DEBUG_CALL
+		"printf(\"((RISCV*)cpu)->CSR[" + toString(csr) + "] = %#x\\n\",((RISCV*)cpu)->CSR[" + toString(csr) + "]); \n"
+		#endif	
 	"}\n"
 "}\n"
 
@@ -4619,7 +4271,7 @@ static InstructionDefinition fld_rd_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint32 offs = 0;\n"
+ 			"etiss_int32 offs = 0;\n"
  			"etiss_int32 imm_extended = 0;\n"
  			"etiss_uint64 res = 0;\n"
  			"etiss_int64 upper = 0;\n"
@@ -4643,7 +4295,12 @@ static InstructionDefinition fld_rd_imm_rs1_(
 #if RISCV_DEBUG_CALL
 "printf(\"imm_extended = %#x\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV*)cpu)->X[" + toString(rs1) + "] + (etiss_uint32)imm_extended;\n"
+"etiss_int32 cast_0 = *((RISCV*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int32)cast_0 + imm_extended;\n"
 #if RISCV_DEBUG_CALL
 "printf(\"offs = %#x\\n\",offs); \n"
 #endif	
@@ -4728,7 +4385,7 @@ static InstructionDefinition fsd_rs2_imm_rs1_(
 			"handleResources(resource_time, resources, num_stages, num_resources, cpu);\n"
 			#endif
 
- 			"etiss_uint32 offs = 0;\n"
+ 			"etiss_int32 offs = 0;\n"
  			"etiss_int32 imm_extended = 0;\n"
  			
 "if((" + toString(imm) + " & 0x800)>>11 == 0)\n"
@@ -4750,7 +4407,12 @@ static InstructionDefinition fsd_rs2_imm_rs1_(
 #if RISCV_DEBUG_CALL
 "printf(\"imm_extended = %#x\\n\",imm_extended); \n"
 #endif	
-"offs = *((RISCV*)cpu)->X[" + toString(rs1) + "] + (etiss_uint32)imm_extended;\n"
+"etiss_int32 cast_0 = *((RISCV*)cpu)->X[" + toString(rs1) + "]; \n"
+"if((etiss_int32)((etiss_uint32)cast_0 - 0x80000000) > 0x0)\n"
+"{\n"
+	"cast_0 =0x0 + (etiss_uint32)cast_0 ;\n"
+"}\n"
+"offs = (etiss_int32)cast_0 + imm_extended;\n"
 #if RISCV_DEBUG_CALL
 "printf(\"offs = %#x\\n\",offs); \n"
 #endif	
@@ -4847,7 +4509,7 @@ static InstructionDefinition fmadd_s_rd_frs1_frs2_frs3(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -4882,7 +4544,7 @@ static InstructionDefinition fmadd_s_rd_frs1_frs2_frs3(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -4904,17 +4566,9 @@ static InstructionDefinition fmadd_s_rd_frs1_frs2_frs3(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -4993,7 +4647,7 @@ static InstructionDefinition fmsub_s_rd_frs1_frs2_frs3(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -5028,7 +4682,7 @@ static InstructionDefinition fmsub_s_rd_frs1_frs2_frs3(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -5050,17 +4704,9 @@ static InstructionDefinition fmsub_s_rd_frs1_frs2_frs3(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -5139,7 +4785,7 @@ static InstructionDefinition fnmadd_s_rd_frs1_frs2_frs3(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -5174,7 +4820,7 @@ static InstructionDefinition fnmadd_s_rd_frs1_frs2_frs3(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -5196,17 +4842,9 @@ static InstructionDefinition fnmadd_s_rd_frs1_frs2_frs3(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -5285,7 +4923,7 @@ static InstructionDefinition fnmsub_s_rd_frs1_frs2_frs3(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -5320,7 +4958,7 @@ static InstructionDefinition fnmsub_s_rd_frs1_frs2_frs3(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -5342,17 +4980,9 @@ static InstructionDefinition fnmsub_s_rd_frs1_frs2_frs3(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -5426,7 +5056,7 @@ static InstructionDefinition fmadd_d_rd_frs1_frs2_frs3(
 
 "else\n"
 "{\n"
-	"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+	"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 	#if RISCV_DEBUG_CALL
 	"printf(\"choose1 = %#x\\n\",choose1); \n"
 	#endif	
@@ -5458,17 +5088,9 @@ static InstructionDefinition fmadd_d_rd_frs1_frs2_frs3(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -5542,7 +5164,7 @@ static InstructionDefinition fmsub_d_rd_frs1_frs2_frs3(
 
 "else\n"
 "{\n"
-	"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+	"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 	#if RISCV_DEBUG_CALL
 	"printf(\"choose1 = %#x\\n\",choose1); \n"
 	#endif	
@@ -5574,17 +5196,9 @@ static InstructionDefinition fmsub_d_rd_frs1_frs2_frs3(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -5658,7 +5272,7 @@ static InstructionDefinition fnmadd_d_rd_frs1_frs2_frs3(
 
 "else\n"
 "{\n"
-	"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+	"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 	#if RISCV_DEBUG_CALL
 	"printf(\"choose1 = %#x\\n\",choose1); \n"
 	#endif	
@@ -5690,17 +5304,9 @@ static InstructionDefinition fnmadd_d_rd_frs1_frs2_frs3(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -5774,7 +5380,7 @@ static InstructionDefinition fnmsub_d_rd_frs1_frs2_frs3(
 
 "else\n"
 "{\n"
-	"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+	"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 	#if RISCV_DEBUG_CALL
 	"printf(\"choose1 = %#x\\n\",choose1); \n"
 	#endif	
@@ -5806,17 +5412,9 @@ static InstructionDefinition fnmsub_d_rd_frs1_frs2_frs3(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -6624,7 +6222,7 @@ static InstructionDefinition fadd_s_rd_frs1_frs2(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -6655,7 +6253,7 @@ static InstructionDefinition fadd_s_rd_frs1_frs2(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -6677,17 +6275,9 @@ static InstructionDefinition fadd_s_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -7254,7 +6844,7 @@ static InstructionDefinition fmul_s_rd_frs1_frs2(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -7285,7 +6875,7 @@ static InstructionDefinition fmul_s_rd_frs1_frs2(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -7307,17 +6897,9 @@ static InstructionDefinition fmul_s_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -7488,7 +7070,7 @@ static InstructionDefinition fmul_d_rd_frs1_frs2(
 
 "else\n"
 "{\n"
-	"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+	"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 	#if RISCV_DEBUG_CALL
 	"printf(\"choose1 = %#x\\n\",choose1); \n"
 	#endif	
@@ -7520,17 +7102,9 @@ static InstructionDefinition fmul_d_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -8249,7 +7823,7 @@ static InstructionDefinition fadd_d_rd_frs1_frs2(
 
 "else\n"
 "{\n"
-	"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+	"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 	#if RISCV_DEBUG_CALL
 	"printf(\"choose1 = %#x\\n\",choose1); \n"
 	#endif	
@@ -8281,17 +7855,9 @@ static InstructionDefinition fadd_d_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -9601,7 +9167,7 @@ static InstructionDefinition fsub_s_rd_frs1_frs2(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -9632,7 +9198,7 @@ static InstructionDefinition fsub_s_rd_frs1_frs2(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -9654,17 +9220,9 @@ static InstructionDefinition fsub_s_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -9738,7 +9296,7 @@ static InstructionDefinition fdiv_s_rd_frs1_frs2(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -9769,7 +9327,7 @@ static InstructionDefinition fdiv_s_rd_frs1_frs2(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -9791,17 +9349,9 @@ static InstructionDefinition fdiv_s_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -9870,7 +9420,7 @@ static InstructionDefinition fsqrt_s_rd_frs1(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -9897,7 +9447,7 @@ static InstructionDefinition fsqrt_s_rd_frs1(
 	
 	"else\n"
 	"{\n"
-		"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+		"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 		#if RISCV_DEBUG_CALL
 		"printf(\"choose1 = %#x\\n\",choose1); \n"
 		#endif	
@@ -9919,17 +9469,9 @@ static InstructionDefinition fsqrt_s_rd_frs1(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -10276,17 +9818,9 @@ static InstructionDefinition fmin_s_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -10378,17 +9912,9 @@ static InstructionDefinition fmax_s_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -10476,17 +10002,9 @@ static InstructionDefinition fcvt_w_s_rd_frs1(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -10574,17 +10092,9 @@ static InstructionDefinition fcvt_wu_s_rd_frs1(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -10667,17 +10177,9 @@ static InstructionDefinition feq_s_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -10764,17 +10266,9 @@ static InstructionDefinition flt_s_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -10857,17 +10351,9 @@ static InstructionDefinition fle_s_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -11261,7 +10747,7 @@ static InstructionDefinition fsub_d_rd_frs1_frs2(
 
 "else\n"
 "{\n"
-	"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+	"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 	#if RISCV_DEBUG_CALL
 	"printf(\"choose1 = %#x\\n\",choose1); \n"
 	#endif	
@@ -11293,17 +10779,9 @@ static InstructionDefinition fsub_d_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -11373,7 +10851,7 @@ static InstructionDefinition fdiv_d_rd_frs1_frs2(
 
 "else\n"
 "{\n"
-	"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+	"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 	#if RISCV_DEBUG_CALL
 	"printf(\"choose1 = %#x\\n\",choose1); \n"
 	#endif	
@@ -11405,17 +10883,9 @@ static InstructionDefinition fdiv_d_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -11481,7 +10951,7 @@ static InstructionDefinition fsqrt_d_rd_frs1(
 
 "else\n"
 "{\n"
-	"choose1 = (((RISCV*)cpu)->CSR[3] & 0xff);\n"
+	"choose1 = (((RISCV*)cpu)->FCSR & 0xff);\n"
 	#if RISCV_DEBUG_CALL
 	"printf(\"choose1 = %#x\\n\",choose1); \n"
 	#endif	
@@ -11513,17 +10983,9 @@ static InstructionDefinition fsqrt_d_rd_frs1(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -11870,17 +11332,9 @@ static InstructionDefinition fmin_d_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -11962,17 +11416,9 @@ static InstructionDefinition fmax_d_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -12109,17 +11555,9 @@ static InstructionDefinition feq_d_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -12181,17 +11619,9 @@ static InstructionDefinition flt_d_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -12253,17 +11683,9 @@ static InstructionDefinition fle_d_rd_frs1_frs2(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -12381,17 +11803,9 @@ static InstructionDefinition fcvt_w_d_rd_frs1(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"
@@ -12458,17 +11872,9 @@ static InstructionDefinition fcvt_wu_d_rd_frs1(
 #if RISCV_DEBUG_CALL
 "printf(\"flags = %#x\\n\",flags); \n"
 #endif	
-"((RISCV*)cpu)->CSR[3] = (((RISCV*)cpu)->CSR[3] & ~31) + (flags & 0x1f)&0xffffffff;\n"
+"((RISCV*)cpu)->FCSR = (((RISCV*)cpu)->FCSR & ~31) + (flags & 0x1f)&0xffffffff;\n"
 #if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[3] = %#x\\n\",((RISCV*)cpu)->CSR[3]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[1] = ((((RISCV*)cpu)->CSR[3] & 31) >> 0);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[1] = %#x\\n\",((RISCV*)cpu)->CSR[1]); \n"
-#endif	
-"((RISCV*)cpu)->CSR[2] = ((((RISCV*)cpu)->CSR[3] & 224) >> 5);\n"
-#if RISCV_DEBUG_CALL
-"printf(\"((RISCV*)cpu)->CSR[2] = %#x\\n\",((RISCV*)cpu)->CSR[2]); \n"
+"printf(\"((RISCV*)cpu)->FCSR = %#x\\n\",((RISCV*)cpu)->FCSR); \n"
 #endif	
  			
 		"cpu->instructionPointer = " +toString((uint32_t)(ic.current_address_+ 4 ))+"ULL; \n"

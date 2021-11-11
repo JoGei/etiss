@@ -97,7 +97,7 @@ int main(int argc, const char *argv[])
     // create a cpu core named core0 with the or1k architecture
     std::string CPUArchName = etiss::cfg().get<std::string>("arch.cpu", "");
     etiss::uint64 sa = etiss::cfg().get<uint64_t>("vp.entry_point", dsys.get_startaddr());
-	std::cout << "  CPU start address: 0x" << std::hex << sa << std::dec << std::endl;
+    std::cout << "  CPU start address: 0x" << std::hex << sa << std::dec << std::endl;
     std::shared_ptr<etiss::CPUCore> cpu = etiss::CPUCore::create(CPUArchName, "core0");
     if (!cpu)
     {
@@ -186,5 +186,3 @@ int main(int argc, const char *argv[])
         break;
     }
 }
-
-

@@ -910,7 +910,7 @@ void etiss::initialize_virtualstruct(std::shared_ptr<etiss::CPUCore> cpu_core)
         if (!faults.empty())
         {
             std::list<std::string> ffs = etiss::split(faults, ';');
-            for (auto ff : ffs)
+            for (const auto& ff : ffs)
             {
                 auto stressor_successful = etiss::fault::Stressor::loadXML(ff, cpu_core->getID());
                 if (!stressor_successful)

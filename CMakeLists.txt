@@ -257,6 +257,15 @@ if(NOT pugixml_srcs_POPULATED)
 endif()
 add_subdirectory(${pugixml_srcs_SOURCE_DIR} ${pugixml_srcs_BINARY_DIR} EXCLUDE_FROM_ALL)
 
+FetchContent_Declare(betterenums_srcs
+	GIT_REPOSITORY https://github.com/aantron/better-enums.git
+	GIT_TAG 0.11.3
+)
+if(NOT betterenums_srcs_POPULATED)
+	FetchContent_Populate(betterenums_srcs)
+	FetchContent_GetProperties(betterenums_srcs)
+endif()
+
 ### Doxyfile
 set(ETISS_DOX_LOCATIONS ${ETISS_DOX_LOCATIONS} ${PROJECT_BINARY_DIR}/include)
 set(ETISS_DOX_LOCATIONS ${ETISS_DOX_LOCATIONS} ${PROJECT_BINARY_DIR}/include_c)
@@ -382,6 +391,7 @@ TARGET_INCLUDE_DIRECTORIES(ETISS PUBLIC
     ${INCGEN_INC_DIR}
     ${elfio_srcs_SOURCE_DIR}
     ${simpleini_srcs_SOURCE_DIR}
+    ${betterenums_srcs_SOURCE_DIR}
 )
 TARGET_LINK_LIBRARIES(ETISS PUBLIC pugixml)
 

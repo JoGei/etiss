@@ -247,6 +247,16 @@ endif()
 
 set(ETISS_SOURCE ${ETISS_SOURCE} "${simpleini_srcs_SOURCE_DIR}/ConvertUTF.c")
 
+FetchContent_Declare(pugixml_srcs
+	GIT_REPOSITORY https://github.com/zeux/pugixml.git
+	GIT_TAG v1.11.4
+)
+if(NOT pugixml_srcs_POPULATED)
+	FetchContent_Populate(pugixml_srcs)
+	FetchContent_GetProperties(pugixml_srcs)
+endif()
+add_subdirectory(${pugixml_srcs_SOURCE_DIR} ${pugixml_srcs_BINARY_DIR} EXCLUDE_FROM_ALL)
+
 ### Doxyfile
 set(ETISS_DOX_LOCATIONS ${ETISS_DOX_LOCATIONS} ${PROJECT_BINARY_DIR}/include)
 set(ETISS_DOX_LOCATIONS ${ETISS_DOX_LOCATIONS} ${PROJECT_BINARY_DIR}/include_c)
@@ -373,6 +383,7 @@ TARGET_INCLUDE_DIRECTORIES(ETISS PUBLIC
     ${elfio_srcs_SOURCE_DIR}
     ${simpleini_srcs_SOURCE_DIR}
 )
+TARGET_LINK_LIBRARIES(ETISS PUBLIC pugixml)
 
 GENERATE_EXPORT_HEADER(ETISS
           BASE_NAME ETISS_PLUGIN

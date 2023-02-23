@@ -1,0 +1,8 @@
+<map id="etiss::Initializer::loadIniJIT" name="etiss::Initializer::loadIniJIT">
+<area shape="rect" id="node1" title="sets the JIT given with the previous loaded .ini files" alt="" coords="5,74,128,115"/>
+<area shape="rect" id="node2" href="$namespaceetiss.html#abea8444fc010e2490f2486e2ededde88" title="Get reference of the global ETISS configuration object." alt="" coords="379,5,461,32"/>
+<area shape="rect" id="node3" href="$namespaceetiss.html#afd320e98bf6a5e2c0d8ffde5dd28dd35" title="write log message at the given level." alt="" coords="517,56,599,83"/>
+<area shape="rect" id="node5" href="$group__ETISS__Frontend.html#ga03edc9a6d65e4853824c46ba162e9f4c" title="Get the default JIT implementation." alt="" coords="176,107,323,133"/>
+<area shape="rect" id="node6" href="$group__ETISS__Frontend.html#gaa5e8c6d44d5e6b27cb4384e60c557283" title="Get a present JIT plug&#45;in by name." alt="" coords="371,107,469,133"/>
+<area shape="rect" id="node4" href="$namespaceetiss.html#a5d23a51a17c09f1b863c601d4454f99b" title="conversion of type T to std::string." alt="" coords="647,56,759,83"/>
+</map>

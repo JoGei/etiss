@@ -1,0 +1,9 @@
+<map id="etiss::ObjectPool&lt; T, prealloc_inc &gt;" name="etiss::ObjectPool&lt; T, prealloc_inc &gt;">
+<area shape="rect" id="node1" title="prealloc_inc defines the number of objects that is availabe within ObjectPools memory; default: 100" alt="" coords="262,184,405,225"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,95,56,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="80,95,240,121"/>
+<area shape="rect" id="node4" title=" " alt="" coords="216,5,277,32"/>
+<area shape="rect" id="node5" title=" " alt="" coords="264,95,403,121"/>
+<area shape="rect" id="node6" title=" " alt="" coords="427,95,477,121"/>
+<area shape="rect" id="node7" title=" " alt="" coords="518,95,637,121"/>
+</map>

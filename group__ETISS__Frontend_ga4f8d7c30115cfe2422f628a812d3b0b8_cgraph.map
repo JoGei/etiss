@@ -1,0 +1,5 @@
+<map id="etiss::getPlugin" name="etiss::getPlugin">
+<area shape="rect" id="node1" title="Get a present Plugin plug&#45;in by name." alt="" coords="5,5,128,32"/>
+<area shape="rect" id="node2" href="$namespaceetiss.html#afd320e98bf6a5e2c0d8ffde5dd28dd35" title="write log message at the given level." alt="" coords="176,5,257,32"/>
+<area shape="rect" id="node3" href="$namespaceetiss.html#a5d23a51a17c09f1b863c601d4454f99b" title="conversion of type T to std::string." alt="" coords="305,5,417,32"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="if" name="if">
+<area shape="rect" id="node1" title=" " alt="" coords="591,132,629,159"/>
+<area shape="rect" id="node2" href="$MMU_8cpp.html#ab40d3dc4e5c000decf0b0816375a9f58" title=" " alt="" coords="328,5,483,32"/>
+<area shape="rect" id="node3" href="$classRISCVArch.html#ac984aa0e1c086f4460b30644b69bda42" title="This function is called during CPUArch initialization." alt="" coords="321,56,489,83"/>
+<area shape="rect" id="node4" href="$classRISCV64Arch.html#a4b479437ae53be96d92b30aa50c28155" title="This function is called during CPUArch initialization." alt="" coords="313,107,498,133"/>
+<area shape="rect" id="node5" href="$classRV32IMACFDArch.html#a4ac47cabe9345afb4379d68d764c3329" title="This function is called during CPUArch initialization." alt="" coords="297,157,513,184"/>
+<area shape="rect" id="node6" href="$classOR1KTimer.html#ae278f5fb96a0f27e1855e8f28377c5c4" title=" " alt="" coords="329,209,482,250"/>
+<area shape="rect" id="node8" href="$classetiss_1_1CPUArchRegListenerInterface.html#a9ba89fc7a632259550bd93eb61cc49ac" title="call this function to inform RegisterDevicePlugins about changed special register values." alt="" coords="268,274,543,315"/>
+<area shape="rect" id="node7" href="$classOR1KTimer.html#af82794bd9e863835f0b15c88d673a71f" title="called before a block and may act in the same way as a block" alt="" coords="35,216,190,243"/>
+<area shape="rect" id="node9" href="$build_2include_2jit_2etiss_2jit_2CPU_8h.html#a084690341960c5de42da6f920dbb0f7e" title=" " alt="" coords="5,270,220,311"/>
+<area shape="rect" id="node10" href="$build_2include_2jit_2Arch_2OR1K_2OR1K_8h.html#aec7c3654a84d7539de84b32bc78ef5e7" title=" " alt="" coords="47,336,179,363"/>
+</map>

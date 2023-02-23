@@ -1,0 +1,7 @@
+<map id="etiss::Initializer::loadIniPlugins" name="etiss::Initializer::loadIniPlugins">
+<area shape="rect" id="node1" title="loads the plugins given with the previous loaded .ini files" alt="" coords="5,49,128,90"/>
+<area shape="rect" id="node2" href="$namespaceetiss.html#abea8444fc010e2490f2486e2ededde88" title="Get reference of the global ETISS configuration object." alt="" coords="197,5,278,32"/>
+<area shape="rect" id="node3" href="$namespaceetiss.html#afd320e98bf6a5e2c0d8ffde5dd28dd35" title="write log message at the given level." alt="" coords="347,56,428,83"/>
+<area shape="rect" id="node5" href="$group__ETISS__Frontend.html#ga4f8d7c30115cfe2422f628a812d3b0b8" title="Get a present Plugin plug&#45;in by name." alt="" coords="176,107,299,133"/>
+<area shape="rect" id="node4" href="$namespaceetiss.html#a5d23a51a17c09f1b863c601d4454f99b" title="conversion of type T to std::string." alt="" coords="476,56,588,83"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="etiss::CPUCore::getName" name="etiss::CPUCore::getName">
+<area shape="rect" id="node1" title="Get the name of the CPUCore instance." alt="" coords="244,5,431,32"/>
+<area shape="rect" id="node2" href="$classetiss_1_1CPUCore.html#a97bd4fd5ed1a74d4c24c0d18cc0077ed" title="Adds a plug&#45;in to the core simulator." alt="" coords="5,5,196,32"/>
+</map>

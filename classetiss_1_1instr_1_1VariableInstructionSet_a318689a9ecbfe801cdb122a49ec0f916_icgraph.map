@@ -1,0 +1,12 @@
+<map id="etiss::instr::VariableInstructionSet::open" name="etiss::instr::VariableInstructionSet::open">
+<area shape="rect" id="node1" title=" " alt="" coords="752,173,972,214"/>
+<area shape="rect" id="node2" href="$classetiss_1_1instr_1_1InstructionClass.html#a3d4c825b320dead140adb63e7099914d" title=" " alt="" coords="511,74,677,115"/>
+<area shape="rect" id="node8" href="$classetiss_1_1instr_1_1ModedInstructionSet.html#a4407fb513f317944bfdbe2d2a96b6e37" title=" " alt="" coords="489,139,699,181"/>
+<area shape="rect" id="node9" href="$classetiss_1_1instr_1_1VariableInstructionSet.html#a09b060d9214d20b28ec6dfc45efec2f6" title=" " alt="" coords="484,205,704,246"/>
+<area shape="rect" id="node10" href="$classetiss_1_1instr_1_1VariableInstructionSet.html#a8384c52624755a9b4f8ee07d74dc054e" title=" " alt="" coords="484,270,704,311"/>
+<area shape="rect" id="node3" href="$classetiss_1_1instr_1_1InstructionCollection.html#a9540933b96f577488e0a15ce43ebc09e" title=" " alt="" coords="269,74,436,115"/>
+<area shape="rect" id="node4" href="$classOR1KArch.html#a15d284f69a3a0db548e75063c48ff145" title="called to add instructions to the instruction set" alt="" coords="30,5,197,32"/>
+<area shape="rect" id="node5" href="$classRISCVArch.html#ac984aa0e1c086f4460b30644b69bda42" title="This function is called during CPUArch initialization." alt="" coords="29,56,197,83"/>
+<area shape="rect" id="node6" href="$classRISCV64Arch.html#a4b479437ae53be96d92b30aa50c28155" title="This function is called during CPUArch initialization." alt="" coords="21,107,206,133"/>
+<area shape="rect" id="node7" href="$classRV32IMACFDArch.html#a4ac47cabe9345afb4379d68d764c3329" title="This function is called during CPUArch initialization." alt="" coords="5,157,221,184"/>
+</map>

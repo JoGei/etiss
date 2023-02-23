@@ -1,0 +1,17 @@
+<map id="get_metrics.MemRange.usage" name="get_metrics.MemRange.usage">
+<area shape="rect" id="node1" title=" " alt="" coords="5,335,225,361"/>
+<area shape="rect" id="node2" href="$structutf8__writer.html#ac03dfaf797d599afdf0be7def86ff9b9" title=" " alt="" coords="283,5,412,32"/>
+<area shape="rect" id="node3" href="$structutf16__writer.html#a01b6ce1a567dea11daead3ca83f42d5c" title=" " alt="" coords="279,56,416,83"/>
+<area shape="rect" id="node4" href="$structutf32__writer.html#a3f86d996cde3ed7cab5c31930b67c9f1" title=" " alt="" coords="279,107,416,133"/>
+<area shape="rect" id="node5" href="$structlatin1__writer.html#a0e48c306ebe556f267404a9624f00554" title=" " alt="" coords="277,157,417,184"/>
+<area shape="rect" id="node6" href="$structutf8__counter.html#ab16e675980a15e1ede2e4cd18d19f7b1" title=" " alt="" coords="277,208,417,235"/>
+<area shape="rect" id="node7" href="$structutf16__counter.html#ac1a8793996e57dc28fd22f3165628e4d" title=" " alt="" coords="273,259,421,285"/>
+<area shape="rect" id="node8" href="$structutf32__counter.html#aa72f5248b1dc5937330ab049bf449251" title=" " alt="" coords="273,309,421,336"/>
+<area shape="rect" id="node9" href="$structutf8__counter.html#a0950643189089175ae0eac9b4193534d" title=" " alt="" coords="280,360,415,387"/>
+<area shape="rect" id="node10" href="$structutf8__writer.html#ac4ec52da6f37225ba4fde259bff2f86c" title=" " alt="" coords="285,411,409,437"/>
+<area shape="rect" id="node11" href="$structutf16__writer.html#ab11fef721a8b38de5e315d2e75d12956" title=" " alt="" coords="281,461,413,488"/>
+<area shape="rect" id="node12" href="$structutf32__writer.html#a06e1b65906f7355ea54a622248095bc7" title=" " alt="" coords="281,512,413,539"/>
+<area shape="rect" id="node13" href="$structlatin1__writer.html#ab5d7a833d29d66031420686ca67b1f6e" title=" " alt="" coords="280,563,415,589"/>
+<area shape="rect" id="node14" href="$structutf16__counter.html#a4571f3d0fbf0ce763904ec3321dcb41e" title=" " alt="" coords="276,613,419,640"/>
+<area shape="rect" id="node15" href="$structutf32__counter.html#a3a75f4840e0391ed972ddba621d49480" title=" " alt="" coords="276,664,419,691"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="etiss::CPUArchRegListenerInterface::signalChangedRegisterValue" name="etiss::CPUArchRegListenerInterface::signalChangedRegisterValue">
+<area shape="rect" id="node1" title="call this function to inform RegisterDevicePlugins about changed special register values." alt="" coords="268,35,543,76"/>
+<area shape="rect" id="node2" href="$build_2include_2jit_2etiss_2jit_2CPU_8h.html#a084690341960c5de42da6f920dbb0f7e" title=" " alt="" coords="5,5,220,47"/>
+<area shape="rect" id="node3" href="$build_2include_2jit_2Arch_2OR1K_2OR1K_8h.html#aec7c3654a84d7539de84b32bc78ef5e7" title=" " alt="" coords="47,71,179,98"/>
+</map>

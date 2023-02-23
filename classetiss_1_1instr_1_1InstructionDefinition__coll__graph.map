@@ -1,0 +1,16 @@
+<map id="etiss::instr::InstructionDefinition" name="etiss::instr::InstructionDefinition">
+<area shape="rect" id="node1" title="maps to Instruction" alt="" coords="835,282,1001,323"/>
+<area shape="rect" id="node5" title=" " alt="" coords="1099,255,1287,297"/>
+<area shape="rect" id="node2" href="$classetiss_1_1ToString.html" title="Marker interface for toString() support." alt="" coords="522,75,635,101"/>
+<area shape="rect" id="node4" href="$classetiss_1_1instr_1_1InstructionGroup.html" title="maps to InstructionSet" alt="" coords="1375,117,1541,158"/>
+<area shape="rect" id="node3" title=" " alt="" coords="470,242,687,313"/>
+<area shape="rect" id="node6" title=" " alt="" coords="535,149,622,176"/>
+<area shape="rect" id="node7" title=" " alt="" coords="233,142,371,183"/>
+<area shape="rect" id="node8" title=" " alt="" coords="5,148,87,175"/>
+<area shape="rect" id="node12" href="$classetiss_1_1instr_1_1BitArray.html" title="stores a bit vector" alt="" coords="227,296,377,323"/>
+<area shape="rect" id="node9" title=" " alt="" coords="541,337,616,364"/>
+<area shape="rect" id="node10" title=" " alt="" coords="469,388,688,444"/>
+<area shape="rect" id="node11" href="$classetiss_1_1instr_1_1OPCode.html" title="defines the relevant bits and their value to identify an instruction." alt="" coords="504,468,653,495"/>
+<area shape="rect" id="node13" title=" " alt="" coords="21,308,71,335"/>
+<area shape="rect" id="node14" title=" " alt="" coords="27,257,65,284"/>
+</map>

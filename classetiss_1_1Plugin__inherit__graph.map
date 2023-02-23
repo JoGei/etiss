@@ -1,0 +1,29 @@
+<map id="etiss::Plugin" name="etiss::Plugin">
+<area shape="rect" id="node1" title="base plugin class that provides access to different plugin functions if present" alt="" coords="167,283,268,309"/>
+<area shape="rect" id="node3" href="$classetiss_1_1CoroutinePlugin.html" title="this plugin will be called before a block is executed." alt="" coords="337,165,501,192"/>
+<area shape="rect" id="node10" href="$classetiss_1_1InterruptListenerPlugin.html" title=" " alt="" coords="334,275,503,317"/>
+<area shape="rect" id="node12" href="$classetiss_1_1RegisterDevicePlugin.html" title="RegisterDevicePlugin::changedRegister is called if a supported register has been changed." alt="" coords="319,60,519,87"/>
+<area shape="rect" id="node13" href="$classetiss_1_1SystemWrapperPlugin.html" title="this plugin allows to wrap the ETISS_System interface" alt="" coords="316,367,521,393"/>
+<area shape="rect" id="node17" href="$classetiss_1_1TranslationPlugin.html" title="allows to add code to the translation of instructions" alt="" coords="333,665,505,692"/>
+<area shape="rect" id="node2" href="$classetiss_1_1ToString.html" title="Marker interface for toString() support." alt="" coords="5,283,119,309"/>
+<area shape="rect" id="node4" href="$classOR1KTimer.html" title=" " alt="" coords="626,5,721,32"/>
+<area shape="rect" id="node5" href="$classRISCV64Timer.html" title=" " alt="" coords="616,224,731,251"/>
+<area shape="rect" id="node6" href="$classTracePrinter.html" title="A simple logger dedicated to print PC trace." alt="" coords="624,56,723,83"/>
+<area shape="rect" id="node7" href="$classetiss_1_1InterruptHandler.html" title="class that handles interrupt signaling and checking." alt="" coords="589,107,757,133"/>
+<area shape="rect" id="node8" href="$classetiss_1_1plugin_1_1errorInjection_1_1BlockAccurateHandler.html" title="Register error injection class." alt="" coords="575,158,771,199"/>
+<area shape="rect" id="node9" href="$classetiss_1_1plugin_1_1gdb_1_1Server.html" title="gdb server implementation that is used as a plugin in etiss" alt="" coords="607,443,740,485"/>
+<area shape="rect" id="node11" href="$classetiss_1_1plugin_1_1fault_1_1SwitchSystem.html" title=" " alt="" coords="604,275,743,317"/>
+<area shape="rect" id="node14" href="$classetiss_1_1mm_1_1DMMUWrapper.html" title=" " alt="" coords="576,341,771,368"/>
+<area shape="rect" id="node15" href="$classetiss_1_1plugin_1_1Logger.html" title="simple logger implementation." alt="" coords="597,392,750,419"/>
+<area shape="rect" id="node16" href="$classetiss_1_1plugin_1_1MemoryDeviceMapper.html" title=" " alt="" coords="569,509,777,550"/>
+<area shape="rect" id="node18" href="$classetiss_1_1CPUArch.html" title="the interface to translate instructions of and processor architecture" alt="" coords="615,575,732,601"/>
+<area shape="rect" id="node23" href="$classetiss_1_1DataSheetAccurateTiming.html" title=" " alt="" coords="580,626,767,667"/>
+<area shape="rect" id="node24" href="$classetiss_1_1plugin_1_1InstructionAccurateCallback.html" title="writes the value of a field before each instruction" alt="" coords="584,691,763,733"/>
+<area shape="rect" id="node25" href="$classetiss_1_1plugin_1_1InstructionSpecificAddressCallback.html" title="a simple plugin that prints the instruction and address when an instruction is executed" alt="" coords="583,757,763,798"/>
+<area shape="rect" id="node26" href="$classetiss_1_1plugin_1_1PrintInstruction.html" title="a simple plugin that prints the instruction and address when an instruction is executed" alt="" coords="569,823,777,849"/>
+<area shape="rect" id="node27" href="$classetiss_1_1plugin_1_1VariableValueLogger.html" title="writes the value of a field before each instruction" alt="" coords="574,874,773,915"/>
+<area shape="rect" id="node19" href="$classOR1KArch.html" title="TODO: implement opt_hostendianess for store/load instructions." alt="" coords="851,499,937,525"/>
+<area shape="rect" id="node20" href="$classRISCV64Arch.html" title=" " alt="" coords="841,549,947,576"/>
+<area shape="rect" id="node21" href="$classRISCVArch.html" title=" " alt="" coords="849,600,939,627"/>
+<area shape="rect" id="node22" href="$classRV32IMACFDArch.html" title=" " alt="" coords="825,651,963,677"/>
+</map>

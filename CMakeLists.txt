@@ -236,6 +236,7 @@ if(NOT elfio_srcs_POPULATED)
 	FetchContent_GetProperties(elfio_srcs)
 endif()
 
+### simpleini
 FetchContent_Declare(simpleini_srcs
 	GIT_REPOSITORY https://github.com/brofield/simpleini.git
 	GIT_TAG v4.19
@@ -244,7 +245,7 @@ if(NOT simpleini_srcs_POPULATED)
 	FetchContent_Populate(simpleini_srcs)
 	FetchContent_GetProperties(simpleini_srcs)
 endif()
-add_library(simpleini
+add_library(simpleini OBJECT
     "${simpleini_srcs_SOURCE_DIR}/ConvertUTF.c"
 )
 set_target_properties(simpleini PROPERTIES
@@ -252,12 +253,11 @@ set_target_properties(simpleini PROPERTIES
 )
 target_include_directories(simpleini PUBLIC
     $<BUILD_INTERFACE:${simpleini_srcs_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:include/simpleini>
 )
 install(TARGETS simpleini
-    PUBLIC_HEADER DESTINATION include
+    PUBLIC_HEADER DESTINATION include/simpleini
 )
-
 FetchContent_Declare(pugixml_srcs
     GIT_REPOSITORY https://github.com/zeux/pugixml.git
     GIT_TAG v1.11.4

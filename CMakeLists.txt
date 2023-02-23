@@ -257,7 +257,7 @@ target_include_directories(simpleini PUBLIC
 )
 install(TARGETS simpleini
     PUBLIC_HEADER DESTINATION include/simpleini
-
+)
 FetchContent_Declare(pugixml_srcs
     GIT_REPOSITORY https://github.com/zeux/pugixml.git
     GIT_TAG v1.11.4

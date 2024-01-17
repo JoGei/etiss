@@ -327,6 +327,52 @@ std::shared_ptr<etiss::VirtualStruct> RV32IMACFDArch::getVirtualStruct(ETISS_CPU
 	}
 
 	ret->addField(new pcField_RV32IMACFD(*ret));
+
+////////////////////////////////////////////////////////////////////////////////
+/// !!! HBD !! Mannually added Code - should be added viy M2ISAR-2 /////////////
+/// \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+	// FCSR
+	ret->addField(new CSRField_RV32IMACFD(*ret,1));
+	ret->addField(new CSRField_RV32IMACFD(*ret,2));
+	ret->addField(new CSRField_RV32IMACFD(*ret,3));
+	// VCSR
+	ret->addField(new CSRField_RV32IMACFD(*ret,8));
+	ret->addField(new CSRField_RV32IMACFD(*ret,9));
+	ret->addField(new CSRField_RV32IMACFD(*ret,10));
+	ret->addField(new CSRField_RV32IMACFD(*ret,15));
+	// M CSR
+	ret->addField(new CSRField_RV32IMACFD(*ret,768));
+	ret->addField(new CSRField_RV32IMACFD(*ret,769));
+	ret->addField(new CSRField_RV32IMACFD(*ret,770));
+	ret->addField(new CSRField_RV32IMACFD(*ret,771));
+	ret->addField(new CSRField_RV32IMACFD(*ret,772));
+	ret->addField(new CSRField_RV32IMACFD(*ret,773));
+	ret->addField(new CSRField_RV32IMACFD(*ret,774));
+	ret->addField(new CSRField_RV32IMACFD(*ret,832));
+	ret->addField(new CSRField_RV32IMACFD(*ret,833));
+	ret->addField(new CSRField_RV32IMACFD(*ret,834));
+	ret->addField(new CSRField_RV32IMACFD(*ret,835));
+	ret->addField(new CSRField_RV32IMACFD(*ret,836));
+	//
+	ret->addField(new CSRField_RV32IMACFD(*ret,3072));
+	ret->addField(new CSRField_RV32IMACFD(*ret,3074));
+	ret->addField(new CSRField_RV32IMACFD(*ret,3073));
+	// VCSR
+	ret->addField(new CSRField_RV32IMACFD(*ret,3104));
+	ret->addField(new CSRField_RV32IMACFD(*ret,3105));
+	ret->addField(new CSRField_RV32IMACFD(*ret,3106));
+	//
+	ret->addField(new CSRField_RV32IMACFD(*ret,3200));
+	ret->addField(new CSRField_RV32IMACFD(*ret,3201));
+	ret->addField(new CSRField_RV32IMACFD(*ret,3202));
+	// M CSR
+	ret->addField(new CSRField_RV32IMACFD(*ret,3857));
+	ret->addField(new CSRField_RV32IMACFD(*ret,3858));
+	ret->addField(new CSRField_RV32IMACFD(*ret,3859));
+	ret->addField(new CSRField_RV32IMACFD(*ret,3860));
+/// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ /////////////
+/// !!! HBD !! Mannually added Code - should be added viy M2ISAR-2 /////////////
+////////////////////////////////////////////////////////////////////////////////
 	return ret;
 }
 
@@ -345,8 +391,10 @@ etiss::InterruptVector * RV32IMACFDArch::createInterruptVector(ETISS_CPU * cpu)
 	std::vector<etiss::uint32 *> vec;
 	std::vector<etiss::uint32 *> mask;
 
-	vec.push_back(&((RV32IMACFD*)cpu)->MIE);
-	mask.push_back(&((RV32IMACFD*)cpu)->MIP);
+	vec.push_back(&((RV32IMACFD*)cpu)->MIP);
+	mask.push_back(&((RV32IMACFD*)cpu)->MIE);
+	//vec.push_back(&((RV32IMACFD*)cpu)->MIE);
+	//mask.push_back(&((RV32IMACFD*)cpu)->MIP);
 
 	return new etiss::MappedInterruptVector<etiss::uint32>(vec, mask);
 }

@@ -11,6 +11,8 @@
 #ifndef ETISS_RV32IMACFDArch_RV32IMACFDARCHSPECIFICIMP_H_
 #define ETISS_RV32IMACFDArch_RV32IMACFDARCHSPECIFICIMP_H_
 
+#include "RV32IMACFDFuncs.h"
+
 /**
 	@brief VirtualStruct for RV32IMACFD architecture to faciliate register acess
 
@@ -54,6 +56,86 @@ protected:
 		*((RV32IMACFD*)parent_.structure_)->X[gprid_] = (etiss_uint32) val;
 	}
 };
+
+////////////////////////////////////////////////////////////////////////////////
+/// !!! HBD !! Mannually added Code - should be added viy M2ISAR-2 /////////////
+/// \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+class FloatRegField_RV32IMACFD : public etiss::VirtualStruct::Field{
+private:
+	const unsigned gprid_;
+public:
+	FloatRegField_RV32IMACFD(etiss::VirtualStruct & parent,unsigned gprid)
+		: Field(parent,
+			std::string("F")+etiss::toString(gprid),
+			std::string("F")+etiss::toString(gprid),
+			R|W,
+			8
+		),
+		gprid_(gprid)
+	{}
+
+	FloatRegField_RV32IMACFD(etiss::VirtualStruct & parent, std::string name, unsigned gprid)
+		: Field(parent,
+			name,
+			name,
+			R|W,
+			8
+		),
+		gprid_(gprid)
+	{}
+
+	virtual ~FloatRegField_RV32IMACFD(){}
+
+protected:
+	virtual uint64_t _read() const {
+		return (uint64_t) ((RV32IMACFD*)parent_.structure_)->F[gprid_];
+	}
+
+	virtual void _write(uint64_t val) {
+		etiss::log(etiss::VERBOSE, "write to ETISS cpu state", name_, val);
+		((RV32IMACFD*)parent_.structure_)->F[gprid_] = (etiss_uint64) val;
+	}
+};
+
+class CSRField_RV32IMACFD : public etiss::VirtualStruct::Field{
+private:
+	const unsigned gprid_;
+public:
+	CSRField_RV32IMACFD(etiss::VirtualStruct & parent,unsigned gprid)
+		: Field(parent,
+			std::string("CSR")+etiss::toString(gprid),
+			std::string("CSR")+etiss::toString(gprid),
+			R|W,
+			4
+		),
+		gprid_(gprid)
+	{}
+
+	CSRField_RV32IMACFD(etiss::VirtualStruct & parent, std::string name, unsigned gprid)
+		: Field(parent,
+			name,
+			name,
+			R|W,
+			4
+		),
+		gprid_(gprid)
+	{}
+
+	virtual ~CSRField_RV32IMACFD(){}
+
+protected:
+	virtual uint64_t _read() const {
+		return (uint64_t) RV32IMACFD_csr_read((ETISS_CPU*)parent_.structure_, nullptr, nullptr, (etiss_uint32) gprid_);
+	}
+
+	virtual void _write(uint64_t val) {
+		etiss::log(etiss::VERBOSE, "write to ETISS cpu state", name_, val);
+		RV32IMACFD_csr_write((ETISS_CPU*)parent_.structure_, nullptr, nullptr, gprid_, (etiss_uint32) val);
+	}
+};
+/// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ /////////////
+/// !!! HBD !! Mannually added Code - should be added viy M2ISAR-2 /////////////
+////////////////////////////////////////////////////////////////////////////////
 
 class pcField_RV32IMACFD : public etiss::VirtualStruct::Field{
 public:

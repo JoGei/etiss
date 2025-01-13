@@ -2187,6 +2187,7 @@ static InstructionDefinition cebreak_ (
 
 // -----------------------------------------------------------------------------
 { // block
+cp.code() += "return ETISS_RETURNCODE_CPUFINISHED; \n";
 cp.code() += "{ // block\n";
 cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 2) + "ULL;\n";
 cp.code() += "} // block\n";

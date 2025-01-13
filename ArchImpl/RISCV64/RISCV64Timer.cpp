@@ -138,11 +138,11 @@ static etiss_int32 dbg_write(void *handle, etiss_uint64 addr, etiss_uint8 *buffe
     return etiss::RETURNCODE::NOERROR;
 }
 
-static void syncTime(void *handle, ETISS_CPU *cpu)
+static etiss_int32 syncTime(void *handle, ETISS_CPU *cpu)
 {
     RISCV64TimerSystem *lsys = ((RISCV64TimerSystem *)handle);
     ETISS_System *sys = lsys->orig;
-    sys->syncTime(sys->handle, cpu);
+    return sys->syncTime(sys->handle, cpu);
 }
 
 RISCV64Timer::RISCV64Timer()

@@ -111,7 +111,7 @@ extern "C"
         /**
                 @brief called after a block to synchronize the time
         */
-        void (*syncTime)(void *handle, ETISS_CPU *cpu);
+        etiss_int32 (*syncTime)(void *handle, ETISS_CPU *cpu);
 
         void *handle; /**< @brief custom handle that will be passed to the functions of this structure */
     };

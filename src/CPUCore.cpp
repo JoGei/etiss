@@ -703,7 +703,11 @@ etiss::int32 CPUCore::execute(ETISS_System &_system)
     etiss::int32 exception = RETURNCODE::NOERROR;
 
     // sync time at the beginning (e.g. SystemC processes running at time 0)
-    system->syncTime(system->handle, cpu_);
+    exception = system->syncTime(system->handle, cpu_);
+    if(exception != RETURNCODE::NOERROR)
+    {
+        goto loopexit; // return exception; terminate cpu
+    }
 
     // execution loop
     {
@@ -798,8 +802,12 @@ etiss::int32 CPUCore::execute(ETISS_System &_system)
                     // plugins_handle_ has the pointer to all translation plugins,
                     // In the generated code these plugin handles are named "plugin_pointers" and can be used to access
                     // a variable of the plugin
+                    auto entry = cpu_->cpuTime_ps;
                     exception = (*(blptr->execBlock))(cpu_, system, plugins_handle_);
-
+                    if (entry == cpu_->cpuTime_ps)
+                    {
+                        cpu_->cpuTime_ps += cpu_->cpuCycleTime_ps; //  Does not make sense: atleast one instruction must have been executed.
+                    }
                     // exit simulator when a loop to self instruction is encountered
                     if (exit_on_loop && !exception &&
                             old_time + cpu_->cpuCycleTime_ps == cpu_->cpuTime_ps &&
@@ -828,7 +836,11 @@ etiss::int32 CPUCore::execute(ETISS_System &_system)
             }
 
             // sync time after block
-            system->syncTime(system->handle, cpu_);
+            exception = system->syncTime(system->handle, cpu_);
+            if(exception != RETURNCODE::NOERROR)
+            {
+                goto loopexit; // return exception; terminate cpu
+            }
         }
     }
 

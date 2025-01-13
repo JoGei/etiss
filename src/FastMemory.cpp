@@ -79,7 +79,7 @@ static etiss_int32 system_call_dbg_write(void *handle, etiss_uint64 addr, etiss_
     return 0;
 }
 
-static void system_call_syncTime(void *handle, ETISS_CPU *cpu) {}
+static etiss_int32 system_call_syncTime(void *handle, ETISS_CPU *cpu) { return 0; }
 
 std::shared_ptr<ETISS_System> etiss::createFastMemory(size_t size)
 {

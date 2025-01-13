@@ -134,11 +134,11 @@ etiss_int32 dbg_write(void *handle, etiss_uint64 addr, etiss_uint8 *buffer, etis
     return sys->dbg_write(sys->handle, addr, buffer, length);
 }
 
-void syncTime(void *handle, ETISS_CPU *cpu)
+etiss_int32 syncTime(void *handle, ETISS_CPU *cpu)
 {
     LoggerSystem *lsys = ((LoggerSystem *)handle);
     ETISS_System *sys = lsys->orig;
-    sys->syncTime(sys->handle, cpu);
+    return sys->syncTime(sys->handle, cpu);
 }
 
 //}

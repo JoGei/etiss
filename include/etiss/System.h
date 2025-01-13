@@ -211,7 +211,7 @@ class System
      * @param cpu Pointer to the CPU structure, for which the synchronization
      * should be performed.
      */
-    virtual void syncTime(ETISS_CPU *cpu) = 0;
+    virtual etiss_int32 syncTime(ETISS_CPU *cpu) = 0;
 };
 
 /**
@@ -227,7 +227,7 @@ class SimpleSystem : public System
     virtual etiss::int32 dwrite(ETISS_CPU *cpu, etiss::uint64 addr, etiss::uint8 *buf, etiss::uint32 len);
     virtual etiss::int32 dbg_read(etiss::uint64 addr, etiss::uint8 *buf, etiss::uint32 len);
     virtual etiss::int32 dbg_write(etiss::uint64 addr, etiss::uint8 *buf, etiss::uint32 len);
-    virtual void syncTime(ETISS_CPU *cpu);
+    virtual etiss_int32 syncTime(ETISS_CPU *cpu);
 
     virtual bool read(bool debug, ETISS_CPU *cpu, etiss::uint64 addr, etiss::uint8 *buf, etiss::uint32 len) = 0;
     virtual bool write(bool debug, ETISS_CPU *cpu, etiss::uint64 addr, etiss::uint8 *buf, etiss::uint32 len) = 0;

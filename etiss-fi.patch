@@ -1,0 +1,715 @@
+diff --git a/src/bare_etiss_processor/base.ini b/src/bare_etiss_processor/base.ini
+index fb6f1166..1c1108c9 100644
+--- a/src/bare_etiss_processor/base.ini
++++ b/src/bare_etiss_processor/base.ini
+@@ -12,18 +12,59 @@ etiss.load_integrated_libraries=true
+ jit.debug=false
+ testing = false
+ 
++disable_fi=false
++randomize_input_image=false
++etiss.fi=true
++extract_sdc=false
++
+ [IntConfigurations]
+ 
++etiss.loglevel=2
+ arch.or1k.if_stall_cycles=0
+ etiss.max_block_size=100
+-arch.cpu_cycle_time_ps=31250
++arch.cpu_cycle_time_ps=10000
+ ETISS::CPU_quantum_ps=100000
+ ETISS::write_pc_trace_from_time_us=0
+ ETISS::write_pc_trace_until_time_us=3000000
+ ETISS::sim_mode=0
+ vp::simulation_time_us=20000000
+ 
++etiss.fi_max_instr_cnt=32355986
++; RESNET = 200000000
++; AWW = 100000000
++; CONVNET = 350000000
++; VWW = 150000000
++; TOYCAR = 4000000
++etiss.fi_max_instr_cnt_term=65000000
++
+ [Plugin Logger]
+ 
+-plugin.logger.logaddr=0x80000000
+-plugin.logger.logmask=0x80000000
++plugin.logger.logaddr=0x10000000
++plugin.logger.logmask=0xF0000000
++
++[IntConfigurations]
++
++# ROM
++simple_mem_system.memseg_origin_00=0x0
++simple_mem_system.memseg_length_00=0x100000
++# RAM
++simple_mem_system.memseg_origin_01=0x100000
++simple_mem_system.memseg_length_01=0x1F00000
++# UART
++simple_mem_system.memseg_origin_02=0x10000000
++simple_mem_system.memseg_length_02=0x1000
++# CLINT
++simple_mem_system.memseg_origin_03=0x2000000
++simple_mem_system.memseg_length_03=0xC0000
++# TIMER
++simple_mem_system.memseg_origin_04=0x18000000
++simple_mem_system.memseg_length_04=0x1000
++# PLIC
++simple_mem_system.memseg_origin_05=0xC000000
++simple_mem_system.memseg_length_05=0x3FFFFFF
++
++[StringConfigurations]
++simple_mem_system.memseg_mode_02=RW
++simple_mem_system.memseg_mode_03=RW
++simple_mem_system.memseg_mode_04=RW
++simple_mem_system.memseg_mode_05=RW
+diff --git a/src/bare_etiss_processor/main.cpp b/src/bare_etiss_processor/main.cpp
+index ab08640e..bb6ef216 100644
+--- a/src/bare_etiss_processor/main.cpp
++++ b/src/bare_etiss_processor/main.cpp
+@@ -44,6 +44,13 @@
+ #include "etiss/SimpleMemSystem.h"
+ #include "etiss/IntegratedLibrary/fault/MemoryManipulationSystem.h"
+ #include "etiss/ETISS.h"
++#include "fiPlugin.h"
++
++#define NUM_INPUTS 1
++#define BM 0
++
++#define UART_BASE_ADDR 0x10000000
++#define UART_OFFSET_LSR 5 * 0x4 // R/W
+ 
+ int main(int argc, const char *argv[])
+ {
+@@ -54,17 +61,20 @@ int main(int argc, const char *argv[])
+     // files and All configurations can be set with program arguments, too. E.g.:
+     // ./main [-o<option> <value>] [-f[no]<flag>] [-i<additionalinifile>]
+     // All arguments with this format will be evaluated by the Initializer.
++#ifdef DEBUG
+     std::cout << "=== Setting up configurations ===" << std::endl;
++#endif
+     // std::list<std::string> iniFiles;
+     //  iniFiles.push_back("../ETISS.ini"); // will be loaded within the run.sh
+     //  iniFiles.push_back("additional.ini");
+     etiss::Initializer initializer(
+         argc, argv); // add &iniFiles as the first argument if .ini files are loaded explicitly here
++#ifdef DEBUG
+     std::cout << "=== Finished setting up configurations ===" << std::endl << std::endl;
+ 
+     std::cout << "=== Setting up test system ===" << std::endl;
+     std::cout << "  Setting up Memory" << std::endl;
+-
++#endif
+     bool is_fault_injection = !(etiss::cfg().get<std::string>("faults.xml", "")).empty();
+ 
+     std::shared_ptr<etiss::SimpleMemSystem> dsys;
+@@ -104,18 +114,35 @@ int main(int argc, const char *argv[])
+             pos += 4;
+         }
+     }
+-
++#ifdef DEBUG
+     std::cout << "  Setting up CPUCore" << std::endl;
++#endif
+     // create a cpu core named core0 with the or1k architecture
+     std::string CPUArchName = etiss::cfg().get<std::string>("arch.cpu", "");
+     etiss::uint64 sa = etiss::cfg().get<uint64_t>("vp.entry_point", dsys->get_startaddr());
++#ifdef DEBUG
+     std::cout << "  CPU start address: 0x" << std::hex << sa << std::dec << std::endl;
++#endif
+     std::shared_ptr<etiss::CPUCore> cpu = etiss::CPUCore::create(CPUArchName, "core0");
+     if (!cpu)
+     {
+         etiss::log(etiss::FATALERROR, "  Failed to create CPU core!");
+     }
+ 
++    etiss::uint8 input_image_chosen{ static_cast<etiss::uint8>(rand() % NUM_INPUTS) };
++    if (!etiss::cfg().get<bool>("randomize_input_image", 0))
++    {
++        input_image_chosen = 5;
++    }
++    if (etiss::cfg().get<bool>("etiss.fi", false))
++    {
++        std::cout << "FI_INFO: input_image_chosen: " << (int)input_image_chosen; // << "\n";
++    }
++
++    dsys->dwrite(cpu->getState(), 0x800000, &input_image_chosen, 1);
++
++    etiss::uint8 lsrhigh = 0x20;
++    dsys->dwrite(cpu->getState(), UART_BASE_ADDR + UART_OFFSET_LSR, &lsrhigh, 1);
+     // disable timer plugin
+     cpu->setTimer(false);
+ 
+@@ -127,7 +154,7 @@ int main(int argc, const char *argv[])
+     if (is_fault_injection)
+     {
+         dynamic_cast<etiss::MemoryManipulationSystem &>(*dsys).init_manipulation(cpu);
+-        
++
+         etiss::initialize_virtualstruct(
+             cpu,
+             [](const etiss::fault::Fault &fault, const etiss::fault::Action &action, std::string &errormsg)
+@@ -141,11 +168,13 @@ int main(int argc, const char *argv[])
+     {
+         etiss::initialize_virtualstruct(cpu);
+     }
++#ifdef DEBUG
+     std::cout << "=== Finished Setting up test system ===" << std::endl << std::endl;
+ 
+     std::cout << "=== Setting up plug-ins ===" << std::endl;
+-
+-    auto irq_handler = std::make_shared<etiss::InterruptHandler>(cpu->getInterruptVector(), cpu->getInterruptEnable(), cpu->getArch(), etiss::LEVEL_TRIGGERED, false);
++#endif
++    auto irq_handler = std::make_shared<etiss::InterruptHandler>(cpu->getInterruptVector(), cpu->getInterruptEnable(),
++                                                                 cpu->getArch(), etiss::LEVEL_TRIGGERED, false);
+     cpu->addPlugin(irq_handler);
+ 
+     initializer.loadIniPlugins(cpu);
+@@ -157,28 +186,482 @@ int main(int argc, const char *argv[])
+         cpu->addPlugin(std::make_shared<TracePrinter>(0x88888));
+     }
+ 
+-    std::cout << "=== Setting up plug-ins ===" << std::endl << std::endl;
++    // std::cout << "=== Setting up plug-ins ===" << std::endl << std::endl;
++
++    auto fi_plugin{ std::make_shared<fiPlugin>(cpu->getStruct().get()) };
++    if (etiss::cfg().get<bool>("etiss.fi", false))
++    {
++        etiss::cfg().set<int>("etiss.max_block_size", 1);
++        cpu->addPlugin(fi_plugin);
++        //  cpu->addPlugin(std::make_shared<hamartiaFIPlugin>(cpu.get(), &dsys));
++
++        // disabling login plugger if enabled
++        for (auto &p : *cpu->getPlugins())
++        {
++            if (p->getPluginName() == "Logger{SYSTEMWRAPPER}")
++            {
++                cpu->removePlugin(p);
++                break;
++            }
++        }
++    }
++
++    if (etiss::cfg().get<bool>("extract_sdc", false))
++    {
++        etiss::cfg().set<int>("etiss.max_block_size", 1);
++        cpu->addPlugin(std::make_shared<printInstr>(cpu->getStruct().get()));
++    }
+ 
+     // Simulation start
++#ifdef DEBUG
+     std::cout << std::endl << "=== Simulation start ===" << std::endl;
++#endif
+     // float startTime = (float)clock() / CLOCKS_PER_SEC; // TESTING
+     //  run cpu with the SimpleMemSystem (in other cases that "system" is most likely a
+     //  bus that connects the cpu to memory,periphery,etc)
+     etiss_int32 exception = cpu->execute(*dsys);
+     // float endTime = (float)clock() / CLOCKS_PER_SEC;
++#ifdef DEBUG
+     std::cout << "=== Simulation end ===" << std::endl << std::endl;
+-
++#endif
+     // print the exception code returned by the cpu core
++#ifdef DEBUG
+     std::cout << "CPU0 exited with exception: 0x" << std::hex << exception << std::dec << ": "
+               << etiss::RETURNCODE::getErrorMessages()[exception] << std::endl;
++#endif
++    uint64_t instr_cnt{ fi_plugin->getInstrCnt() };
++    etiss::uint32 class_addr = 0x800000;
++    etiss::uint32 oc_addr = 0x800100;
++    etiss::uint32 main_retcode_addr = 0x800400;
++
++    auto readWordFromMem{ [&dsys, &cpu](uint64_t addr) -> uint32_t
++                          {
++                              uint32_t ret{ 0 };
++                              etiss::uint8 buf[4];
++                              dsys->dread(cpu->getState(), addr, buf, 4);
++                              ret = buf[0] | (buf[1] << 8) | (buf[2] << 16) | (buf[3] << 24);
++                              return ret;
++                          } };
++
++    size_t main_retcode_value{ static_cast<int>(readWordFromMem(main_retcode_addr)) };
++
++    std::stringstream ss;
++    ss << "FI_INFO: OC: " << static_cast<int>(readWordFromMem(class_addr)) << " - { ";
++    for (int i = 0; i < 12; ++i)
++    {
++        int value{ static_cast<int>(readWordFromMem(oc_addr + i * 4)) };
++        ss << value << ((i < 11) ? ", " : " }");
++    }
++    std::cout << ss.str() << std::endl;
+ 
+     switch (exception)
+     {
+     case etiss::RETURNCODE::CPUFINISHED:
+     case etiss::RETURNCODE::NOERROR:
+     case etiss::RETURNCODE::CPUTERMINATED:
+-        return 0;
+-        break;
++    {
++        if (etiss::cfg().get<bool>("etiss.fi", false))
++        {
++
++            uint64_t addr{ 0x800000 };
++
++#ifdef DBG_TRACE
++            /*       unsigned addr3{0xa00000};
++                   for (int i=0; i < 512; ++i) {
++                    std::cout << "lhs_value[" << i << "] = " << (int)readWordFromMem(addr3) << "\n";
++                    addr3 += 4;
++                   }*/
++
++            unsigned addr2 = 0x900000;
++            for (int i = 0; i < 265; ++i)
++            {
++                std::cout << "FI_INFO: " << (int)readWordFromMem(addr2) << "\n";
++                addr2 += 4;
++            }
++
++#endif
++
++            if (fi_plugin->getInstrCnt() >= etiss::cfg().get<int>("etiss.fi_max_instr_cnt_term", 0))
++            {
++                std::cout << "FI_INFO: main_ret = " << main_retcode_value << " \n";
++                std::cout << "FI_INFO: instr_cnt = " << instr_cnt << "\n";
++                std::cout << "FI_INFO: DUE\n";
++                return 0;
++            }
++
++#ifdef DEBUGX
++            // unsigned addr3{0x90000c};
++            // for (int i=0; i < 20; ++i) {
++            // std::cout << "out[" << i << "] = " << (int)readWordFromMem(addr3) << "\n";
++            // addr3 += 4;
++            //}
++
++            std::cout << "ans = " << (int)readWordFromMem(0x900000) << "\n";
++            std::cout << "ans = " << (int)readWordFromMem(0x900004) << "\n";
++            return 0;
++#endif
++
++            //////////////////////////////////////////////////
++            //// CUDA-CONVNET2 on CIFAR10 ###
++            /*        unsigned max_i{0};
++                    int max_value{0};
++                    std::cout << "[ ";
++                    for (int i = 0; i < 10; ++i) {
++                      auto x{readWordFromMem(addr)};
++                      std::cout << x << ", ";
++
++                      if (etiss::cfg().get<bool>("etiss.fi", false)) {
++                        if (i != 8) {
++                          if (x != 0) {
++                            std::cout << "FO: SDC"
++                                      << "\n";
++                            break;
++                          }
++                        } else {
++                          if (x != 127) {
++                            std::cout << "FO: SDC"
++                                      << "\n";
++                            break;
++                          }
++                        }
++                      }
++                      if (x > max_value) {
++                        max_value = x;
++                        max_i = i;
++                      }
++
++                      addr += 4;
++                    }
++
++                    std::cout << "]\n";
++                    std::cout << "class: " << max_i << "\n";
++
++                    if (etiss::cfg().get<bool>("etiss.fi", false)) {
++                      if (max_i != 8) {
++                        std::cout << "FO: EDC\n";
++                      }
++                    } */
++            //////////////////////////////////////////////////
++
++#if BM == 0
++            // AWW from ml_on_mcu
++            // wrong inference on 11, 15, 18 -> the quantized models are anyways
++            //                                  expected to perform worse on
++            //                                  accuracy!!
++            // most computation on 15
++
++            // NOTE: the runtimes in below i.e. results_map_edc[x].second seem to
++            //       useless now
++            std::map<size_t, std::pair<size_t, uint64_t>> results_map_edc{
++                { 0, { 7, 97238473 } } /*{ 0, { 5, 97222217 } }*/,
++                { 1, { 2, 97241653 } },
++                { 2, { 6, 97240038 } },
++                { 3, { 8, 97241619 } },
++                { 4, { 5, 97230015 } },
++                // error: { 5, { 5, 97234186 } },
++                { 5, { 0, 97234186 } },
++                { 6, { 8, 97234995 } },
++                { 7, { 9, 97235304 } },
++                { 8, { 4, 97231438 } },
++                { 9, { 3, 97240329 } },
++                { 10, { 11, 97236137 } },
++
++                { 11, { 9, 97235793 } }, // 2
++
++                { 12, { 1, 97237776 } },
++                { 13, { 9, 97239074 } },
++                { 14, { 10, 97238943 } },
++
++                { 15, { 11, 97243480 } }, // 9   // max
++
++                { 16, { 11, 97237085 } },
++                { 17, { 5, 97239113 } },
++
++                { 18, { 11, 97236440 } }, // 6
++
++                { 19, { 6, 97237047 } },
++                { 20, { 5, 97236361 } },
++                { 21, { 10, 97236506 } },
++                { 22, { 8, 97242103 } },
++                { 23, { 5, 97240737 } },
++                { 24, { 7, 97233051 } },
++                { 25, { 4, 97234254 } },
++                { 26, { 5, 97231622 } },
++                { 27, { 2, 97237696 } },
++                { 28, { 6, 97239900 } },
++                { 29, { 5, 97222217 } } // min
++
++            };
++
++            std::map<size_t, std::array<int, 12>> results_map_sdc{
++                // 0.bin: { 0, { -128, -128, -128, -128, -128, 127, -128, -128, -128, -128, -128, -128 } },
++                { 0, { -128, -128, -126, -128, -128, -128, -128, 121, -127, -128, -128, -125 } },
++                { 1, { -128, -128, 92, -127, -128, -128, -128, -128, -128, -128, -128, -93 } },
++                { 2, { -128, -128, -122, -128, -128, -128, 121, -128, -128, -128, -128, -127 } },
++                { 3, { -128, -128, -128, -128, -128, -128, -128, -128, 127, -128, -128, -128 } },
++                { 4, { -128, -128, -128, -128, -128, 127, -128, -128, -128, -128, -128, -128 } },
++                //{ 5, { -128, -128, -128, -128, -128, 127, -128, -128, -128, -128, -128, -128 } },
++                { 5, { 118, -127, -128, -128, -128, -124, -128, -128, -128, -128, -128, -123 } },
++                { 6, { -128, -128, -128, -128, -128, -128, -128, -128, 127, -128, -128, -128 } },
++                { 7, { -128, -128, -127, -128, -128, -128, -128, -128, -128, 127, -128, -128 } },
++                { 8, { -128, -128, -128, -128, 126, -127, -128, -128, -127, -128, -128, -128 } },
++                { 9, { -127, -120, -128, 112, -128, -128, -128, -128, -128, -128, -128, -122 } },
++                { 10, { -128, -128, -128, -128, -128, -128, -128, -128, -127, -127, -128, 125 } },
++                { 11, { -128, -128, -12, -128, -128, -128, -128, -128, -128, 5, -128, -121 } },
++                { 12, { -128, 123, -128, -124, -128, -128, -128, -128, -128, -128, -128, -127 } },
++                { 13, { -128, -128, -123, -128, -128, -128, -128, -128, -128, 123, -128, -128 } },
++                { 14, { -127, -128, -124, -127, -127, -124, -126, -124, -121, -127, 67, -93 } },
++                { 15, { -127, -127, -113, -75, -128, -128, -128, -128, -125, -88, -128, 15 } },
++                { 16, { -127, -128, -127, -127, -128, -128, -128, -127, -128, -125, -128, 120 } },
++                { 17, { -128, -128, -128, -128, -128, 89, -128, -128, -128, -128, -128, -89 } },
++                { 18, { -128, -127, -128, -128, -128, -128, -116, -128, -127, -128, -128, 114 } },
++                { 19, { -128, -128, -128, -128, -128, -128, 124, -128, -128, -128, -128, -124 } },
++                { 20, { -128, -128, -128, -128, -114, 113, -128, -128, -128, -128, -128, -128 } },
++                { 21, { -128, -127, -119, -126, -127, -125, -125, -121, -119, -127, 45, -80 } },
++                { 22, { -128, -128, -128, -128, -128, -128, -128, -128, 127, -128, -128, -128 } },
++                { 23, { -128, -128, -128, -128, -110, 102, -128, -128, -120, -128, -128, -127 } },
++                { 24, { -128, -128, -128, -128, -128, -128, -128, 127, -128, -128, -128, -128 } },
++                { 25, { -128, -128, -128, -128, 127, -128, -128, -128, -128, -128, -128, -128 } },
++                { 26, { -128, -128, -128, -128, -128, 127, -128, -128, -128, -128, -128, -128 } },
++                { 27, { -128, -127, -13, -119, -125, -128, -127, -53, -96, -125, -128, -112 } },
++                { 28, { -128, -128, -127, -128, -128, -128, 92, -128, -128, -128, -128, -93 } },
++                { 29, { -128, -128, -128, -128, -128, 127, -128, -128, -128, -128, -128, -128 } }
++            };
++
++            size_t result_class{ static_cast<size_t>(readWordFromMem(class_addr)) };
++
++            if (results_map_edc.at(static_cast<size_t>(input_image_chosen)).first != result_class)
++            {
++                std::cout << "FI_INFO: result_class = " << result_class << "\n";
++                std::cout << "FI_INFO: instr_cnt = " << instr_cnt << "\n";
++                std::cout << "FI_INFO: main_ret = " << main_retcode_value << " \n";
++                std::cout << "FI_INFO: EDC\n";
++                return 0;
++            }
++
++            for (int i = 0; i < 12; ++i)
++            {
++                int value{ static_cast<int>(readWordFromMem(oc_addr)) };
++
++                int expected = results_map_sdc.at(static_cast<size_t>(input_image_chosen))[i];
++                if (expected != value)
++                {
++                    std::cout << "FI_INFO: instr_cnt = " << instr_cnt << "\n";
++                    std::cout << "FI_INFO: SDC \t oc[" << i << "] " << value << "!=" << expected << std::endl;
++                    std::cout << "FI_INFO: main_ret = " << main_retcode_value << " \n";
++                    return 0;
++                }
++                oc_addr += 4;
++            }
++#elif BM == 1
++            // RESNET for image classification ###
++            auto x{ readWordFromMem(addr) };
++            if (x != 1)
++            {
++                std::cout << "FI_INFO: instr_cnt = " << instr_cnt << "\n";
++                std::cout << "FI_INFO: main_ret = " << main_retcode_value << " \n";
++                std::cout << "FI_INFO: EDC\n";
++                return 0;
++            }
++
++            std::array<int, 10> result{ -123, 118, -127, -123, -128, -128, -128, -128, -128, -128 };
++            for (int i = 0; i < 10; ++i)
++            {
++                addr += 4;
++                x = readWordFromMem(addr);
++                if (x != result[i])
++                {
++                    std::cout << "FI_INFO: instr_cnt = " << instr_cnt << "\n";
++                    std::cout << "FI_INFO: SDC\n";
++                    return 0;
++                }
++            }
++#elif BM == 2
++            // vww
++            auto x{ readWordFromMem(addr) };
++            if (x != 0)
++            {
++                std::cout << "FI_INFO: instr_cnt = " << instr_cnt << "\n";
++                std::cout << "FI_INFO: EDC\n";
++                return 0;
++            }
++
++            std::array<int, 10> result{ 102, -102 };
++            for (int i = 0; i < 2; ++i)
++            {
++                addr += 4;
++                auto x{ readWordFromMem(addr) };
++                if ((int)x != result[i])
++                {
++                    std::cout << "FI_INFO: instr_cnt = " << instr_cnt << "\n";
++                    std::cout << "FI_INFO: SDC\n";
++                    return 0;
++                }
++            }
++#elif BM == 3
++            // toycar
++
++            std::array<int, 640> results{
++                -36, 15,  44,  66,  70,  75,  69,  81,  73,  70,  70,  72,  68,  66,  59,  62,  55,  55,  56,  59,  57,
++                54,  49,  48,  42,  36,  32,  38,  42,  46,  44,  50,  51,  46,  39,  39,  36,  41,  41,  39,  41,  61,
++                54,  33,  25,  25,  24,  23,  22,  23,  25,  26,  22,  21,  24,  25,  21,  17,  16,  12,  12,  12,  13,
++                12,  11,  9,   9,   7,   7,   9,   7,   8,   9,   11,  14,  12,  8,   6,   9,   8,   3,   3,   0,   -3,
++                -5,  -5,  -6,  -8,  -4,  -3,  -3,  0,   -2,  -8,  -3,  -2,  -4,  -7,  -6,  -9,  -6,  -7,  -7,  -7,  -8,
++                -12, -12, -13, -14, -17, -19, -18, -18, -21, -21, -17, -17, -16, -20, -18, -15, -11, -10, -6,  -7,  -11,
++                -31, -69, -36, 15,  44,  65,  70,  75,  69,  82,  73,  70,  71,  74,  69,  66,  60,  63,  57,  55,  55,
++                58,  56,  54,  48,  48,  42,  37,  33,  39,  42,  46,  45,  52,  52,  46,  39,  39,  37,  43,  41,  39,
++                40,  62,  54,  34,  26,  26,  25,  25,  24,  25,  27,  27,  24,  23,  25,  26,  22,  18,  18,  14,  13,
++                14,  14,  13,  12,  10,  10,  8,   8,   10,  8,   9,   9,   11,  14,  12,  9,   7,   10,  8,   3,   3,
++                0,   -3,  -5,  -5,  -5,  -8,  -4,  -3,  -3,  0,   -2,  -8,  -3,  -1,  -4,  -7,  -6,  -9,  -6,  -7,  -7,
++                -7,  -8,  -12, -12, -12, -13, -16, -18, -17, -17, -20, -20, -16, -17, -16, -19, -18, -15, -10, -9,  -5,
++                -6,  -11, -30, -68, -36, 15,  43,  65,  69,  75,  69,  82,  73,  70,  71,  74,  69,  66,  59,  62,  56,
++                55,  55,  58,  56,  54,  47,  47,  42,  36,  32,  38,  41,  45,  44,  50,  51,  45,  38,  39,  36,  41,
++                41,  38,  40,  62,  54,  34,  25,  26,  25,  24,  23,  24,  26,  26,  22,  22,  24,  25,  21,  16,  17,
++                13,  12,  13,  14,  11,  11,  9,   9,   7,   7,   9,   7,   8,   8,   10,  13,  11,  8,   5,   9,   7,
++                2,   2,   -1,  -4,  -6,  -6,  -7,  -9,  -5,  -4,  -4,  -1,  -3,  -9,  -5,  -3,  -5,  -7,  -7,  -10, -8,
++                -8,  -7,  -8,  -9,  -13, -13, -13, -14, -17, -18, -17, -17, -20, -20, -16, -17, -17, -20, -18, -14, -11,
++                -9,  -6,  -7,  -11, -31, -69, -36, 15,  42,  65,  68,  73,  69,  81,  72,  69,  70,  73,  69,  66,  59,
++                62,  56,  54,  54,  57,  55,  53,  46,  46,  41,  35,  30,  37,  40,  44,  44,  50,  50,  45,  37,  37,
++                34,  39,  40,  38,  39,  60,  53,  32,  23,  23,  23,  21,  21,  22,  23,  23,  20,  19,  20,  22,  18,
++                14,  13,  9,   8,   10,  11,  9,   9,   6,   6,   4,   5,   6,   4,   5,   6,   8,   11,  9,   6,   3,
++                7,   5,   0,   0,   -3,  -7,  -9,  -8,  -9,  -11, -7,  -6,  -6,  -3,  -6,  -11, -6,  -4,  -6,  -9,  -8,
++                -10, -9,  -9,  -9,  -9,  -10, -13, -13, -14, -15, -17, -19, -18, -17, -21, -21, -17, -17, -17, -20, -18,
++                -15, -11, -10, -6,  -7,  -12, -32, -70, -36, 15,  43,  64,  69,  74,  68,  81,  72,  69,  69,  71,  68,
++                65,  58,  61,  54,  52,  52,  56,  55,  52,  46,  46,  41,  35,  29,  35,  40,  43,  43,  49,  49,  43,
++                36,  35,  33,  37,  37,  36,  38,  60,  53,  31,  21,  21,  20,  19,  19,  19,  21,  21,  18,  17,  19,
++                20,  17,  12,  11,  7,   6,   8,   8,   7,   7,   4,   4,   3,   3,   6,   3,   4,   4,   6,   9,   7,
++                4,   1,   5,   4,   -1,  -1,  -4,  -8,  -10, -10, -10, -12, -8,  -7,  -6,  -4,  -6,  -12, -7,  -5,  -7,
++                -10, -9,  -12, -9,  -10, -9,  -9,  -10, -14, -14, -14, -15, -18, -19, -18, -18, -21, -21, -17, -18, -17,
++                -20, -19, -16, -11, -11, -7,  -8,  -13, -32, -70
++            };
++
++            for (int i = 0; i < results.size(); ++i)
++            {
++                auto x{ readWordFromMem(addr) };
++                if (results[i] != (int)x)
++                {
++
++                    std::cout << "FI_INFO: instr_cnt = " << instr_cnt << "\n";
++                    std::cout << "FI_INFO: SDC\n";
++
++#ifdef DEBUG
++                    /*
++                            if (readWordFromMem(0x900000) != 0) {
++                              unsigned addr2 = 0x90000c;
++
++                              std::cout << "FI_INFO: DEBUG\n";
++                              for (int i=0; i < 30; ++i) {
++                                std::cout << "FI_INFO: " << (int)readWordFromMem(addr2) << "\n";
++                                addr2 += 4;
++                              }
++
++
++                              unsigned addr3{0xa00000};
++                              for (int i=0; i < 128; ++i) {
++                                 std::cout << (int)readWordFromMem(addr3) << ", ";
++                                 addr3 += 4;
++                              }
++                              std::cout << "\n";
++
++
++                            }
++                    */
++
++                    unsigned addr2 = 0x900000;
++                    for (int i = 0; i < 1024; ++i)
++                    {
++                        std::cout << "FI_INFO: " << (int)readWordFromMem(addr2) << "\n";
++                        addr2 += 4;
++                    }
++
++#endif
++
++                    return 0;
++                }
++
++                addr += 4;
++            }
++#elif BM == 4
++            if (readWordFromMem(0x900000) != 0)
++            {
++                unsigned addr2 = 0x90000c;
++
++                if ((int)readWordFromMem(addr) != 16661)
++                {
++                    std::cout << "FI_INFO: DEBUG\n";
++                }
++
++                for (int i = 0; i < 50; ++i)
++                {
++                    std::cout << "FI_INFO: " << (int)readWordFromMem(addr2) << "\n";
++                    addr2 += 4;
++                }
++            }
++
++            return 0;
++#endif
++            // // AES ####
++            // for (int i = 0; i < 4; ++i) {
++            //   auto x{readWordFromMem(addr)};
++            //
++            //   if (x != 1) {
++            //     std::cout << "FO: SDC\n";
++            //     break;
++            //   }
++            //
++            //   addr += 4;
++            // }
++            // ////////////////////////////////////////////////
++
++            //////////////////////////////////////////////////
++            // // BF ###
++            // bool is_sdc{false};
++            // auto x{readWordFromMem(addr)};
++            // if (x != 0xff076443) {
++            //   is_sdc = true;
++            // }
++            // x = readWordFromMem(addr + 4);
++            // if (x != 0x2e37684e) {
++            //   is_sdc = true;
++            // }
++            //
++            // if (is_sdc) {
++            //   std::cout << "FO: SDC\n";
++            // }
++            //////////////////////////////////////////////////
++
++            // ////////////////////////////////////////////////
++            // // CONVNET (tflite ml_on_mcu -> floating point NN model!!)
++            //
++            // bool is_edc{false};
++            // bool is_sdc{false};
++            // auto x{readWordFromMem(addr)};
++            // if (x != 6) {
++            //   std::cout << "FI_INFO: EDC\n";
++            //   return 0;
++            // }
++            //
++            // std::array<float, 10> result{-5.70183, -7.33692, 1.12906, 1.3058,
++            //                              0.636846, 1.99932,  3.69462, 3.66803,
++            //                              -5.66729, -7.26378};
++            // for (int i = 0; i < 10; ++i) {
++            //   addr += 4;
++            //   x = readWordFromMem(addr);
++            //   auto y{std::fabs((float)*(float *)(&x) - result[i])};
++            //   if (y > 1e-5) {
++            //     std::cout << "FI_INFO: SDC\n";
++            //     return 0;
++            //   }
++            // }
++            // ////////////////////////////////////////////////
++
++            std::cout << "FI_INFO: main_ret = " << main_retcode_value << " \n";
++            std::cout << "FI_INFO: instr_cnt = " << instr_cnt << "\n";
++            std::cout << "FI_INFO: Masked\n";
++            return 0;
++            break;
++        }
++    }
+     case etiss::RETURNCODE::DBUS_READ_ERROR:
+     case etiss::RETURNCODE::DBUS_WRITE_ERROR:
+     case etiss::RETURNCODE::IBUS_READ_ERROR:
+@@ -193,10 +676,24 @@ int main(int argc, const char *argv[])
+     case etiss::RETURNCODE::GDBNOERROR:
+     case etiss::RETURNCODE::SYSCALL:
+     case etiss::RETURNCODE::PAGEFAULT:
++        if (etiss::cfg().get<bool>("etiss.fi", false))
++        {
++            std::cout << "FI_INFO: main_ret = " << main_retcode_value << " \n";
++            std::cout << "FI_INFO: instr_cnt = " << instr_cnt << "\n";
++            std::cout << "FI_INFO: DUE\n";
++        }
++
+         return 1;
+         break;
+     case etiss::RETURNCODE::JITERROR:
+     case etiss::RETURNCODE::JITCOMPILATIONERROR:
++        if (etiss::cfg().get<bool>("etiss.fi", false))
++        {
++            std::cout << "FI_INFO: main_ret = " << main_retcode_value << " \n";
++            std::cout << "FI_INFO: instr_cnt = " << instr_cnt << "\n";
++            std::cout << "FI_INFO: DUE\n";
++        }
++
+         return 2;
+         break;
+     case etiss::RETURNCODE::GENERALERROR:
+@@ -206,6 +703,13 @@ int main(int argc, const char *argv[])
+     case etiss::RETURNCODE::ARCHERROR:
+     case etiss::RETURNCODE::EMULATIONNOTSUPPORTED:
+     case etiss::RETURNCODE::INVALIDSYSTEM:
++        if (etiss::cfg().get<bool>("etiss.fi", false))
++        {
++            std::cout << "FI_INFO: main_ret = " << main_retcode_value << " \n";
++            std::cout << "FI_INFO: instr_cnt = " << instr_cnt << "\n";
++            std::cout << "FI_INFO: DUE\n";
++        }
++
+         return 3;
+         break;
+     default:
+diff --git a/src/bare_etiss_processor/run_helper.sh.in b/src/bare_etiss_processor/run_helper.sh.in
+index 27574e83..7d009720 100755
+--- a/src/bare_etiss_processor/run_helper.sh.in
++++ b/src/bare_etiss_processor/run_helper.sh.in
+@@ -93,11 +93,11 @@ fi
+ echo -e "\n[IntConfigurations]\n" >> $DYN_INI
+ echo -e "etiss.loglevel=${LOG_LEVEL}" >> $DYN_INI
+ 
+-echo -e "simple_mem_system.memseg_origin_00=0x00000000" >> $DYN_INI
+-echo -e "simple_mem_system.memseg_length_00=0x00080000" >> $DYN_INI
++#echo -e "simple_mem_system.memseg_origin_00=0x00000000" >> $DYN_INI
++#echo -e "simple_mem_system.memseg_length_00=0x00080000" >> $DYN_INI
+ 
+-echo -e "simple_mem_system.memseg_origin_01=0x00080000" >> $DYN_INI
+-echo -e "simple_mem_system.memseg_length_01=0x00080000" >> $DYN_INI
++#echo -e "simple_mem_system.memseg_origin_01=0x00080000" >> $DYN_INI
++#echo -e "simple_mem_system.memseg_length_01=0x00080000" >> $DYN_INI
+ 
+ # Call
+ ARGS="-i${ETISS_DIR}/examples/base.ini -i${DYN_INI} ${CMD_OPTIONS}"

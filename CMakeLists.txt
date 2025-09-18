@@ -428,6 +428,8 @@ configure_file(
   @ONLY
  )
 install(FILES
+  "${PROJECT_SOURCE_DIR}/cmake/ETISSPlugin.cmake"
+  "${PROJECT_SOURCE_DIR}/cmake/RegisterJITFiles.cmake"
   "${PROJECT_BINARY_DIR}/ETISSConfig.cmake"
   "${PROJECT_BINARY_DIR}/ETISSConfigVersion.cmake"
   DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
